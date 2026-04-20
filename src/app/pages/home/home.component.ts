@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 
+import { RouterModule } from '@angular/router'; // Adicione esta linha
+
 @Component({
   selector: 'app-home',
-  imports: [],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  standalone: true,
+  imports: [RouterModule], // Certifique-se de que está aqui
+  templateUrl: './home.component.html'
 })
-export class HomeComponent {}
+export class HomeComponent { }
