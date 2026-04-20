@@ -1,1 +1,92 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.code-block {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  font-family: 'Fira Code', monospace;
+  position: relative;
+  border: 1px solid #334155;
+  width: 100%;
+}
+
+.code-block pre {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .code-block pre {
+    margin-top: 0.5rem;
+  }
+}
+
+.step-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+@media (min-width: 768px) {
+  .step-card { padding: 2rem; }
+}
+
+.zoomable-img-container {
+  position: relative;
+  cursor: zoom-in;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+.zoomable-img-container:hover { border-color: var(--primary); }
+.zoomable-img-container:hover .img-overlay { opacity: 1; }
+
+.img-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: white; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+
+.screenshot { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.step-number {
+  background: #f1f5f9; color: #475569; width: 1.75rem; height: 1.75rem;
+  border-radius: 0.375rem; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
+}
+.phase-badge {
+  background: #fff7ed; color: #c2410c; padding: 0.25rem 0.75rem;
+  border-radius: 9999px; font-weight: 700; font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+/* Estilo ativo base para o roteamento do Angular */
+.active-link {
+  color: var(--primary);
+  font-weight: 700;
+}
+.active-menu-item {
+  background-color: #fff7ed;
+  color: var(--primary);
+  border-right: 4px solid var(--primary);
+}
