@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   isMobileSidebarOpen = false;
   isAwsMenuOpen = false;
-  isHexMenuOpen = false;
+  isSqsMenuOpen = false;
 
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
@@ -27,6 +27,6 @@ export class AppComponent {
 
   toggleMenu(menu: string) {
     if (menu === 'aws') this.isAwsMenuOpen = !this.isAwsMenuOpen;
-    if (menu === 'hex') this.isHexMenuOpen = !this.isHexMenuOpen;
+    if (menu === 'sqs') this.isSqsMenuOpen = !this.isSqsMenuOpen;
   }
 }
