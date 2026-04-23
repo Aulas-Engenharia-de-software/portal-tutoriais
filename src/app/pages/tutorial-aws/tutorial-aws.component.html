@@ -32,8 +32,8 @@
           <div class="step-number">2</div>
           <p class="text-sm sm:text-base pt-0.5">Você deve encontrar uma tela conforme a seguinte:</p>
         </div>
-        <div class="zoomable-img-container" (click)="openLightbox('images/step1-usuarios.png')">
-          <img src="images/step1-usuarios.png" alt="Revisão IAM" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(iamImages.usuarioImg['src'])">
+          <img [src]="iamImages.usuarioImg['src']" [alt]="iamImages.usuarioImg['alt']" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
 
@@ -46,8 +46,8 @@
           <div class="step-number">4</div>
           <p class="text-sm sm:text-base pt-0.5 break-words">Nome do usuário: <code class="bg-slate-100 px-2 py-0.5 rounded font-mono text-orange-700 break-all">Grupo_Arquitetura_Software_AWS</code></p>
         </div>
-        <div class="zoomable-img-container" (click)="openLightbox('images/step4-detalhes-usuario.png')">
-          <img src="images/step4-detalhes-usuario.png" alt="Revisão IAM" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(iamImages.detalhesUsuarioImg['src'])">
+          <img [src]="iamImages.detalhesUsuarioImg['src']" [alt]="iamImages.detalhesUsuarioImg['alt']" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
 
@@ -55,8 +55,8 @@
           <div class="step-number">5</div>
           <p class="text-sm sm:text-base pt-0.5">Escolha a opção <strong>Anexar politicas diretamente</strong> (<em>Attach policies directly</em>)</p>
         </div>
-        <div class="zoomable-img-container" (click)="openLightbox('images/step5-anexar-politicas-diretamente.png')">
-          <img src="images/step5-anexar-politicas-diretamente.png" alt="Revisão IAM" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(iamImages.anexarPoliticasDiretamente['src'])">
+          <img [src]="iamImages.anexarPoliticasDiretamente['src']" [alt]="iamImages.anexarPoliticasDiretamente['alt']" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
 
@@ -79,8 +79,8 @@
           <div class="step-number">7</div>
           <p class="text-sm sm:text-base pt-0.5">No último passo da criação, você deverá ver uma tela conforme imagem abaixo:</p>
         </div>
-        <div class="zoomable-img-container" (click)="openLightbox('images/step7-revisao-chave.png')">
-          <img src="images/step7-revisao-chave.png" alt="Revisão IAM" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(iamImages.revisaoChaveAcesso['src'])">
+          <img [src]="iamImages.revisaoChaveAcesso['src']" [alt]="iamImages.revisaoChaveAcesso['alt']" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
       </div>
@@ -98,8 +98,8 @@
           <p class="text-sm sm:text-base pt-0.5">Clique em <strong>Criar chave de acesso</strong> (<em>Create access key</em>).</p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step9-criar-chave-acesso.png')">
-        <img src="images/step9-criar-chave-acesso.png" alt="Criar Access Key" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(iamImages.criarChaveAcesso['src'])">
+        <img [src]="iamImages.criarChaveAcesso['src']" [alt]="iamImages.criarChaveAcesso['alt']" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -109,8 +109,8 @@
           <p class="text-sm sm:text-base pt-0.5">Escolha a opção <strong>"Código Local"</strong>.</p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step10-codigo-local.png')">
-        <img src="images/step10-codigo-local.png" alt="Criar Access Key" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(iamImages.opcaoCodigoLocal['src'])">
+        <img [src]="iamImages.opcaoCodigoLocal['src']" [alt]="iamImages.opcaoCodigoLocal['alt']" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -120,8 +120,8 @@
           <p class="text-sm sm:text-base pt-0.5">Na opção de <strong>Definir etiqueta de descrição</strong>, dê uma etiqueta como <em>Chave para consumo de eventos SQS</em> .</p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step11-etiqueta-descricao.png')">
-        <img src="images/step11-etiqueta-descricao.png" alt="Criar Access Key" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(iamImages.etiquetaDescricao['src'])">
+        <img [src]="iamImages.etiquetaDescricao['src']" [alt]="iamImages.etiquetaDescricao['alt']" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -131,8 +131,8 @@
           <p class="text-sm sm:text-base pt-0.5"><strong>Faça o Download do arquivo .csv com as suas credenciais criadas</strong></p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step12-chave-acesso.png')">
-        <img src="images/step12-chave-acesso.png" alt="Criar Access Key" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(iamImages.chaveAcessoCriada.src)">
+        <img [src]="iamImages.chaveAcessoCriada.src" [alt]="iamImages.chaveAcessoCriada.alt" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -170,8 +170,8 @@
           <div class="step-number">4</div>
           <p class="text-sm sm:text-base pt-0.5">Siga o seguinte padrão para a criação das filas para cada membro do grupo <code class="bg-slate-100 px-1 py-0.5 rounded break-all">T0XN_LUCAS_RODRIGUES_MARTINS DE OLIVEIRA.fifo</code></p>
         </div>
-        <div class="zoomable-img-container" (click)="openLightbox('images/step2-criar-fila.png')">
-          <img src="images/step2-criar-fila.png" alt="Criar Access Key" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(sqsImages.criarFila.src)">
+          <img [src]="sqsImages.criarFila.src" [alt]="sqsImages.criarFila.alt" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
       </div>
@@ -181,8 +181,8 @@
         <p class="text-sm sm:text-base pt-0.5">Ao final, você deverá ter uma fila conforme o print abaixo:</p>
       </div>
 
-      <div class="zoomable-img-container" (click)="openLightbox('images/step5-resumo-sqs.png')">
-        <img src="images/step5-resumo-sqs.png" alt="Configuração SQS" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(sqsImages.resumoSqs.src)">
+        <img [src]="sqsImages.resumoSqs.src" [alt]="sqsImages.resumoSqs.alt" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
     </div>
@@ -203,8 +203,8 @@
           <p class="text-sm sm:text-base pt-0.5">Na sua fila, Encontre o campo <strong>ARN</strong> e copie o endereço da sua fila.</p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step1-arn.png')">
-        <img src="images/step1-arn.png" alt="ARN da Fila" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(accessPolicyImages.criarPolitica.src)">
+        <img [src]="accessPolicyImages.criarPolitica.src" [alt]="accessPolicyImages.criarPolitica.alt" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -215,8 +215,8 @@
         </div>
       </div>
 
-      <div class="zoomable-img-container" (click)="openLightbox('images/step2-politica-sqs.png')">
-        <img src="images/step2-politica-sqs.png" alt="Aba Access Policy" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(accessPolicyImages.politicaSqs.src)">
+        <img [src]="accessPolicyImages.politicaSqs.src" [alt]="accessPolicyImages.politicaSqs.alt" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -226,8 +226,8 @@
           <p class="text-sm sm:text-base pt-0.5">Desça a página até encontrar o menu de <strong>Política de acesso</strong></p>
         </div>
       </div>
-      <div class="zoomable-img-container" (click)="openLightbox('images/step3-editar-politica-acesso.png')">
-        <img src="images/step3-editar-politica-acesso.png" alt="Aba Access Policy" class="screenshot">
+      <div class="zoomable-img-container" (click)="openLightbox(accessPolicyImages.editarPolitica.src)">
+        <img [src]="accessPolicyImages.editarPolitica.src" [alt]="accessPolicyImages.editarPolitica.alt" class="screenshot">
         <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
       </div>
 
@@ -241,7 +241,7 @@
       <div class="code-section">
         <div class="code-block w-full">
           <button class="copy-btn" (click)="copyToClipboard(codePolicy.innerText, $event)">
-            <i class="far fa-copy"></i> <span class="hidden sm:inline">Copiar</span>
+            <i class="far fa-copy"></i> <span class="hidden sm:inline"></span>
           </button>
           <pre #codePolicy class="text-xs sm:text-sm leading-relaxed block w-full"><code>&#123;
   "Version": "2012-10-17",
@@ -296,8 +296,8 @@
           <p class="text-sm sm:text-base pt-0.5">No SQS, acesse a aba <strong>'Assinatura do SNS'</strong> e clique em <strong>'Inscrever-se no tópico'</strong>.</p>
         </div>
 
-        <div class="zoomable-img-container" (click)="openLightbox('images/step1-assinaturas-sns.png')">
-          <img src="images/step1-assinaturas-sns.png" alt="Assinatura SNS" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(snsSigningImages.assinaturaSns.src)">
+          <img [src]="snsSigningImages.assinaturaSns.src" [alt]="snsSigningImages.assinaturaSns.alt" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
 
@@ -313,8 +313,8 @@
           </button>
         </div>
 
-        <div class="zoomable-img-container" (click)="openLightbox('images/step2-inscrever-se-no-sns.png')">
-          <img src="images/step2-inscrever-se-no-sns.png" alt="Inserir ARN" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(snsSigningImages.inscreverSNS.src)">
+          <img [src]="snsSigningImages.inscreverSNS.src" [alt]="snsSigningImages.inscreverSNS.alt" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
 
@@ -323,8 +323,8 @@
           <p class="text-sm sm:text-base pt-0.5">Clique em concluir. O status final deve ser <strong>Sucesso</strong>.</p>
         </div>
 
-        <div class="zoomable-img-container" (click)="openLightbox('images/step3-sqs-assinado-sns-revisao.png')">
-          <img src="images/step3-sqs-assinado-sns-revisao.png" alt="Resultado Final" class="screenshot">
+        <div class="zoomable-img-container" (click)="openLightbox(snsSigningImages.sqsAssinado.src)">
+          <img [src]="snsSigningImages.sqsAssinado.src" [alt]="snsSigningImages.sqsAssinado.alt" class="screenshot">
           <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
         </div>
       </div>

@@ -1,59 +1,90 @@
-# PortalTutoriais
+# Portal de Tutoriais
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Aplicação Angular (standalone components) com Tailwind voltada para tutoriais/laboratórios. Este projeto foi gerado com o [Angular CLI](https://github.com/angular/angular-cli) v21.2.7 e usa o Vitest como test runner integrado do Angular.
 
-## Development server
+## Requisitos
+- Node.js 20+
+- npm 10+
+- Angular CLI 21+
 
-To start a local development server, run:
+## Instalação
+```bash
+npm install
+```
 
+## Servidor de desenvolvimento
+Inicie o servidor local com hot‑reload:
 ```bash
 ng serve
 ```
+Depois abra `http://localhost:4200/` no navegador.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
+## Build (produção)
+Gere o build otimizado em `dist/`:
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
+## Testes unitários (Vitest)
+Este projeto possui testes unitários cobrindo todos os componentes. Para executar:
 ```bash
 ng test
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+Executar os testes uma única vez (sem watch):
 ```bash
-ng e2e
+ng test --watch=false
+```
+Gerar relatório de cobertura (coverage):
+```bash
+ng test --code-coverage
+```
+O relatório ficará em `coverage/portal-tutoriais/index.html`.
+
+### Componentes cobertos por testes
+- `AppComponent`
+  - Criação do componente
+  - Alternância do menu lateral mobile e efeitos no `document.body.style.overflow`
+  - Fechamento condicional no mobile via `closeMobileSidebar()`
+  - Alternância independente dos submenus AWS e SQS
+- `HomeComponent`
+  - Renderização do título "Portal do Aluno"
+  - Presença dos dois cartões com `routerLink` (AWS EDA e Consumer SQS)
+- `TutorialAwsComponent`
+  - Abertura/fechamento do lightbox com atualização do `overflow` do `body`
+  - Lógica de cópia para área de transferência com feedback visual temporário
+- `TutorialConsumerSqsComponent`
+  - Lógica de cópia para área de transferência
+  - Variações de feedback: botão mobile (com `<span>`) e botão padrão (apenas ícone)
+
+### Dicas para escrever novos testes
+- Componentes standalone: importe o próprio componente em `imports: [MeuComponente]` do `TestBed`.
+- Rotas/`routerLink`: utilize `RouterTestingModule` quando necessário.
+- Mocks do Clipboard API:
+  ```ts
+  (navigator as any).clipboard = { writeText: () => Promise.resolve() };
+  ```
+- Testes com `setTimeout`/promessas: use `fakeAsync`, `flushMicrotasks()` e `tick(tempo)` para avançar o tempo virtual.
+- Simular tamanhos de tela em testes:
+  ```ts
+  const original = window.innerWidth;
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1000 });
+  // ...teste...
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: original });
+  ```
+
+## Gerar novos artefatos via CLI
+Crie um novo componente:
+```bash
+ng generate component nome-do-componente
+```
+Outros schematics disponíveis:
+```bash
+ng generate --help
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## E2E (opcional)
+Este projeto não inclui framework de e2e por padrão. Você pode adicionar Cypress/Playwright conforme necessidade.
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Recursos
+- Documentação do Angular CLI: https://angular.dev/tools/cli
+- Vitest: https://vitest.dev/

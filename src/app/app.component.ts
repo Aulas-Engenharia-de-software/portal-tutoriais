@@ -12,6 +12,7 @@ export class AppComponent {
   isMobileSidebarOpen = false;
   isAwsMenuOpen = false;
   isSqsMenuOpen = false;
+  isEnvMenuOpen = false;
 
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
@@ -28,5 +29,6 @@ export class AppComponent {
   toggleMenu(menu: string) {
     if (menu === 'aws') this.isAwsMenuOpen = !this.isAwsMenuOpen;
     if (menu === 'sqs') this.isSqsMenuOpen = !this.isSqsMenuOpen;
+    if (menu === 'env') this.isEnvMenuOpen = !this.isEnvMenuOpen;
   }
 }

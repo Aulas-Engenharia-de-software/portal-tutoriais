@@ -1,5 +1,4 @@
 <div class="animate-fade-in">
-  <!-- CABEÇALHO -->
   <section id="intro" class="mb-12 scroll-mt-24">
     <div class="phase-badge mb-4 inline-block bg-blue-600 text-white">Parte Técnica</div>
     <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Configurando o Consumer SQS</h2>
@@ -9,7 +8,6 @@
     </p>
   </section>
 
-  <!-- PASSO 1: DEPENDÊNCIAS -->
   <section id="fase1" class="mb-12">
     <div class="flex items-center gap-3 mb-6">
       <div class="step-number">1</div>
@@ -28,10 +26,36 @@
 &lt;/dependency&gt;</code></pre>
         </div>
       </div>
+      <br>
+      <p class="text-slate-600 mb-4">Adicione tambem o gerenciador de dependências abaixo para gerenciar as versões da SDK da AWS.</p>
+      <div class="code-section">
+        <div class="code-block">
+          <button class="copy-btn" (click)="copyToClipboard(codePom.innerText, $event)">
+            <i class="far fa-copy"></i>
+          </button>
+          <pre #codePom class="text-sm"><code>&lt;dependencyManagement&gt;
+		&lt;dependencies&gt;
+			&lt;dependency&gt;
+				&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+				&lt;version&gt;2021.0.8&lt;/version&gt;
+				&lt;type&gt;pom&lt;/type&gt;
+				&lt;scope&gt;import&lt;/scope&gt;
+			&lt;/dependency&gt;
+			&lt;dependency&gt;
+				&lt;groupId&gt;io.awspring.cloud&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-cloud-aws-dependencies&lt;/artifactId&gt;
+				&lt;version&gt;3.0.2&lt;/version&gt;
+				&lt;type&gt;pom&lt;/type&gt;
+				&lt;scope&gt;import&lt;/scope&gt;
+			&lt;/dependency&gt;
+		&lt;/dependencies&gt;
+	&lt;/dependencyManagement&gt;</code></pre>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- PASSO 2: CREDENCIAIS -->
   <section id="fase2" class="mb-12">
     <div class="flex items-center gap-3 mb-6">
       <div class="step-number">2</div>
@@ -62,7 +86,6 @@ queue.order-events=T0XN_SEU_NOME_PEDIDOS.fifo</code></pre>
     </div>
   </section>
 
-  <!-- PASSO 3: O ADAPTER -->
   <section id="fase3" class="mb-12">
     <div class="flex items-center gap-3 mb-6">
       <div class="step-number">3</div>
@@ -77,7 +100,6 @@ queue.order-events=T0XN_SEU_NOME_PEDIDOS.fifo</code></pre>
             <i class="far fa-copy"></i>
           </button>
           <pre #codeAdapter class="text-xs sm:text-sm leading-relaxed" ngNonBindable><code>
-// Use os exemplos de entrada e saida de estoque como exemplo também!!
 &#64;Component
 public class SqsPedidoAdapter &#123;
 
@@ -103,7 +125,6 @@ public class SqsPedidoAdapter &#123;
     </div>
   </section>
 
-  <!-- FEEDBACK DE SUCESSO -->
   <section id="fase4" class="p-8 bg-emerald-50 border border-emerald-100 rounded-2xl text-center">
     <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-200">
       <i class="fas fa-check text-2xl"></i>

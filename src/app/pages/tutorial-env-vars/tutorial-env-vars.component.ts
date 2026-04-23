@@ -1,26 +1,16 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {IamImages} from './images/iam-images';
-import {SqsImages} from './images/sqs-images';
-import {AccessPolicyImages} from './images/access-policy-images';
-import {SnsSigningImages} from './images/sns-signing-images';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-tutorial-aws',
+  selector: 'app-tutorial-env-vars',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './tutorial-aws.component.html'
+  templateUrl: './tutorial-env-vars.component.html'
 })
-export class TutorialAwsComponent {
+export class TutorialEnvVarsComponent {
 
-  constructor(public iamImages: IamImages,
-              public sqsImages: SqsImages,
-              public accessPolicyImages: AccessPolicyImages,
-              public snsSigningImages: SnsSigningImages)  {
-  }
-
-  isLightboxOpen = false;
-  currentImageSrc = '';
+  isLightboxOpen: boolean = false;
+  currentImageSrc: string = '';
 
   openLightbox(src: string) {
     this.currentImageSrc = src;
@@ -28,7 +18,7 @@ export class TutorialAwsComponent {
     document.body.style.overflow = 'hidden';
   }
 
-  closeLightbox() {
+  closeLightbox(): void {
     this.isLightboxOpen = false;
     this.currentImageSrc = '';
     document.body.style.overflow = 'auto';
@@ -40,7 +30,7 @@ export class TutorialAwsComponent {
       const originalHTML = btn.innerHTML;
 
       const isMobileBtn = btn.querySelector('span') !== null;
-      if (isMobileBtn) {
+      if(isMobileBtn) {
         btn.innerHTML = '<i class="fas fa-check"></i> <span class="sm:hidden font-sans font-bold text-[10px] uppercase">Copiado!</span>';
       } else {
         btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
@@ -51,6 +41,4 @@ export class TutorialAwsComponent {
       }, 2000);
     });
   }
-
-
 }
