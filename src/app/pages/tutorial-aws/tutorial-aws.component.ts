@@ -4,6 +4,7 @@ import {IamImages} from './images/iam-images';
 import {SqsImages} from './images/sqs-images';
 import {AccessPolicyImages} from './images/access-policy-images';
 import {SnsSigningImages} from './images/sns-signing-images';
+import {SnsRawMessageImages} from './images/sns-raw-message-images';
 
 @Component({
   selector: 'app-tutorial-aws',
@@ -16,7 +17,8 @@ export class TutorialAwsComponent {
   constructor(public iamImages: IamImages,
               public sqsImages: SqsImages,
               public accessPolicyImages: AccessPolicyImages,
-              public snsSigningImages: SnsSigningImages)  {
+              public snsSigningImages: SnsSigningImages,
+              public snsRawMessageImage: SnsRawMessageImages) {
   }
 
   isLightboxOpen = false;

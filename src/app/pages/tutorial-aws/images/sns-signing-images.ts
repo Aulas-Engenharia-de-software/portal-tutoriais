@@ -7,7 +7,7 @@ export class SnsSigningImages {
 
   parentFolder: string = 'images/aws-eventos/sns-signing/';
 
-  assinaturaSns = {
+  assinaturasSns = {
     src: this.parentFolder + 'assinaturas_sns.png',
     alt: 'Imagem 1: Assinaturas SNS'
   }
