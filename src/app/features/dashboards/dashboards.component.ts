@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {Category} from './models/category.model';
 import {Activity} from './models/activity.model';
+import {APP_ROUTES} from '../../core/constants/routes.constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +15,10 @@ import {Activity} from './models/activity.model';
 export class DashboardsComponent {
 
   weekActivity: Activity = {
-    badge: 'Laboratório da Semana',
-    title: 'Missão: Event-Driven Architecture',
+    badge: 'Atividade da Semana',
+    title: 'Event-Driven Architecture',
     description: 'Sua missão desta semana é transformar a aplicação síncrona em assíncrona. Crie seu Consumer SQS e valide o processamento dos pedidos.',
-    route: '/tutoriais/aws-sqs'
+    route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH
   };
 
   categories: Category[] = [
@@ -28,7 +29,7 @@ export class DashboardsComponent {
       icon: 'fas fa-book-open',
       backgroundColor: 'bg-blue-50',
       textColor: 'text-blue-600',
-      route: '/tutoriais'
+      route: APP_ROUTES.TUTORIALS.LINKS.BASE
     },
     {
       id: 2,
@@ -37,7 +38,7 @@ export class DashboardsComponent {
       icon: 'fas fa-vial',
       backgroundColor: 'bg-emerald-50',
       textColor: 'text-emerald-600',
-      route: '/labs'
+      route: APP_ROUTES.LABS.LINKS.BASE
     },
     {
       id: 3,
@@ -46,7 +47,7 @@ export class DashboardsComponent {
       icon: 'fas fa-folder-open',
       backgroundColor: 'bg-purple-50',
       textColor: 'text-purple-600',
-      route: '/materiais'
+      route: APP_ROUTES.MATERIALS.LINKS.BASE
     },
     {
       id: 4,
@@ -55,7 +56,7 @@ export class DashboardsComponent {
       icon: 'fas fa-question-circle',
       backgroundColor: 'bg-slate-100',
       textColor: 'text-slate-600',
-      route: '/faq'
+      route: APP_ROUTES.FAQ.LINKS.BASE
     }
   ];
 

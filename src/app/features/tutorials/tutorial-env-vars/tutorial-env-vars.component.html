@@ -1,1 +1,176 @@
-<p>tutorial-env-vars works!</p>
+<div class="w-full max-w-[1400px] flex flex-col xl:flex-row gap-8 lg:gap-12 relative pb-8">
+
+  <app-tutorial-sidebar [phases]="phases" [title]="sideBarTitle"></app-tutorial-sidebar>
+
+  <article class="flex-1 min-w-0 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 lg:p-10">
+    <div class="animate-fade-in">
+      <section [id]="phases[0].id" class="mb-12 scroll-mt-24">
+        <div class="phase-badge mb-4 inline-block bg-red-600 text-white"><i class="fas fa-shield-alt mr-1"></i>
+          Segurança
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Ocultando Credenciais da
+          AWS</h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Subir suas chaves da AWS (`Access Key` e `Secret Key`) no GitHub é uma vulnerabilidade crítica.
+          Bots escaneiam repositórios públicos em segundos para sequestrar contas.
+          <br>
+          <br>
+          Sem contar que a própria AWS ao detectar sua chave em algum servidor do github, bloqueia a sua chave no mesmo
+          instante.
+          <br>
+          <br>
+          Vamos aprender a esconder essas chaves usando <strong>Variáveis de Ambiente</strong> na sua IDE.
+        </p>
+      </section>
+
+      <app-phase-header phaseDescription="Ajustando o application.properties"
+                        phaseTitle="APPLICATION.PROPERTIES"></app-phase-header>
+
+      <section [id]="phases[1].id" class="mb-12">
+        <div class="step-card">
+          <app-tutorial-step currentStep="1">
+            Em vez de colocar as chaves reais diretamente no arquivo, nós informamos ao Spring Boot para buscar essas
+            informações do sistema operacional no momento da execução.<br><br>
+            Seu <i> application.properties </i> deve ficar assim, usando a sintaxe de variáveis de ambiente do Spring:
+          </app-tutorial-step>
+
+
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4 rounded-r-lg">
+            <p class="text-sm text-red-900">
+              <strong>Atenção:</strong> Apague suas chaves reais do código agora mesmo!
+            </p>
+          </div>
+
+          <app-code-snippet [code]="applicationPropertiesCode" language="properties"></app-code-snippet>
+
+          <p class="text-xs text-slate-500 mt-3"><i class="fas fa-info-circle"></i> A sintaxe
+            <code>$&#123;VARIAVEL&#125;</code> diz ao Spring para injetar o valor automaticamente.</p>
+        </div>
+      </section>
+
+      <section [id]="phases[2].id" class="mb-12">
+
+        <app-phase-header phaseDescription="Configurando variaveis de ambiente no IntelliJ IDEA"
+                          phaseTitle="IntelliJ IDEA"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Se você usa o IntelliJ, as variáveis são injetadas na sua
+            configuração de execução (Run/Debug Configurations).</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step currentStep="1">
+              No canto superior direito, ao lado do botão de "Play", clique na seta
+              para baixo na sua aplicação e selecione <strong>Edit Configurations...</strong>
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="intellijImages.intellijRunConfig.src"
+                                [alt]="intellijImages.intellijRunConfig.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="2">
+              No campo <strong>Environment variables</strong>, adicione suas chaves
+              no formato <code>CHAVE=VALOR</code> separadas por ponto e vírgula (<code>;</code>), conforme abaixo:
+            </app-tutorial-step>
+
+            <app-code-snippet [code]="awsKeys" language="properties"></app-code-snippet>
+
+            <app-zoomable-image [src]="intellijImages.settingEnvVars.src"
+                                [alt]="intellijImages.settingEnvVars.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="3">
+              <strong>Caso</strong> não apareça o campo de <i>Environment
+              Variables</i> para você, clique em Modify Options e habilite a configuração, conforme abaixo:
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="intellijImages.addEnvironmentVarConfig.src"
+                                [alt]="intellijImages.addEnvironmentVarConfig.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="4">
+              Ao final, sua configuração de execução deve ficar conforme a imagem
+              abaixo, com as variáveis de ambiente devidamente configuradas:
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="intellijImages.envVarsConfigured.src"
+                                [alt]="intellijImages.envVarsConfigured.alt"></app-zoomable-image>
+
+
+            <app-tutorial-step currentStep="5">
+              Clique em <i>Apply</i> e depois em <i>OK</i> para salvar as configurações e pronto!<br><br>
+              Agora, quando você executar sua aplicação usando essa configuração,
+              as chaves da AWS serão injetadas automaticamente, mantendo seu código seguro!
+            </app-tutorial-step>
+
+          </div>
+        </div>
+      </section>
+
+      <section [id]="phases[3].id" class="mb-12">
+        <app-phase-header phaseDescription="Configurando variaveis de ambiente no VS Code"
+                          phaseTitle="VSCODE"></app-phase-header>
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Se você usa o Visual Studio Code com a extensão Java, as
+            configurações ficam no arquivo <code>launch.json</code>.</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step currentStep="1">
+              Abra a barra lateral de execução (Run and Debug) e clique na engrenagem
+              para abrir o <strong>launch.json</strong>.
+            </app-tutorial-step>
+
+
+            <app-zoomable-image [src]="vsCodeImages.vsCodeOpenLaunch.src"
+                                [alt]="vsCodeImages.vsCodeOpenLaunch.alt"></app-zoomable-image>
+
+
+            <app-tutorial-step currentStep="2">
+              <strong>Caso</strong> a tela acima não apareça, provavelmente irá aparecer uma opção para voce criar o
+              arquvo <code>launch.json</code>, conforme abaixo:
+              <br>
+              <br>
+              Clique em <i>create a lauch.json file</i>, conforme indicado na imagem:
+            </app-tutorial-step>
+
+
+            <app-zoomable-image [src]="vsCodeImages.vscodeRunDebugConfig.src"
+                                [alt]="vsCodeImages.vscodeRunDebugConfig.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="3">
+              <strong>Caso</strong> voce tenha as extensões do Java instaladas, provavelmente irá aparecer a opção de
+              configuração para Java, escolha ela, conforme abaixo:
+            </app-tutorial-step>
+
+
+            <app-zoomable-image [src]="vsCodeImages.vscodeChooseJava.src"
+                                [alt]="vsCodeImages.vscodeChooseJava.alt"></app-zoomable-image>
+
+
+            <app-tutorial-step currentStep="4">
+              Dentro da sua configuração atual, adicione a propriedade
+              <code>"env"</code> com as suas chaves reais, conforme o exemplo abaixo:
+            </app-tutorial-step>
+
+            <app-code-snippet [code]="vsCodeLaunchConfig" language="json"></app-code-snippet>
+
+            <app-tutorial-step currentStep="5">
+              Ao final da sua configuração das variaveis de ambiente, seu arquivo launch.json, assim como a estrutura de
+              pastas deve ficar conforme o seguinte:
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="vsCodeImages.vsCodeEnvConfigurada.src"
+                                [alt]="vsCodeImages.vsCodeEnvConfigurada.alt"></app-zoomable-image>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="p-8 bg-emerald-50 border border-emerald-100 rounded-2xl text-center">
+        <div
+          class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-200">
+          <i class="fas fa-lock text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">Aplicação Blindada!</h3>
+        <p class="text-emerald-700 text-sm max-w-md mx-auto">
+          Você agora pode commitar e enviar seu código para o GitHub tranquilamente. O código está seguro e as chaves
+          existem apenas na sua máquina local!
+        </p>
+      </section>
+    </div>
