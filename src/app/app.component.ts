@@ -13,6 +13,7 @@ export class AppComponent {
   isAwsMenuOpen = false;
   isSqsMenuOpen = false;
   isEnvMenuOpen = false;
+  currentYear = new Date().getFullYear();
 
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;

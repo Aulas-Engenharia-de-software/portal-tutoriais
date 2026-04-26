@@ -1,0 +1,44 @@
+<div class="flex flex-col h-full p-5">
+  <div class="flex items-center gap-5 mb-10 px-2">
+    <div class="bg-orange-500 text-white p-2 rounded-lg">
+      <i class="fas fa-cube text-xl"></i>
+    </div>
+    <span class="text-xl font-bold tracking-tight text-slate-900">Portal de Aulas</span>
+  </div>
+
+  <nav class="flex-1 space-y-1">
+
+    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 px-2">Principal</p>
+
+    <a routerLink="/dashboard" routerLinkActive="bg-orange-50 text-orange-600 border-orange-200"
+       class="flex items-center gap-3 px-3 py-5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all border border-transparent">
+      <i class="fas fa-home w-5"></i>
+      <span class="font-medium">Dashboard</span>
+    </a>
+
+    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-10 mb-5 px-2">Aprendizado</p>
+
+    <a routerLink="/tutoriais" routerLinkActive="bg-orange-50 text-orange-600 border-orange-200"
+       class="flex items-center gap-3 px-3 py-5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all border border-transparent">
+      <i class="fas fa-book w-5"></i>
+      <span class="font-medium">Tutoriais</span>
+    </a>
+
+    <a routerLink="/labs" routerLinkActive="bg-orange-50 text-orange-600 border-orange-200"
+       class="flex items-center gap-3 px-3 py-5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all border border-transparent">
+      <i class="fas fa-vial w-5"></i>
+      <span class="font-medium">Laboratórios</span>
+    </a>
+
+  </nav>
+
+  <div class="mt-auto pt-6 border-t border-slate-100">
+    <div class="bg-slate-900 rounded-2xl p-4 text-white">
+      <p class="text-xs text-slate-400 mb-1 font-medium">Professor</p>
+      <p class="text-sm font-bold">{{ nomeProfessor }}</p>
+      <a [href]="githubLink" target="_blank" class="text-[10px] text-orange-400 hover:underline mt-2 inline-block">
+        {{ githubLabel }}
+      </a>
+    </div>
+  </div>
+</div>

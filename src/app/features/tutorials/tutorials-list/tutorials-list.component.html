@@ -1,0 +1,59 @@
+<div class="animate-fade-in">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-slate-900">Biblioteca de Tutoriais</h1>
+      <p class="text-slate-500">Consulte os manuais técnicos da disciplina.</p>
+    </div>
+
+    <div class="relative">
+      <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+      <input
+        [(ngModel)]="searchQuery"
+        type="text"
+        placeholder="Buscar tutorial..."
+        class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none w-full md:w-64 transition-all">
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-8">
+    @for (cat of categorias; track cat) {
+      <button
+        (click)="categoriaSelecionada = cat"
+        [class]="categoriaSelecionada === cat ? 'bg-orange-500 text-white' : 'bg-white text-slate-600 border-slate-200 hover:border-orange-300'"
+        class="px-4 py-2 rounded-full border text-sm font-medium transition-all">
+        {{ cat }}
+      </button>
+    }
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    @for (tutorial of tutoriaisFiltrados; track tutorial.title) {
+      <div
+        [routerLink]="[tutorial.route]"
+        class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all cursor-pointer group flex items-start gap-4">
+
+        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-50 group-hover:text-orange-500 transition-colors shrink-0">
+          <i [class]="tutorial.icon + ' text-xl'"></i>
+        </div>
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-orange-500">{{ tutorial.category }}</span>
+            <span class="text-[10px] text-slate-400"><i class="far fa-clock mr-1"></i>{{ tutorial.readingTime }}</span>
+          </div>
+          <h3 class="font-bold text-slate-900 group-hover:text-orange-600 transition-colors">{{ tutorial.title }}</h3>
+          <p class="text-sm text-slate-500 line-clamp-2 mt-1">{{ tutorial.description }}</p>
+        </div>
+
+        <div class="self-center text-slate-300 group-hover:text-orange-500 transition-colors">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-span-full py-12 text-center">
+        <i class="fas fa-search text-4xl text-slate-200 mb-4"></i>
+        <p class="text-slate-500">Nenhum tutorial encontrado para sua busca.</p>
+      </div>
+    }
+  </div>
+</div>

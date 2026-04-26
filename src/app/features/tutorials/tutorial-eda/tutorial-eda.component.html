@@ -1,0 +1,315 @@
+<div class="w-full max-w-[1400px] flex flex-col xl:flex-row gap-8 lg:gap-12 relative pb-8">
+
+  <app-tutorial-sidebar [phases]="phases" title="Integração AWS"></app-tutorial-sidebar>
+
+  <article class="flex-1 min-w-0 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 lg:p-10">
+
+    <div class="animate-fade-in">
+
+      <section id="intro" class="mb-12 sm:mb-16 scroll-mt-24">
+        <div class="phase-badge mb-4 inline-block">Laboratório 01</div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 sm:mb-6 tracking-tight leading-tight">Manual
+          de
+          Integração de Eventos na AWS</h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Este tutorial guia você na configuração de uma arquitetura orientada a eventos (EDA) utilizando
+          <strong>IAM</strong> para segurança, <strong>SQS FIFO</strong> para mensageria e <strong>SNS</strong> para
+          distribuição de notificações.
+        </p>
+      </section>
+
+      <section [id]="phases[1].id" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header [phaseTitle]="phases[1].label" [phaseDescription]="phases[1].description"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">O líder do grupo não deve compartilhar sua senha "Root".
+            Criaremos
+            um usuário IAM específico para o time.</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="1">
+              Pesquise por <strong>IAM</strong> na barra de pesquisa do console da AWS e vá em <strong>Usuários</strong>(<em>Users</em>).
+            </app-tutorial-step>
+
+            <app-tutorial-step stepNumber="2">
+              Você deve encontrar uma tela conforme a seguinte:
+            </app-tutorial-step>
+
+            <app-zoomable-image [alt]="iamImages.usuarioImg.alt" [src]="iamImages.usuarioImg.src"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="3">
+              Clique em <strong>Criar usuário</strong>(<em>Create User</em>).
+            </app-tutorial-step>
+
+            <app-tutorial-step stepNumber="4">
+              Nome do usuário: <code class="bg-slate-100 px-2 py-0.5 rounded font-mono text-orange-700 break-all">Grupo_Arquitetura_Software_AWS</code>
+            </app-tutorial-step>
+
+            <app-zoomable-image [alt]="iamImages.detalhesUsuarioImg.alt"
+                                [src]="iamImages.detalhesUsuarioImg.src"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="5">
+              Escolha a opção <strong>Anexar politicas diretamente</strong> (<em>Attach policies directly</em>)
+            </app-tutorial-step>
+
+            <app-zoomable-image [alt]="iamImages.anexarPoliticasDiretamente.alt"
+                                [src]="iamImages.anexarPoliticasDiretamente.src"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="6">
+              Pesquise na caixa de texto e anexe as seguintes políticas:
+              <ul class="space-y-2 sm:ml-2">
+                <li class="flex sm:text-lg items-start sm:items-center gap-2 text-sm text-slate-700">
+                  <i class="fas fa-circle text-[6px] text-slate-400 mt-2 sm:mt-0"></i>
+                  <code
+                    class="bg-slate-100 px-2 py-0.5 rounded font-mono text-orange-700 break-all">AmazonSQSFullAccess</code>
+                </li>
+                <li class="flex sm:text-lg items-start sm:items-center gap-2 text-sm text-slate-700">
+                  <i class="fas fa-circle text-[6px] text-slate-400 mt-2 sm:mt-0"></i>
+                  <code class="bg-slate-100 px-2 py-0.5 rounded font-mono text-orange-700 break-all">AmazonSNSReadOnlyAccess</code>
+                </li>
+              </ul>
+            </app-tutorial-step>
+
+            <app-tutorial-step stepNumber="7">
+              No último passo da criação, você deverá ver uma tela conforme imagem abaixo:
+            </app-tutorial-step>
+
+            <app-zoomable-image [alt]="iamImages.revisaoChaveAcesso.alt"
+                                [src]="iamImages.revisaoChaveAcesso.src"></app-zoomable-image>
+
+          </div>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="8">
+              Acesse o usuário que voce acabou de criar. <em>Grupo_Arquitetura_Software_AWS</em>.
+            </app-tutorial-step>
+          </div>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="9">
+              Clique em <strong>Criar chave de acesso</strong> (<em>Create access key</em>).
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="iamImages.criarChaveAcesso.src"
+                              [alt]="iamImages.criarChaveAcesso.alt"></app-zoomable-image>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="10">
+              Escolha a opção <strong>"Código Local"</strong>.
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="iamImages.opcaoCodigoLocal.src"
+                              [alt]="iamImages.opcaoCodigoLocal.alt"></app-zoomable-image>
+
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="11">
+              Na opção de <strong>Definir etiqueta de descrição</strong>, dê uma etiqueta como <em>Chave para consumo de
+              eventos SQS</em> .
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="iamImages.etiquetaDescricao.src"
+                              [alt]="iamImages.etiquetaDescricao.alt"></app-zoomable-image>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="12">
+              <strong>Faça o Download do arquivo .csv com as suas credenciais criadas</strong>
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="iamImages.chaveAcessoCriada.src"
+                              [alt]="iamImages.chaveAcessoCriada.alt"></app-zoomable-image>
+
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+            <p class="text-sm text-red-900">
+              <strong>MUITO IMPORTANTE:</strong> Baixe o arquivo .csv. A "Secret Key" só é exibida uma vez!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section [id]="phases[2].id" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header [phaseTitle]="phases[2].label" [phaseDescription]="phases[2].description"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Cada membro do grupo criará sua própria fila para receber as
+            mensagens.</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="1">
+              Digite <strong>SQS</strong> na caixa de pesquisa do console AWS
+            </app-tutorial-step>
+            <app-tutorial-step stepNumber="2">
+              Clique no serviço <strong>SQS</strong> e clique em <strong>Criar Fila</strong> (<em>Create queue</em>).
+            </app-tutorial-step>
+            <app-tutorial-step stepNumber="3">
+              <strong>Selecione o tipo FIFO.</strong>
+            </app-tutorial-step>
+            <app-tutorial-step stepNumber="4">
+              Siga o seguinte padrão para a criação das filas para cada membro do grupo <code
+              class="bg-slate-100 px-1 py-0.5 rounded break-all">T0XN_LUCAS_RODRIGUES_MARTINS DE OLIVEIRA.fifo</code>
+            </app-tutorial-step>
+            <app-zoomable-image [src]="sqsImages.criarFila.src" [alt]="sqsImages.criarFila.alt"></app-zoomable-image>
+          </div>
+
+          <app-tutorial-step stepNumber="5">
+            Ao final, você deverá ter uma fila conforme o print abaixo:
+          </app-tutorial-step>
+
+          <app-zoomable-image [src]="sqsImages.resumoSqs.src" [alt]="sqsImages.resumoSqs.alt"></app-zoomable-image>
+        </div>
+      </section>
+
+      <section [id]="[phases[3].id]" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header [phaseTitle]="phases[3].label" [phaseDescription]="phases[3].description"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Após criar a fila, precisamos autorizar o serviço SNS a
+            entregar
+            mensagens na sua fila.</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="1">
+              Na sua fila, Encontre o campo <strong>ARN</strong> e copie o endereço da sua fila.
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="accessPolicyImages.criarPolitica.src"
+                              [alt]="accessPolicyImages.criarPolitica.alt"></app-zoomable-image>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="2">
+              Vá na aba <strong>Políticas de Filas</strong> (<em>Access policy</em>), e clique em
+              <strong>Editar</strong>(<em>Edit</em>)
+            </app-tutorial-step>
+          </div>
+
+          <app-zoomable-image [src]="accessPolicyImages.politicaSqs.src"
+                              [alt]="accessPolicyImages.politicaSqs.alt"></app-zoomable-image>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="3">
+              Desça a página até encontrar o menu de <strong>Política de acesso</strong>
+            </app-tutorial-step>
+          </div>
+          <app-zoomable-image [src]="accessPolicyImages.editarPolitica.src"
+                              [alt]="accessPolicyImages.editarPolitica.alt"></app-zoomable-image>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="4">
+              Substitua o JSON pelo código abaixo e cole o ARN copiado no local indicado.
+            </app-tutorial-step>
+          </div>
+
+          <app-code-snippet [code]="json" [language]="'json'"></app-code-snippet>
+
+          <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+            <p class="text-sm text-red-800">
+              <strong>Atenção:</strong> Substitua <code
+              class="break-all font-semibold">ARN_DA_SUA_FILA_SQS_QUE_VOCE_COPIOU</code> pelo ARN real da sua fila.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="5">
+              Desça até o final da pagina e Clique em Salvar
+            </app-tutorial-step>
+          </div>
+        </div>
+      </section>
+
+      <section [id]="phases[4].id" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header [phaseTitle]="phases[4].label" [phaseDescription]="phases[4].description"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Conecte a sua fila (Antena) ao tópico do professor
+            (Transmissor).</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="1">
+              No SQS, acesse a aba <strong>'Assinatura do SNS'</strong> e clique em <strong>'Inscrever-se no
+              tópico'</strong>.
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsSigningImages.assinaturasSns.src"
+                                [alt]="snsSigningImages.assinaturasSns.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="2">
+              Selecione <strong>'Inserir ARN de Tópico da Amazon SNS'</strong> e cole o ARN abaixo na caixa de texto.
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsSigningImages.inscreverSNS.src"
+                                [alt]="snsSigningImages.inscreverSNS.alt"></app-zoomable-image>
+
+            <app-code-snippet [code]="arnSnsProf" [language]="'text'"></app-code-snippet>
+
+            <app-tutorial-step stepNumber="3">
+              Clique em concluir. O status final deve ser <strong>Sucesso</strong>.
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsSigningImages.sqsAssinado.src"
+                                [alt]="snsSigningImages.sqsAssinado.alt"></app-zoomable-image>
+          </div>
+        </div>
+      </section>
+
+      <section [id]="phases[5].id" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header [phaseTitle]="phases[5].label" [phaseDescription]="phases[5].description"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">Ajuste a assinatura para receber apenas o conteúdo real do
+            pedido (JSON puro), removendo o "envelope" com os metadados da AWS.</p>
+
+          <div class="space-y-4">
+            <app-tutorial-step stepNumber="1">
+              Na Barra de pesquisa, digite <strong>SNS</strong> e selecione o serviço de <strong>Simple
+              Notification</strong>.
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsRawMessageImage.snsSearch.src"
+                                [alt]="snsRawMessageImage.snsSearch.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="2">
+              Você verá a tela inicial do <strong>SNS</strong> conforme abaixo:
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsRawMessageImage.snsAltSignings.src"
+                                [alt]="snsRawMessageImage.snsAltSignings.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="3">
+              Clique no ícone indicado e então clique em <strong><i>Assinaturas</i></strong>
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsRawMessageImage.snsAltOptionsSignings.src"
+                                [alt]="snsRawMessageImage.snsAltOptionsSignings.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="4">
+              Acessando as assinaturas criadas, você deverá ver a assinatura criada da sua SQS no SNS do professor,
+              conforme abaixo:
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsRawMessageImage.snsSqsSignings.src"
+                                [alt]="snsRawMessageImage.snsSqsSignings.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="5">
+              Ao acessar essa assinatura, você receberá um <strong>erro</strong> na próxima tela, não se preocupe! Esse
+              erro é normal, pois existem informações da assinatura que estão na conta do professor e que vocês não têm
+              autorização para visualizar. <br> Como não precisamos disso aqui, você pode apenas fechar o aviso de erro
+              normalmente e clicar no botão <strong>Editar</strong> no canto superior direito.
+            </app-tutorial-step>
+
+            <app-zoomable-image [src]="snsRawMessageImage.snsErrorDetails.src"
+                                [alt]="snsRawMessageImage.snsErrorDetails.alt"></app-zoomable-image>
+
+            <app-tutorial-step stepNumber="6">
+              Agora, só é preciso marcar a caixa <i>Habilitar entrega de mensagem bruta</i> e salvar as alterações
+              realizadas, conforme imagem abaixo:
+            </app-tutorial-step>
+            <app-zoomable-image [src]="snsRawMessageImage.snsRawMessages.src"
+                                [alt]="snsRawMessageImage.snsRawMessages.alt"></app-zoomable-image>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+
+</div>
