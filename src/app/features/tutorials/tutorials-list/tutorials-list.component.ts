@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {Tutorial} from './model/tutorial.model';
+import {APP_ROUTES} from '../../../core/constants/routes.constants';
 
 @Component({
   selector: 'app-tutorials-list',
@@ -26,7 +27,7 @@ export class TutorialsListComponent {
       category: 'AWS',
       readingTime: '10 min',
       icon: 'fab fa-aws',
-      route: '/tutoriais/aws-eda'
+      route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH
     },
     {
       id: '2',
@@ -35,7 +36,7 @@ export class TutorialsListComponent {
       category: 'Java',
       readingTime: '10 min',
       icon: 'fas fa-project-diagram',
-      route: '/tutoriais/consumer-sqs'
+      route: APP_ROUTES.TUTORIALS.LINKS.CONSUMER_SQS
     },
     {
       id: '3',
@@ -44,7 +45,7 @@ export class TutorialsListComponent {
       category: 'Java',
       readingTime: '5 min',
       icon: 'fas fa-key',
-      route: '/tutoriais/env-vars'
+      route: APP_ROUTES.TUTORIALS.LINKS.ENV_VARS
     },
     {
       id: '4',
@@ -53,7 +54,7 @@ export class TutorialsListComponent {
       category: 'AWS',
       readingTime: '5 min',
       icon: 'fas fa-project-diagram',
-      route: '/tutoriais/dlq'
+      route: APP_ROUTES.TUTORIALS.LINKS.DLQ
     },
   ];
 
