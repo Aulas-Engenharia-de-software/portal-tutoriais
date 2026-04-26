@@ -46,6 +46,15 @@ export class TutorialsListComponent {
       icon: 'fas fa-key',
       route: '/tutoriais/env-vars'
     },
+    {
+      id: '4',
+      title: 'Fila DLQ (Dead Letter Queue)',
+      description: 'Garantindo a resiliência das suas aplicações com DLQ.',
+      category: 'AWS',
+      readingTime: '5 min',
+      icon: 'fas fa-project-diagram',
+      route: '/tutoriais/dlq'
+    },
   ];
 
   get tutoriaisFiltrados() {

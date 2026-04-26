@@ -21,5 +21,10 @@ export const TUTORIAL_ROUTES: Routes = [
     path: APP_ROUTES.TUTORIALS.PATHS.CONSUMER_SQS,
     title: 'Tutorial | Consumer SQS',
     loadComponent: () => import('./tutorial-consumer-sqs/tutorial-consumer-sqs.component').then(c => c.TutorialConsumerSqsComponent)
+  },
+  {
+    path: APP_ROUTES.TUTORIALS.PATHS.DLQ,
+    title: 'Tutorial | Dead Letter Queue',
+    loadComponent: () => import('./tutorial-dlq/tutorial-dlq.component').then(c => c.TutorialDlqComponent)
   }
 ];
