@@ -1,15 +1,31 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
-import {TutorialAwsComponent} from './pages/tutorial-aws/tutorial-aws.component';
-import {TutorialConsumerSqsComponent} from './pages/tutorial-consumer-sqs/tutorial-consumer-sqs.component';
-import {TutorialEnvVarsComponent} from './pages/tutorial-env-vars/tutorial-env-vars.component';
-
-
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { ComingSoonComponent } from './shared/components/coming-soon/coming-soon.component';
+import { APP_ROUTES } from './core/constants/routes.constants';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'tutorial-aws', component: TutorialAwsComponent },
-  { path: 'tutorial-consumer-sqs', component: TutorialConsumerSqsComponent },
-  { path: 'tutorial-env-vars', component: TutorialEnvVarsComponent }
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: APP_ROUTES.DASHBOARD,
+        pathMatch: 'full'
+      },
+      {
+        path: APP_ROUTES.DASHBOARD,
+        title: 'Dashboard | LabPortal',
+        loadComponent: () => import('./features/dashboards/dashboards.component').then(c => c.DashboardsComponent)
+      },
+      {
+        path: APP_ROUTES.TUTORIALS.BASE,
+        loadChildren: () => import('./features/tutorials/tutorials.routes').then(r => r.TUTORIAL_ROUTES)
+      },
+      {
+        path: APP_ROUTES.ERROR_COMING_SOON,
+        component: ComingSoonComponent
+      }
+    ]
+  }
 ];

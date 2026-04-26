@@ -1,0 +1,88 @@
+<div class="w-full max-w-[1400px] flex flex-col xl:flex-row gap-8 lg:gap-12 relative pb-8">
+
+  <app-tutorial-sidebar [phases]="phases" [title]="tutorialTitle" />
+
+  <article class="flex-1 min-w-0 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 lg:p-10">
+
+    <div class="animate-fade-in">
+      <section [id]="phases[0].id" class="mb-12 scroll-mt-24">
+        <div class="phase-badge mb-4 inline-block bg-blue-600 text-white">Consumidor SQS</div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Configurando o Consumer SQS</h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+          Agora que sua infraestrutura na AWS está pronta, vamos conectar sua aplicação Java/Spring ao barramento de eventos.
+          Seguiremos o padrão de <strong>Adapters</strong> para isolar a tecnologia da fila da nossa regra de negócio.
+        </p>
+      </section>
+
+      <section [id]="phases[1].id" class="mb-12">
+      <app-phase-header phaseTitle="POM.XML" phaseDescription="Configuração das dependências para usar o SQS Listener" />
+        <div class="step-card">
+          <app-tutorial-step currentStep="1">
+            <h3 class="text-xl font-bold text-slate-900">Dependências do Projeto</h3>
+            <br />
+            <p class="text-slate-600 mb-4">Certifique-se de que o seu <code>pom.xml</code> possui o starter da AWS Cloud. Ele contém as bibliotecas necessárias para o <code>@SqsListener</code>.</p>
+          </app-tutorial-step>
+
+          <app-code-snippet [code]="sqsAwsDependency" language="xml" />
+          <br>
+
+          <app-tutorial-step currentStep="2">
+            Adicione tambem o gerenciador de dependências abaixo para gerenciar as versões da SDK da AWS.
+          </app-tutorial-step>
+
+          <app-code-snippet [code]="springCloudAwsDepedencyManagement" language="xml" />
+        </div>
+      </section>
+
+      <section [id]="phases[2].id" class="mb-12">
+        <app-phase-header phaseTitle="Credenciais" phaseDescription="Adicionando as chaves de acesso da AWS" />
+        <div class="step-card">
+          <app-tutorial-step currentStep="1">
+            <h3 class="text-xl font-bold text-slate-900">Configuração de Credenciais</h3>
+            <br>
+            No arquivo <code>src/main/resources/application.properties</code>, adicione as chaves que você baixou no arquivo <strong>.csv</strong> da Fase 1.
+          </app-tutorial-step>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 p-4 mb-4">
+            <p class="text-xs text-amber-800 uppercase font-bold mb-1">Segurança</p>
+            <p class="text-sm text-amber-900">Nunca suba suas chaves reais para o GitHub. Em produção, use Variáveis de Ambiente!</p>
+          </div>
+
+          <app-code-snippet [code]="applicationPropertiesKeys" language="properties" />
+
+        </div>
+      </section>
+
+      <section [id]="phases[3].id" class="mb-12">
+        <app-phase-header phaseTitle="Adapter" phaseDescription="Implementação do SQS Listener como Adapter" />
+        <div class="step-card space-y-4">
+          <app-tutorial-step currentStep="1">
+            <h3 class="text-xl font-bold text-slate-900">Criando o SQS Adapter</h3>
+            <br>
+            Esta classe será responsável por "ouvir" a fila. Observe o uso da <strong>DTO</strong> para receber dados de uma fonte externa.
+          </app-tutorial-step>
+          <app-code-snippet [code]="consumerCode" language="java" />
+
+          <div class="bg-slate-100 p-4 rounded-lg border border-slate-200">
+            <h4 class="font-bold text-slate-800 text-sm mb-2 flex items-center gap-2">
+              <i class="fas fa-lightbulb text-orange-500"></i> Dica de Sucesso
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Certifique-se de que sua classe <code>DTO</code> tenha os mesmos nomes de atributos do JSON enviado pelo professor, ou use a anotação <code>JsonProperty</code> do Jackson para mapear os nomes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="fase4" class="p-8 bg-emerald-50 border border-emerald-100 rounded-2xl text-center">
+        <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-200">
+          <i class="fas fa-check text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-emerald-900 mb-2">Pronto para Testar!</h3>
+        <p class="text-emerald-700 text-sm max-w-md mx-auto">
+          Rode sua aplicação e aguarde o log "Mensagem recebida". Se você configurou tudo certo, o pedido aparecerá no banco de dados em segundos.
+        </p>
+      </section>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,12 @@
+<div class="code-section">
+  <div class="code-block w-full">
+    <button class="copy-btn" (click)="copyToClipboard(codePolicy.innerText, $event)">
+      <i class="far fa-copy"></i> <span class="hidden sm:inline"> Copiar</span>
+    </button>
+    <pre #codePolicy class="text-xs sm:text-sm leading-relaxed block w-full">
+      <code>
+      {{ code }}
+    </code>
+    </pre>
+  </div>
+</div>

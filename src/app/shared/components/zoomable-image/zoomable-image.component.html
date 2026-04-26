@@ -1,0 +1,12 @@
+@if (isLightboxOpen) {
+  <div class="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center cursor-zoom-out p-4"
+       (click)="closeLightbox()">
+    <span class="absolute top-4 right-6 text-white text-4xl cursor-pointer z-[101]">&times;</span>
+    <img [src]="currentImageSrc" [alt]="alt" class="max-w-full max-h-[90vh] object-contain rounded-lg">
+  </div>
+}
+
+<div class="zoomable-img-container" (click)="openLightbox(src)">
+  <img [src]="src" [alt]="alt" class="screenshot">
+  <div class="img-overlay"><i class="fas fa-search-plus"></i></div>
+</div>

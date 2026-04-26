@@ -1,0 +1,12 @@
+<header class="h-16 flex items-center justify-between px-4 sm:px-8 bg-white border-b border-slate-200 shrink-0">
+  <div class="flex items-center gap-4">
+    <button (click)="toggleMenu()" class="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+    <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Arquitetura de Software</h2>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <span class="text-xs font-medium bg-slate-100 px-2 py-1 rounded text-slate-600">Semestre {{ currentYear }}.{{ currentSemester }}</span>
+  </div>
+</header>
