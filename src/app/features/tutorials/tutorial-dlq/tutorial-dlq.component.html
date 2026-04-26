@@ -1,0 +1,161 @@
+<div class="w-full max-w-[1400px] flex flex-col xl:flex-row gap-8 lg:gap-12 relative pb-8">
+
+  <app-tutorial-sidebar [phases]="phases" title="Dead Letter Queue"></app-tutorial-sidebar>
+
+  <article class="flex-1 min-w-0 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 lg:p-10">
+
+    <div class="animate-fade-in">
+
+      <section id="intro" class="mb-12 sm:mb-16 scroll-mt-24">
+        <div
+          class="phase-badge mb-4 inline-block bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+          Laboratório 02
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 sm:mb-6 tracking-tight leading-tight">
+          Configuração de Dead Letter Queue (DLQ)
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed mb-4">
+          Na arquitetura orientada a eventos, nem toda mensagem pode ser processada com sucesso de primeira. Falhas no
+          banco de dados, APIs fora do ar ou payloads mal formatados podem gerar erros contínuos.
+        </p>
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+          <p class="text-sm text-blue-900">
+            <strong>O que é uma DLQ?</strong> A <em>Dead Letter Queue</em> (Fila de Mensagens Mortas) é uma fila de
+            segurança. Quando sua aplicação falha ao processar uma mensagem repetidas vezes, a AWS SQS move
+            automaticamente essa mensagem problemática para a DLQ. Isso evita que a mensagem bloqueie a fila principal
+            (efeito funil) e permite que você analise o erro com calma depois.
+          </p>
+        </div>
+      </section>
+
+
+      <section id="fase1" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header phaseTitle="Fase 1" phaseDescription="Criando a Fila DLQ"></app-phase-header>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">
+            O primeiro passo é criar uma fila separada que servirá como nosso "cemitério/hospital" de mensagens. Ela
+            deve ser do <strong>mesmo tipo</strong> da sua fila principal.
+          </p>
+
+          <div class="space-y-4">
+            <app-tutorial-step currentStep="1">
+              Acesse o console do <strong>SQS</strong> e clique em <strong>Criar fila</strong> (<em>Create queue</em>).
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.createQueueDlq.src" [alt]="dlqImages.createQueueDlq.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="2">
+              <strong>MUITO IMPORTANTE:</strong> Se a sua fila principal é FIFO, a sua DLQ <strong>DEVE</strong> ser
+              FIFO. Selecione o mesmo tipo.
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.createFifoNameDlq.src" [alt]="dlqImages.createFifoNameDlq.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="3">
+              Nomeie a fila utilizando o sufixo <code
+              class="bg-slate-100 px-2 py-0.5 rounded font-mono text-orange-700">-DLQ</code> para fácil identificação.
+              Exemplo: Se sua fila principal é <code class="bg-slate-100 px-1 py-0.5 rounded">T0XN_LUCAS.fifo</code>,
+              chame a DLQ de <code class="bg-slate-100 px-1 py-0.5 rounded">T0XN_LUCAS-DLQ.fifo</code>.
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="4">
+              Desça até o final da página e salve a fila.
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="5">
+              Na tela de resumo da sua nova DLQ, copie o <strong>ARN</strong> dela. Vamos precisar dele na próxima fase!
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.copyArnDlq.src" [alt]="dlqImages.copyArnDlq.alt"></app-zoomable-image>
+          </div>
+        </div>
+      </section>
+
+      <section id="fase2" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header phaseTitle="Fase 2" phaseDescription="Configurando a Redrive Policy"/>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">
+            Agora vamos dizer para a fila <strong>Principal</strong> que ela deve jogar o "lixo" na DLQ que acabamos de
+            criar.
+          </p>
+
+          <div class="space-y-4">
+            <app-tutorial-step currentStep="1">
+              Volte para a listagem de filas e clique na sua <strong>Fila Principal</strong> (a que recebe os eventos do
+              SNS).
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="2">
+              No canto superior direito, clique em <strong>Editar</strong> (<em>Edit</em>).
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.editMainQueue.src"
+                                [alt]="dlqImages.editMainQueue.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="3">
+              Role a página até encontrar a seção <strong>Fila de mensagens mortas</strong> (<em>Dead-letter queue</em>).
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="4">
+              Marque a opção <strong>Habilitado</strong>. Cole o ARN da sua DLQ (que copiamos na fase anterior) na caixa
+              de texto.
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="5">
+              No campo <strong>Recebimentos máximos</strong> (<em>Maximum receives</em>), digite <code
+              class="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-orange-700">3</code>.
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.dlqConfigInSqs.src"
+                                [alt]="dlqImages.dlqConfigInSqs.alt"></app-zoomable-image>
+
+            <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg mt-4">
+              <p class="text-sm text-orange-900">
+                <strong>O que significa o número 3?</strong> Isso indica que a sua aplicação terá 3 chances de ler e
+                processar a mensagem com sucesso. Se na 3ª tentativa a mensagem voltar para a fila (falha), ela será
+                instantaneamente movida para a DLQ.
+              </p>
+            </div>
+
+            <app-tutorial-step currentStep="6">
+              Desça até o final da página e clique em <strong>Salvar</strong>.
+            </app-tutorial-step>
+          </div>
+        </div>
+      </section>
+
+      <!-- FASE 3: REDRIVE -->
+      <section id="fase3" class="mb-16 sm:mb-20 scroll-mt-24">
+        <app-phase-header phaseTitle="Fase 3" phaseDescription="DLQ Redrive (Reenviando mensagens corrigidas)"/>
+
+        <div class="step-card space-y-6">
+          <p class="text-slate-600 text-sm sm:text-base">
+            Imagine que o banco de dados estava fora do ar, gerando erros, e 50 mensagens foram parar na DLQ. Após você
+            reiniciar o banco, como processar essas mensagens de novo? Usando o <strong>DLQ Redrive</strong>.
+          </p>
+
+          <div class="space-y-4">
+            <app-tutorial-step currentStep="1">
+              Acesse a sua fila <strong>DLQ</strong>.
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="2">
+              No canto superior direito, você verá o botão <strong>Iniciar DLQ redrive</strong>. Clique nele.
+            </app-tutorial-step>
+            <app-zoomable-image [src]="dlqImages.startRedriveDlq.src"
+                                [alt]="dlqImages.startRedriveDlq.alt"></app-zoomable-image>
+
+            <app-tutorial-step currentStep="3">
+              O sistema perguntará para onde deseja enviar as mensagens. A opção padrão (enviar de volta para a fila de
+              origem) é exatamente o que queremos.
+            </app-tutorial-step>
+
+            <app-tutorial-step currentStep="4">
+              Basta confirmar a operação. As mensagens voltarão para a fila principal como se tivessem acabado de
+              chegar, e sua aplicação poderá processá-las normalmente agora que o bug foi resolvido!
+            </app-tutorial-step>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+</div>

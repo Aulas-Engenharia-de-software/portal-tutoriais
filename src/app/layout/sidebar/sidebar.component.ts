@@ -26,6 +26,7 @@ export class SidebarComponent {
     { title: 'Event-Driven Arch na AWS', route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH },
     { title: 'Variáveis de Ambiente', route: APP_ROUTES.TUTORIALS.LINKS.ENV_VARS },
     { title: 'Consumer SQS', route: APP_ROUTES.TUTORIALS.LINKS.CONSUMER_SQS },
+    { title: 'DLQ (Dead Letter Queue)', route: APP_ROUTES.TUTORIALS.LINKS.DLQ },
   ];
 
   toggleTutorialsMenu() {

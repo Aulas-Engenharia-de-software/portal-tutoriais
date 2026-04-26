@@ -31,6 +31,7 @@ export const APP_ROUTES = {
       EVENT_DRIVEN_ARCH: 'aws-eda',
       ENV_VARS: 'env-vars',
       CONSUMER_SQS: 'consumer-sqs',
+      DLQ: 'dlq',
     },
 
     LINKS: {
@@ -38,6 +39,7 @@ export const APP_ROUTES = {
       EVENT_DRIVEN_ARCH: '/tutoriais/aws-eda',
       ENV_VARS: '/tutoriais/env-vars',
       CONSUMER_SQS: '/tutoriais/consumer-sqs',
+      DLQ: '/tutoriais/dlq',
     }
   },
 

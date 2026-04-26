@@ -48,8 +48,8 @@ export class TutorialEnvVarsComponent {
 
   applicationPropertiesCode = `
 # Credenciais AWS Dinâmicas
-spring.cloud.aws.credentials.access-key=$&#123;AWS_ACCESS_KEY_ID&#125;
-spring.cloud.aws.credentials.secret-key=$&#123;AWS_SECRET_ACCESS_KEY&#125;
+spring.cloud.aws.credentials.access-key=$\{AWS_ACCESS_KEY_ID}
+spring.cloud.aws.credentials.secret-key=$\{AWS_SECRET_ACCESS_KEY}
 spring.cloud.aws.region.static=us-east-1
 
 # Filas
