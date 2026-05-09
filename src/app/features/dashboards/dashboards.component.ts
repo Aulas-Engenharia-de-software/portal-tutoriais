@@ -16,9 +16,12 @@ export class DashboardsComponent {
 
   weekActivity: Activity = {
     badge: 'Atividade da Semana',
-    title: 'Event-Driven Architecture',
-    description: 'Sua missão desta semana é transformar a aplicação síncrona em assíncrona. Crie seu Consumer SQS e valide o processamento dos pedidos.',
-    route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH
+    title: 'Criando e consumindo as mensagens mortas da DLQ',
+    description: 'Sua tarefa essa semana é configurar um consumidor para a Dead Letter Queue (DLQ) do SQS. ' +
+      'Isso envolve criar um consumidor que monitore a DLQ, e processe as mensagens que falharam. ' +
+      'O objetivo é garantir que as mensagens que não puderam ser processadas sejam tratadas adequadamente, ' +
+      'seja para reprocessamento ou para análise de falhas',
+    route: APP_ROUTES.TUTORIALS.LINKS.DLQ
   };
 
   categories: Category[] = [
