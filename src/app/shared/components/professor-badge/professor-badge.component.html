@@ -1,0 +1,22 @@
+<div class="mb-8">
+  <div class="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-2xl hover:border-orange-300 hover:shadow-sm transition-all group">
+    <div class="w-9 h-9 shrink-0 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs shadow-sm group-hover:bg-orange-500 transition-colors">
+      LM
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5 leading-none">Professor</p>
+      <p class="text-sm font-bold text-slate-800 truncate leading-tight">{{ nomeProfessor }}</p>
+    </div>
+    <div class="flex gap-0.5 shrink-0">
+      <a [href]="githubLink" target="_blank" title="GitHub" class="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:bg-slate-200 hover:text-slate-900 transition-colors">
+        <i class="fab fa-github text-sm"></i>
+      </a>
+      <a [href]="linkedinLink" target="_blank" title="LinkedIn" class="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+        <i class="fab fa-linkedin-in text-sm"></i>
+      </a>
+      <a [href]="instagramLink" target="_blank" title="Instagram" class="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:bg-pink-50 hover:text-pink-600 transition-colors">
+        <i class="fab fa-instagram text-sm"></i>
+      </a>
+    </div>
+  </div>
+</div>

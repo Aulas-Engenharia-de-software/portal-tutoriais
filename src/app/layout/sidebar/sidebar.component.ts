@@ -1,25 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import {APP_ROUTES} from '../../core/constants/routes.constants';
+import { APP_ROUTES } from '../../core/constants/routes.constants';
+import { ProfessorBadgeComponent } from '../../shared/components/professor-badge/professor-badge.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    RouterLinkActive
-  ],
-  templateUrl: './sidebar.component.html'
+  imports: [CommonModule, RouterLink, RouterLinkActive, ProfessorBadgeComponent],
+  templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-
   isTutorialsMenuOpen = false;
 
   nomeProfessor = 'Lucas Martins';
   disciplina = 'Arquitetura de Software';
-  githubLink = 'https://github.com/lucasmartins007';
+
   githubLabel = 'github.com/lucasmartins007';
 
   tutoriaisList = [
@@ -32,5 +28,4 @@ export class SidebarComponent {
   toggleTutorialsMenu() {
     this.isTutorialsMenuOpen = !this.isTutorialsMenuOpen;
   }
-
 }
