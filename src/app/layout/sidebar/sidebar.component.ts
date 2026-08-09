@@ -1,31 +1,23 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { APP_ROUTES } from '../../core/constants/routes.constants';
+import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 import { ProfessorBadgeComponent } from '../../shared/components/professor-badge/professor-badge.component';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ProfessorBadgeComponent],
+  imports: [RouterLink, RouterLinkActive, ProfessorBadgeComponent],
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-  isTutorialsMenuOpen = false;
+  @Output() readonly navigation = new EventEmitter<void>();
 
-  nomeProfessor = 'Lucas Martins';
-  disciplina = 'Arquitetura de Software';
+  isCourseOpen = true;
+  readonly highlightedEntries = CONTENT_INDEX.filter((entry) => entry.type !== 'material').slice(0, 4);
+  readonly currentCourse = this.highlightedEntries[0]?.course ?? 'Engenharia de Software';
+  readonly currentDiscipline = this.highlightedEntries[0]?.discipline ?? 'Arquitetura de Software';
+  readonly currentModule = this.highlightedEntries[0]?.module ?? 'Arquitetura Orientada a Eventos';
 
-  githubLabel = 'github.com/lucasmartins007';
-
-  tutoriaisList = [
-    { title: 'Event-Driven Arch na AWS', route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH },
-    { title: 'Variáveis de Ambiente', route: APP_ROUTES.TUTORIALS.LINKS.ENV_VARS },
-    { title: 'Consumer SQS', route: APP_ROUTES.TUTORIALS.LINKS.CONSUMER_SQS },
-    { title: 'DLQ (Dead Letter Queue)', route: APP_ROUTES.TUTORIALS.LINKS.DLQ },
-  ];
-
-  toggleTutorialsMenu() {
-    this.isTutorialsMenuOpen = !this.isTutorialsMenuOpen;
+  toggleCourse(): void {
+    this.isCourseOpen = !this.isCourseOpen;
   }
 }

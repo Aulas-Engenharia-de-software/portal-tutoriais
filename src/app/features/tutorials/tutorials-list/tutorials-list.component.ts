@@ -1,68 +1,65 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {Tutorial} from './model/tutorial.model';
-import {APP_ROUTES} from '../../../core/constants/routes.constants';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { CONTENT_INDEX } from '../../../core/content/generated-content-index';
+import {
+  CONTENT_TYPE_LABELS,
+  ContentEntry,
+  ContentType,
+} from '../../../core/content/content.models';
 
 @Component({
   selector: 'app-tutorials-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './tutorials-list.component.html'
+  imports: [FormsModule, RouterLink],
+  templateUrl: './tutorials-list.component.html',
+  styleUrl: './tutorials-list.component.css',
 })
 export class TutorialsListComponent {
+  readonly entries = CONTENT_INDEX.filter((entry) => entry.type !== 'material');
+  readonly typeLabels = CONTENT_TYPE_LABELS;
+  readonly courses = ['Todos os cursos', ...new Set(this.entries.map((entry) => entry.course))];
+  readonly disciplines = ['Todas', ...new Set(this.entries.map((entry) => entry.discipline))];
+  readonly modules = ['Todos os módulos', ...new Set(this.entries.map((entry) => entry.module))];
+  readonly types: Array<'Todos' | ContentType> = ['Todos', 'tutorial', 'atividade'];
 
-  searchQuery: string = '';
+  searchQuery = '';
+  selectedCourse = 'Todos os cursos';
+  selectedDiscipline = 'Todas';
+  selectedModule = 'Todos os módulos';
+  selectedType: 'Todos' | ContentType = 'Todos';
 
-  categoriaSelecionada: string = 'Todos';
-
-  categorias = ['Todos', 'AWS', 'Java', 'Arquitetura'];
-
-  tutoriais: Tutorial[] = [
-    {
-      id: '1',
-      title: 'Event-Driven Arch na AWS',
-      description: 'Aprenda a garantir a ordem das mensagens na AWS.',
-      category: 'AWS',
-      readingTime: '10 min',
-      icon: 'fab fa-aws',
-      route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH
-    },
-    {
-      id: '2',
-      title: 'Consumer SQS',
-      description: 'Crie um consumidor eficiente para suas filas SQS.',
-      category: 'Java',
-      readingTime: '10 min',
-      icon: 'fas fa-project-diagram',
-      route: APP_ROUTES.TUTORIALS.LINKS.CONSUMER_SQS
-    },
-    {
-      id: '3',
-      title: 'Variáveis de Ambiente',
-      description: 'Protegendo suas credenciais de forma profissional.',
-      category: 'Java',
-      readingTime: '5 min',
-      icon: 'fas fa-key',
-      route: APP_ROUTES.TUTORIALS.LINKS.ENV_VARS
-    },
-    {
-      id: '4',
-      title: 'Fila DLQ (Dead Letter Queue)',
-      description: 'Garantindo a resiliência das suas aplicações com DLQ.',
-      category: 'AWS',
-      readingTime: '5 min',
-      icon: 'fas fa-project-diagram',
-      route: APP_ROUTES.TUTORIALS.LINKS.DLQ
-    },
-  ];
-
-  get tutoriaisFiltrados() {
-    return this.tutoriais.filter(t => {
-      const matchesSearch = t.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-      const matchesCat = this.categoriaSelecionada === 'Todos' || t.category === this.categoriaSelecionada;
-      return matchesSearch && matchesCat;
+  get filteredEntries(): readonly ContentEntry[] {
+    const query = this.normalize(this.searchQuery.trim());
+    return this.entries.filter((entry) => {
+      const haystack = this.normalize(
+        [entry.title, entry.description, entry.course, entry.discipline, entry.module, entry.category, ...entry.tags].join(' '),
+      );
+      return (
+        (!query || haystack.includes(query)) &&
+        (this.selectedCourse === 'Todos os cursos' || entry.course === this.selectedCourse) &&
+        (this.selectedDiscipline === 'Todas' || entry.discipline === this.selectedDiscipline) &&
+        (this.selectedModule === 'Todos os módulos' || entry.module === this.selectedModule) &&
+        (this.selectedType === 'Todos' || entry.type === this.selectedType)
+      );
     });
+  }
+
+  typeLabel(type: 'Todos' | ContentType): string {
+    return type === 'Todos' ? 'Todos' : CONTENT_TYPE_LABELS[type];
+  }
+
+  clearFilters(): void {
+    this.searchQuery = '';
+    this.selectedCourse = 'Todos os cursos';
+    this.selectedDiscipline = 'Todas';
+    this.selectedModule = 'Todos os módulos';
+    this.selectedType = 'Todos';
+  }
+
+  private normalize(value: string): string {
+    return value
+      .toLocaleLowerCase('pt-BR')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   }
 }

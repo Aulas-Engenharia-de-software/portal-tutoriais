@@ -1,94 +1,45 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {Category} from './models/category.model';
-import {Activity} from './models/activity.model';
-import {APP_ROUTES} from '../../core/constants/routes.constants';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterLink], // Importante para o [routerLink] e diretivas funcionarem
+  imports: [RouterLink],
   templateUrl: './dashboards.component.html',
-  styleUrls: ['./dashboards.component.css'] // ou .scss dependendo do seu projeto
+  styleUrl: './dashboards.component.css',
 })
 export class DashboardsComponent {
+  readonly learningContent = CONTENT_INDEX.filter((entry) => entry.type !== 'material');
+  readonly featured = this.learningContent.filter((entry) => entry.featured).slice(0, 3);
+  readonly current = this.learningContent[0];
+  readonly materialsCount = CONTENT_INDEX.filter((entry) => entry.type === 'material').length;
+  readonly coursesCount = new Set(CONTENT_INDEX.map((entry) => entry.course)).size;
+  readonly modulesCount = new Set(CONTENT_INDEX.map((entry) => `${entry.discipline}/${entry.module}`)).size;
 
-  weekActivity: Activity = {
-    badge: 'Atividade da Semana',
-    title: 'Criando e consumindo as mensagens mortas da DLQ',
-    description: 'Sua tarefa essa semana é configurar um consumidor para a Dead Letter Queue (DLQ) do SQS. ' +
-      'Isso envolve criar um consumidor que monitore a DLQ, e processe as mensagens que falharam. ' +
-      'O objetivo é garantir que as mensagens que não puderam ser processadas sejam tratadas adequadamente, ' +
-      'seja para reprocessamento ou para análise de falhas',
-    route: APP_ROUTES.TUTORIALS.LINKS.DLQ
-  };
-
-  categories: Category[] = [
+  readonly disciplines = [
     {
-      id: 1,
-      title: 'Tutoriais',
-      description: 'Manuais passo a passo',
-      icon: 'fas fa-book-open',
-      backgroundColor: 'bg-blue-50',
-      textColor: 'text-blue-600',
-      route: APP_ROUTES.TUTORIALS.LINKS.BASE
+      title: 'Arquitetura de Software',
+      course: 'Engenharia de Software',
+      description: 'Decisões arquiteturais, integração, mensageria e sistemas distribuídos.',
+      icon: 'fas fa-cubes',
+      status: 'Conteúdo disponível',
+      active: true,
     },
     {
-      id: 2,
-      title: 'Laboratórios',
-      description: 'Exercícios práticos',
-      icon: 'fas fa-vial',
-      backgroundColor: 'bg-emerald-50',
-      textColor: 'text-emerald-600',
-      route: APP_ROUTES.LABS.LINKS.BASE
+      title: 'Projetos com LLMs',
+      course: 'Inteligência Artificial Aplicada',
+      description: 'Aplicações com modelos de linguagem, RAG, agentes e avaliação.',
+      icon: 'fas fa-robot',
+      status: 'Em desenvolvimento',
+      active: false,
     },
     {
-      id: 3,
-      title: 'Materiais',
-      description: 'Slides e repositórios',
-      icon: 'fas fa-folder-open',
-      backgroundColor: 'bg-purple-50',
-      textColor: 'text-purple-600',
-      route: APP_ROUTES.MATERIALS.LINKS.BASE
+      title: 'Mineração de Dados',
+      course: 'Dados e Inteligência',
+      description: 'Preparação, exploração e descoberta de padrões em dados.',
+      icon: 'fas fa-chart-column',
+      status: 'Em desenvolvimento',
+      active: false,
     },
-    {
-      id: 4,
-      title: 'FAQ',
-      description: 'Dúvidas comuns',
-      icon: 'fas fa-question-circle',
-      backgroundColor: 'bg-slate-100',
-      textColor: 'text-slate-600',
-      route: APP_ROUTES.FAQ.LINKS.BASE
-    }
   ];
-
-
-  recentCategories = [
-    {
-      titulo: 'Mensageria e EDA na AWS',
-      descricao: 'TutorialModel completo para configuração orientada a eventos.',
-      icone: 'fab fa-aws',
-      corFundoIcone: 'bg-orange-50',
-      corTextoIcone: 'text-orange-600',
-      link: '/tutorial-aws'
-    },
-    {
-      titulo: 'Configurando um Consumidor SQS',
-      descricao: 'TutorialModel para configuração do seu consumidor SQS no Spring Boot.',
-      icone: 'fas fa-stream',
-      corFundoIcone: 'bg-orange-50',
-      corTextoIcone: 'text-orange-600',
-      link: '/tutorial-sqs-consumer'
-    },
-    {
-      titulo: 'Variáveis de Ambiente',
-      descricao: 'TutorialModel para configurar chaves na IDE e evitar subir credenciais no GitHub.',
-      icone: 'fas fa-key',
-      corFundoIcone: 'bg-red-50',
-      corTextoIcone: 'text-red-600',
-      link: '/tutorial-env-vars'
-    }
-  ];
-
 }

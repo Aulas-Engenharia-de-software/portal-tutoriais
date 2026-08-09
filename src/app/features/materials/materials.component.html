@@ -1,0 +1,120 @@
+<div class="materials-shell">
+  <header class="materials-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Acervo do professor</span>
+      <h1>Materiais para ir além da aula.</h1>
+      <p>Slides, leituras, referências e código selecionados pelo professor Lucas Martins para apoiar cada etapa das disciplinas.</p>
+    </div>
+    <div class="hero-stamp" aria-label="Curadoria do professor Lucas Martins">
+      <span>LM</span>
+      <div><strong>Curadoria autoral</strong><small>Lucas Martins · Professor</small></div>
+    </div>
+  </header>
+
+  <section class="resource-types" aria-label="Tipos de material aceitos">
+    @for (item of resourceTypes; track item.type) {
+      <button type="button" (click)="selectType(item.type)" [class.active]="selectedResourceType === item.type">
+        <span class="type-icon"><i [class]="item.icon" aria-hidden="true"></i></span>
+        <span class="type-copy"><strong>{{ resourceTypeLabel(item.type) }}</strong><small>{{ item.description }}</small></span>
+        <span class="type-count">{{ countByType(item.type) }}</span>
+      </button>
+    }
+  </section>
+
+  @if (presentationResources.length) {
+    <section class="study-track" aria-labelledby="study-track-title">
+      <header>
+        <div>
+          <span>Sequência sugerida</span>
+          <h2 id="study-track-title">Apresentações de Arquitetura de Software</h2>
+        </div>
+        <p>Avance pelas aulas na ordem indicada para acompanhar a evolução dos fundamentos até as arquiteturas distribuídas.</p>
+      </header>
+      <ol>
+        @for (entry of presentationResources; track entry.slug; let index = $index) {
+          <li>
+            <a [href]="resourceUrl(entry)" target="_blank" rel="noopener noreferrer">
+              <span class="track-number">{{ index + 1 < 10 ? '0' + (index + 1) : index + 1 }}</span>
+              <div>
+                <small>{{ entry.module }}</small>
+                <strong>{{ entry.title }}</strong>
+                <p>{{ entry.description }}</p>
+              </div>
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </li>
+        }
+      </ol>
+    </section>
+  }
+
+  <section class="materials-toolbar" aria-label="Filtros dos materiais">
+    <label class="search-field">
+      <span class="sr-only">Buscar material</span>
+      <i class="fas fa-search" aria-hidden="true"></i>
+      <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar por assunto, formato ou tecnologia…">
+    </label>
+    <label>
+      <span>Curso</span>
+      <select [(ngModel)]="selectedCourse">
+        @for (course of courses; track course) { <option [value]="course">{{ course }}</option> }
+      </select>
+    </label>
+    <label>
+      <span>Disciplina</span>
+      <select [(ngModel)]="selectedDiscipline">
+        @for (discipline of disciplines; track discipline) { <option [value]="discipline">{{ discipline }}</option> }
+      </select>
+    </label>
+    <label>
+      <span>Módulo</span>
+      <select [(ngModel)]="selectedModule">
+        @for (module of modules; track module) { <option [value]="module">{{ module }}</option> }
+      </select>
+    </label>
+  </section>
+
+  <section class="collection-heading">
+    <div>
+      <span>{{ filteredResources.length }} item(ns) encontrado(s)</span>
+      <h2>Acervo disponível</h2>
+    </div>
+    @if (selectedResourceType !== 'todos') {
+      <button type="button" (click)="selectedResourceType = 'todos'">Ver todos os formatos</button>
+    }
+  </section>
+
+  <section class="materials-grid" aria-live="polite">
+    @for (entry of filteredResources; track entry.slug) {
+      <a class="material-card" [href]="resourceUrl(entry)" [attr.target]="entry.externalUrl ? '_blank' : null"
+         [attr.rel]="entry.externalUrl ? 'noopener noreferrer' : null">
+        <div class="material-topline">
+          <span class="format"><i [class]="entry.icon" aria-hidden="true"></i>{{ resourceTypeLabel(entry.resourceType) }}</span>
+          @if (entry.externalUrl) { <i class="fas fa-arrow-up-right-from-square external" aria-hidden="true"></i> }
+        </div>
+        <div class="academic-path">
+          <span>{{ entry.course }}</span><i class="fas fa-chevron-right" aria-hidden="true"></i><span>{{ entry.discipline }}</span><i class="fas fa-chevron-right" aria-hidden="true"></i><span>{{ entry.module }}</span>
+        </div>
+        <h3>{{ entry.title }}</h3>
+        <p>{{ entry.description }}</p>
+        <footer>
+          <span>{{ entry.provider || entry.category }}</span>
+          <strong>Acessar material <i class="fas fa-arrow-right" aria-hidden="true"></i></strong>
+        </footer>
+      </a>
+    } @empty {
+      <div class="empty-state">
+        <span><i class="fas fa-folder-open" aria-hidden="true"></i></span>
+        <h3>Este espaço está pronto para receber materiais</h3>
+        <p>Novos slides, PDFs, livros, sites e repositórios aparecerão aqui automaticamente.</p>
+        <button type="button" (click)="clearFilters()">Limpar filtros</button>
+      </div>
+    }
+  </section>
+
+  <aside class="author-note">
+    <i class="fas fa-quote-left" aria-hidden="true"></i>
+    <p>“Este acervo cresce junto com as disciplinas. Cada referência é escolhida para aproximar conceitos acadêmicos de decisões reais de projeto.”</p>
+    <span>Lucas Martins · Professor e autor do portal</span>
+  </aside>
+</div>

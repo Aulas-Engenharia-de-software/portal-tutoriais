@@ -1,126 +1,92 @@
-<div class="animate-fade-in max-w-7xl mx-auto pb-12">
-
-  <div class="mb-10">
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Portal do Aluno</h1>
-    <p class="text-slate-500 mt-2 text-lg">Bem-vindo à disciplina de Arquitetura de Software. Selecione seu destino
-      abaixo.</p>
-  </div>
-
-  <div
-    class="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm mb-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 group hover:border-orange-200 transition-colors">
-    <div
-      class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-orange-100/50 to-transparent rounded-bl-full -z-10"></div>
-
-    <div class="z-10 max-w-2xl" [routerLink]="[weekActivity.route]">
-      <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-bold uppercase tracking-wider mb-4">
-                <span class="relative flex h-2 w-2">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                </span>
-        {{ weekActivity.badge }}
+<div class="dashboard-shell">
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow"><i class="fas fa-sparkles" aria-hidden="true"></i> Portal de aulas do professor Lucas Martins</span>
+      <h1>Um espaço para acompanhar as disciplinas.</h1>
+      <p>Conteúdos usados em aula, atividades práticas e referências para você estudar no seu ritmo e conectar conceitos a projetos reais.</p>
+      <div class="hero-actions">
+        <a class="primary-action" routerLink="/tutoriais">Começar a estudar <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        <a class="secondary-action" routerLink="/materiais">Explorar materiais</a>
       </div>
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">{{ weekActivity.title }}</h2>
-      <p class="text-slate-600 leading-relaxed mb-6">
-        {{ weekActivity.description }}
-      </p>
-      <button
-        class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2 shadow-sm shadow-orange-500/30">
-        Acessar Laboratório <i class="fas fa-arrow-right"></i>
-      </button>
+      <div class="hero-metrics">
+        <span><strong>{{ coursesCount }}</strong> curso ativo</span>
+        <span><strong>{{ learningContent.length }}</strong> aulas guiadas</span>
+        <span><strong>{{ materialsCount }}</strong> referências</span>
+      </div>
     </div>
 
-    <div
-      class="hidden md:flex flex-shrink-0 w-32 h-32 bg-slate-50 rounded-full items-center justify-center border-8 border-white shadow-inner z-10 text-orange-400 group-hover:scale-105 transition-transform">
-      <i class="fas fa-laptop-code text-5xl"></i>
+    <div class="author-showcase">
+      <div class="signature">LM</div>
+      <span class="author-label">Professor & criador</span>
+      <h2>Lucas Martins</h2>
+      <p>Arquitetura, desenvolvimento de software e tecnologia aplicada, sempre com contexto e prática.</p>
+      <div class="author-tags"><span>Arquitetura</span><span>Cloud</span><span>IA aplicada</span></div>
+      <div class="visual-code" aria-hidden="true"><span>01</span><span>design</span><span>build</span><span>learn</span></div>
     </div>
-  </div>
+  </section>
 
+  @if (current) {
+    <section class="learning-path">
+      <div class="path-heading">
+        <span>Trilha disponível agora</span>
+        <h2>{{ current.course }}</h2>
+      </div>
+      <div class="path-flow">
+        <div class="path-step"><small>Disciplina</small><strong>{{ current.discipline }}</strong></div>
+        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        <div class="path-step active"><small>Módulo atual</small><strong>{{ current.module }}</strong></div>
+        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        <div class="path-result"><strong>{{ learningContent.length }}</strong><span>conteúdos<br>disponíveis</span></div>
+      </div>
+      <a routerLink="/tutoriais">Entrar na trilha <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
+    </section>
+  }
 
-  <div class="mb-12">
-    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-      <i class="fas fa-compass text-slate-400"></i> Explore o Portal
-    </h3>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-      @for (categoria of categories; track categoria.id) {
-        <div
-          [routerLink]="[categoria.route]"
-          class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all cursor-pointer flex items-center gap-4 group">
-          <div
-            [class]="categoria.backgroundColor + ' ' + categoria.textColor + ' w-12 h-12 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform'">
-            <i [class]="categoria.icon + ' text-xl'"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{{ categoria.title }}</h4>
-            <p class="text-xs text-slate-500">{{ categoria.description }}</p>
-          </div>
-        </div>
+  <section class="disciplines-section">
+    <div class="section-heading">
+      <div><span>Ecossistema de aprendizagem</span><h2>Disciplinas desenvolvidas pelo professor</h2></div>
+      <p>O portal cresce à medida que novas jornadas de ensino são estruturadas.</p>
+    </div>
+    <div class="discipline-grid">
+      @for (discipline of disciplines; track discipline.title) {
+        <article class="discipline-card" [class.active]="discipline.active">
+          <div class="discipline-icon"><i [class]="discipline.icon" aria-hidden="true"></i></div>
+          <span class="discipline-status"><i class="fas fa-circle" aria-hidden="true"></i>{{ discipline.status }}</span>
+          <small>{{ discipline.course }}</small>
+          <h3>{{ discipline.title }}</h3>
+          <p>{{ discipline.description }}</p>
+          @if (discipline.active) {
+            <a routerLink="/tutoriais">Explorar disciplina <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+          } @else {
+            <span class="coming-label">Próxima disciplina</span>
+          }
+        </article>
       }
-
-
     </div>
-  </div>
+  </section>
 
-<!--
-  <div>
-    <div class="flex items-center justify-between mb-6">
-      <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-        <i class="fas fa-history text-slate-400"></i> Adicionados Recentemente
-      </h3>
-      <a href="#" class="text-sm font-medium text-orange-500 hover:text-orange-600">Ver todos &rarr;</a>
+  <section class="featured-section">
+    <div class="section-heading compact">
+      <div><span>Seleção do professor</span><h2>Comece por aqui</h2></div>
+      <a routerLink="/tutoriais">Ver biblioteca completa</a>
     </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      &lt;!&ndash; SEU CARD ORIGINAL 1 &ndash;&gt;
-      <div [routerLink]="['/tutorial-aws']"
-           class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all cursor-pointer group relative flex flex-col h-full">
-        <div
-          class="bg-orange-50 w-12 h-12 rounded-xl flex items-center justify-center text-orange-600 mb-5 group-hover:scale-110 transition-transform">
-          <i class="fab fa-aws text-2xl"></i>
-        </div>
-        <h3 class="text-lg font-bold text-slate-900 mb-2">Mensageria e EDA na AWS</h3>
-        <p class="text-slate-600 text-sm mb-6 flex-grow">TutorialModel completo para configuração orientada a eventos.</p>
-        <div class="flex items-center text-orange-600 font-medium text-sm mt-auto">
-          Acessar tutorial <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-
-      &lt;!&ndash; SEU CARD ORIGINAL 2 &ndash;&gt;
-      <div [routerLink]="['/tutorial-sqs-consumer']"
-           class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all cursor-pointer group relative flex flex-col h-full">
-        <div
-          class="bg-orange-50 w-12 h-12 rounded-xl flex items-center justify-center text-orange-600 mb-5 group-hover:scale-110 transition-transform">
-          <i class="fas fa-stream text-xl"></i>
-        </div>
-        <h3 class="text-lg font-bold text-slate-900 mb-2">Configurando um Consumidor SQS</h3>
-        <p class="text-slate-600 text-sm mb-6 flex-grow">TutorialModel para configuração do seu consumidor SQS no Spring
-          Boot.</p>
-        <div class="flex items-center text-orange-600 font-medium text-sm mt-auto">
-          Acessar tutorial <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-
-      &lt;!&ndash; SEU CARD ORIGINAL 3 &ndash;&gt;
-      <div [routerLink]="['/tutorial-env-vars']"
-           class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-orange-300 transition-all cursor-pointer group relative flex flex-col h-full">
-        <div
-          class="bg-red-50 w-12 h-12 rounded-xl flex items-center justify-center text-red-600 mb-5 group-hover:scale-110 transition-transform">
-          <i class="fas fa-key text-xl"></i>
-        </div>
-        <h3 class="text-lg font-bold text-slate-900 mb-2">Variáveis de Ambiente</h3>
-        <p class="text-slate-600 text-sm mb-6 flex-grow">TutorialModel para configurar chaves na IDE e evitar subir
-          credenciais no GitHub.</p>
-        <div class="flex items-center text-orange-600 font-medium text-sm mt-auto">
-          Acessar tutorial <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-        </div>
-      </div>
-
+    <div class="featured-grid">
+      @for (entry of featured; track entry.slug; let index = $index) {
+        <a class="featured-card" [routerLink]="['/tutoriais', entry.slug]">
+          <span class="card-number">0{{ index + 1 }}</span>
+          <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
+          <span class="card-category">{{ entry.module }}</span>
+          <h3>{{ entry.title }}</h3>
+          <p>{{ entry.description }}</p>
+          <span class="card-link">Começar agora <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      }
     </div>
-  </div>
--->
+  </section>
 
+  <section class="materials-callout">
+    <div class="callout-icon"><i class="fas fa-folder-tree" aria-hidden="true"></i></div>
+    <div><span>Acervo complementar</span><h2>Slides, leituras e projetos para continuar aprendendo.</h2><p>Uma curadoria viva, organizada por curso, disciplina, módulo e formato.</p></div>
+    <a routerLink="/materiais">Abrir materiais <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+  </section>
 </div>

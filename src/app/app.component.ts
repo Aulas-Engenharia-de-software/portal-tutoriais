@@ -1,35 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule],
-  templateUrl: './app.component.html'
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
 })
-export class AppComponent {
-  isMobileSidebarOpen = false;
-  isAwsMenuOpen = false;
-  isSqsMenuOpen = false;
-  isEnvMenuOpen = false;
-  currentYear = new Date().getFullYear();
-
-  toggleMobileSidebar() {
-    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
-    document.body.style.overflow = this.isMobileSidebarOpen ? 'hidden' : 'auto';
-  }
-
-  closeMobileSidebar() {
-    if (window.innerWidth < 1024) {
-      this.isMobileSidebarOpen = false;
-      document.body.style.overflow = 'auto';
-    }
-  }
-
-  toggleMenu(menu: string) {
-    if (menu === 'aws') this.isAwsMenuOpen = !this.isAwsMenuOpen;
-    if (menu === 'sqs') this.isSqsMenuOpen = !this.isSqsMenuOpen;
-    if (menu === 'env') this.isEnvMenuOpen = !this.isEnvMenuOpen;
-  }
-}
+export class AppComponent {}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,16 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  @Output() readonly menuToggle = new EventEmitter<void>();
 
-  isMobileMenuOpen = false;
-  currentYear = new Date().getFullYear();
-  currentSemester = this.getCurrentSemester();
-
-  toggleMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
-
-  private getCurrentSemester() {
-    return new Date().getMonth() <= 6 ? 1 : 2;
-  }
+  readonly currentYear = new Date().getFullYear();
+  readonly currentSemester = new Date().getMonth() <= 6 ? 1 : 2;
 }
