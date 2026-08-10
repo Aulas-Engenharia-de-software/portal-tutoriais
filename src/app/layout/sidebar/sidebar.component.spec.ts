@@ -37,5 +37,8 @@ describe('SidebarComponent', () => {
   it('should provide tutorials, materials and activities for every discipline', () => {
     expect(fixture.nativeElement.querySelectorAll('.discipline-item')).toHaveLength(3);
     expect(fixture.nativeElement.querySelectorAll('.discipline-links a')).toHaveLength(9);
+    const materialLinks = fixture.nativeElement.querySelectorAll('.discipline-links .materials-link');
+    expect(materialLinks).toHaveLength(3);
+    expect([...materialLinks].every((link: Element) => link.getAttribute('href')?.startsWith('/materiais'))).toBe(true);
   });
 });

@@ -29,7 +29,7 @@
                  (click)="navigation.emit()">
                 <i class="fas fa-book-open" aria-hidden="true"></i><span>Tutoriais</span>
               </a>
-              <a routerLink="/materiais" [queryParams]="{ disciplina: discipline.title }"
+              <a class="materials-link" [routerLink]="['/materiais']" [queryParams]="{ disciplina: discipline.title }"
                  (click)="navigation.emit()">
                 <i class="fas fa-folder-open" aria-hidden="true"></i><span>Materiais</span>
               </a>
