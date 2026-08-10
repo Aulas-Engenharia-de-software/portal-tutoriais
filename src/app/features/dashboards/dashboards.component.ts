@@ -11,34 +11,24 @@ import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 export class DashboardsComponent {
   readonly learningContent = CONTENT_INDEX.filter((entry) => entry.type !== 'material');
   readonly featured = this.learningContent.filter((entry) => entry.featured).slice(0, 3);
-  readonly current = this.learningContent[0];
-  readonly materialsCount = CONTENT_INDEX.filter((entry) => entry.type === 'material').length;
-  readonly coursesCount = new Set(CONTENT_INDEX.map((entry) => entry.course)).size;
-  readonly modulesCount = new Set(CONTENT_INDEX.map((entry) => `${entry.discipline}/${entry.module}`)).size;
 
   readonly disciplines = [
     {
       title: 'Arquitetura de Software',
-      course: 'Engenharia de Software',
       description: 'Decisões arquiteturais, integração, mensageria e sistemas distribuídos.',
       icon: 'fas fa-cubes',
-      status: 'Conteúdo disponível',
       active: true,
     },
     {
-      title: 'Projetos com LLMs',
-      course: 'Inteligência Artificial Aplicada',
-      description: 'Aplicações com modelos de linguagem, RAG, agentes e avaliação.',
-      icon: 'fas fa-robot',
-      status: 'Em desenvolvimento',
+      title: 'Mineração de Dados',
+      description: 'Preparação, exploração e descoberta de padrões em dados.',
+      icon: 'fas fa-chart-column',
       active: false,
     },
     {
-      title: 'Mineração de Dados',
-      course: 'Dados e Inteligência',
-      description: 'Preparação, exploração e descoberta de padrões em dados.',
-      icon: 'fas fa-chart-column',
-      status: 'Em desenvolvimento',
+      title: 'LLM Projects',
+      description: 'Aplicações com modelos de linguagem, RAG, agentes e avaliação.',
+      icon: 'fas fa-robot',
       active: false,
     },
   ];

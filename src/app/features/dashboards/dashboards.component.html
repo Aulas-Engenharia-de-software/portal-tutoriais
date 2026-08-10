@@ -1,84 +1,50 @@
 <div class="dashboard-shell">
-  <section class="hero">
-    <div class="hero-copy">
-      <span class="eyebrow"><i class="fas fa-sparkles" aria-hidden="true"></i> Portal de aulas do professor Lucas Martins</span>
-      <h1>Um espaço para acompanhar as disciplinas.</h1>
-      <p>Conteúdos usados em aula, atividades práticas e referências para você estudar no seu ritmo e conectar conceitos a projetos reais.</p>
-      <div class="hero-actions">
-        <a class="primary-action" routerLink="/tutoriais">Começar a estudar <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-        <a class="secondary-action" routerLink="/materiais">Explorar materiais</a>
-      </div>
-      <div class="hero-metrics">
-        <span><strong>{{ coursesCount }}</strong> curso ativo</span>
-        <span><strong>{{ learningContent.length }}</strong> aulas guiadas</span>
-        <span><strong>{{ materialsCount }}</strong> referências</span>
-      </div>
+  <header class="page-intro">
+    <span>Portal de aulas do professor Lucas Martins</span>
+    <h1>Conteúdos para acompanhar as disciplinas.</h1>
+    <p>Tutoriais, atividades e materiais usados em aula, organizados para você encontrar o que precisa sem distrações.</p>
+    <div class="intro-actions">
+      <a class="primary-action" routerLink="/tutoriais" [queryParams]="{ disciplina: 'Arquitetura de Software', tipo: 'tutorial' }">
+        Começar a estudar <i class="fas fa-arrow-right" aria-hidden="true"></i>
+      </a>
+      <a class="secondary-action" routerLink="/materiais" [queryParams]="{ disciplina: 'Arquitetura de Software' }">Ver materiais</a>
     </div>
-
-  </section>
-
-  @if (current) {
-    <section class="learning-path">
-      <div class="path-heading">
-        <span>Trilha disponível agora</span>
-        <h2>{{ current.course }}</h2>
-      </div>
-      <div class="path-flow">
-        <div class="path-step"><small>Disciplina</small><strong>{{ current.discipline }}</strong></div>
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-        <div class="path-step active"><small>Módulo atual</small><strong>{{ current.module }}</strong></div>
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-        <div class="path-result"><strong>{{ learningContent.length }}</strong><span>conteúdos<br>disponíveis</span></div>
-      </div>
-      <a routerLink="/tutoriais">Entrar na trilha <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
-    </section>
-  }
+  </header>
 
   <section class="disciplines-section">
     <div class="section-heading">
-      <div><span>Ecossistema de aprendizagem</span><h2>Disciplinas desenvolvidas pelo professor</h2></div>
-      <p>O portal cresce à medida que novas jornadas de ensino são estruturadas.</p>
+      <h2>Disciplinas</h2>
+      <p>Escolha uma área para acessar seus conteúdos.</p>
     </div>
     <div class="discipline-grid">
       @for (discipline of disciplines; track discipline.title) {
         <article class="discipline-card" [class.active]="discipline.active">
           <div class="discipline-icon"><i [class]="discipline.icon" aria-hidden="true"></i></div>
-          <span class="discipline-status"><i class="fas fa-circle" aria-hidden="true"></i>{{ discipline.status }}</span>
-          <small>{{ discipline.course }}</small>
           <h3>{{ discipline.title }}</h3>
           <p>{{ discipline.description }}</p>
-          @if (discipline.active) {
-            <a routerLink="/tutoriais">Explorar disciplina <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-          } @else {
-            <span class="coming-label">Próxima disciplina</span>
-          }
+          <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }">
+            {{ discipline.active ? 'Explorar disciplina' : 'Abrir espaço da disciplina' }}
+            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          </a>
         </article>
       }
     </div>
   </section>
 
   <section class="featured-section">
-    <div class="section-heading compact">
-      <div><span>Seleção do professor</span><h2>Comece por aqui</h2></div>
-      <a routerLink="/tutoriais">Ver biblioteca completa</a>
+    <div class="section-heading inline">
+      <div><h2>Comece por aqui</h2><p>Conteúdos recomendados para a trilha atual.</p></div>
+      <a routerLink="/tutoriais" [queryParams]="{ disciplina: 'Arquitetura de Software', tipo: 'tutorial' }">Ver todos</a>
     </div>
     <div class="featured-grid">
-      @for (entry of featured; track entry.slug; let index = $index) {
+      @for (entry of featured; track entry.slug) {
         <a class="featured-card" [routerLink]="['/tutoriais', entry.slug]">
-          <span class="card-number">0{{ index + 1 }}</span>
           <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
-          <span class="card-category">{{ entry.module }}</span>
           <h3>{{ entry.title }}</h3>
           <p>{{ entry.description }}</p>
-          <span class="card-link">Começar agora <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+          <span>Começar <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
         </a>
       }
     </div>
-  </section>
-
-  <section class="materials-callout">
-    <div class="callout-icon"><i class="fas fa-folder-tree" aria-hidden="true"></i></div>
-    <div><span>Acervo complementar</span><h2>Slides, leituras e projetos para continuar aprendendo.</h2><p>Uma curadoria viva, organizada por curso, disciplina, módulo e formato.</p></div>
-    <a routerLink="/materiais">Abrir materiais <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
   </section>
 </div>

@@ -9,19 +9,11 @@
     <div class="state-icon"><i class="fas fa-file-circle-xmark" aria-hidden="true"></i></div>
     <h1>Conteúdo não encontrado</h1>
     <p>O endereço pode ter mudado ou o arquivo Markdown ainda não foi publicado.</p>
-    <a routerLink="/tutoriais">Voltar para a biblioteca</a>
+    <a [routerLink]="backRoute">Voltar para {{ backLabel.toLowerCase() }}</a>
   </div>
 } @else if (documentData; as content) {
   <div class="reader-shell">
-    <nav class="breadcrumb" aria-label="Navegação estrutural">
-      <a [routerLink]="backRoute">{{ backLabel }}</a>
-      <i class="fas fa-chevron-right" aria-hidden="true"></i>
-      <span>{{ content.entry.course }}</span>
-      <i class="fas fa-chevron-right" aria-hidden="true"></i>
-      <span>{{ content.entry.discipline }}</span>
-      <i class="fas fa-chevron-right" aria-hidden="true"></i>
-      <strong>{{ content.entry.module }}</strong>
-    </nav>
+    <a class="page-back" [routerLink]="backRoute"><i class="fas fa-arrow-left" aria-hidden="true"></i>{{ backLabel }}</a>
 
     <div class="mobile-toc">
       <details>
@@ -43,30 +35,18 @@
             @for (item of content.tableOfContents; track item.id) {
               <a [routerLink]="[]" [fragment]="item.id" [class.active]="activeFragment === item.id"
                  [class.nested]="item.level === 3">
-                <span class="toc-dot" aria-hidden="true"></span>
-                {{ item.title }}
+                <span class="toc-dot" aria-hidden="true"></span>{{ item.title }}
               </a>
             }
           </nav>
-          <a class="back-link" [routerLink]="backRoute"><i class="fas fa-arrow-left" aria-hidden="true"></i> Ver
-            {{ backLabel.toLowerCase() }}</a>
         </div>
       </aside>
 
-      <main class="content-card">
+      <main class="reader-content">
         <header class="content-header">
-          <div class="content-kickers">
-            <span>{{ typeLabels[content.entry.type] }}</span>
-            <span>{{ content.entry.category }}</span>
-          </div>
           <h1>{{ content.entry.title }}</h1>
           <p>{{ content.entry.description }}</p>
-          <div class="content-meta">
-            <span><i class="fas fa-graduation-cap" aria-hidden="true"></i>{{ content.entry.course }} · {{ content.entry.discipline }}</span>
-            <span><i class="fas fa-layer-group" aria-hidden="true"></i>{{ content.entry.module }}</span>
-            <span><i class="far fa-clock" aria-hidden="true"></i>{{ content.entry.readingMinutes }}
-              min de leitura</span>
-          </div>
+          <span class="reading-time"><i class="far fa-clock" aria-hidden="true"></i>{{ content.entry.readingMinutes }} min de leitura</span>
           @if (content.entry.externalUrl) {
             <a class="external-resource" [href]="content.entry.externalUrl" target="_blank" rel="noopener noreferrer">
               <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
@@ -84,8 +64,7 @@
 }
 
 @if (lightbox.open) {
-  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada da imagem"
-       (click)="closeLightbox()">
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada da imagem" (click)="closeLightbox()">
     <button type="button" (click)="closeLightbox(); $event.stopPropagation()" aria-label="Fechar imagem">
       <i class="fas fa-times" aria-hidden="true"></i>
     </button>

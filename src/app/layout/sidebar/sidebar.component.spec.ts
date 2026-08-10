@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SidebarComponent } from './sidebar.component';
 import { provideRouter } from '@angular/router';
+import { SidebarComponent } from './sidebar.component';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -18,24 +17,25 @@ describe('SidebarComponent', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should expose the three requested disciplines', () => {
+    expect(component.disciplines.map((item) => item.title)).toEqual([
+      'Arquitetura de Software',
+      'Mineração de Dados',
+      'LLM Projects',
+    ]);
   });
 
-  it('should expose the academic hierarchy and toggle the course', () => {
-    expect(component.highlightedEntries.length).toBeGreaterThan(0);
-    expect(component.currentCourse).toBe('Engenharia de Software');
-    component.toggleCourse();
-    expect(component.isCourseOpen).toBe(false);
+  it('should toggle each discipline independently', () => {
+    expect(component.isOpen('arquitetura-software')).toBe(true);
+    expect(component.isOpen('mineracao-dados')).toBe(false);
+
+    component.toggleDiscipline('mineracao-dados');
+    expect(component.isOpen('mineracao-dados')).toBe(true);
+    expect(component.isOpen('arquitetura-software')).toBe(true);
   });
 
-  it('should group tutorials, presentations and references in collapsible menus', () => {
-    expect(component.tutorialEntries).toHaveLength(4);
-    expect(component.slideEntries).toHaveLength(6);
-    expect(component.referenceEntries).toHaveLength(2);
-
-    expect(component.isOpen('materials')).toBe(false);
-    component.toggleSection('materials');
-    expect(component.isOpen('materials')).toBe(true);
+  it('should provide tutorials, materials and activities for every discipline', () => {
+    expect(fixture.nativeElement.querySelectorAll('.discipline-item')).toHaveLength(3);
+    expect(fixture.nativeElement.querySelectorAll('.discipline-links a')).toHaveLength(9);
   });
 });

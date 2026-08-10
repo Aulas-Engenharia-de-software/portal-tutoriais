@@ -19,4 +19,10 @@ describe('ProfessorBadgeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show the full professor name and contact channels', () => {
+    const text = fixture.nativeElement.textContent;
+    expect(text).toContain('Lucas Martins');
+    expect(fixture.nativeElement.querySelectorAll('.contact-links a')).toHaveLength(3);
+  });
 });

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 import {
   ContentEntry,
@@ -39,6 +39,22 @@ export class MaterialsComponent {
   selectedDiscipline = 'Todas as disciplinas';
   selectedModule = 'Todos os módulos';
   selectedResourceType: 'todos' | MaterialResourceType = 'todos';
+
+  constructor(private readonly route: ActivatedRoute) {
+    this.route.queryParamMap.subscribe((params) => {
+      this.selectedDiscipline = params.get('disciplina') || 'Todas as disciplinas';
+    });
+  }
+
+  get visiblePresentationResources(): readonly ContentEntry[] {
+    return this.presentationResources.filter((entry) =>
+      this.selectedDiscipline === 'Todas as disciplinas' || entry.discipline === this.selectedDiscipline,
+    );
+  }
+
+  get contextLabel(): string {
+    return this.selectedDiscipline === 'Todas as disciplinas' ? 'Todas as disciplinas' : this.selectedDiscipline;
+  }
 
   get filteredResources(): readonly ContentEntry[] {
     const query = this.normalize(this.searchQuery);

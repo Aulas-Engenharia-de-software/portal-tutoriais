@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../../core/content/generated-content-index';
-import {
-  CONTENT_TYPE_LABELS,
-  ContentEntry,
-  ContentType,
-} from '../../../core/content/content.models';
+import { ContentEntry, ContentType } from '../../../core/content/content.models';
 
 @Component({
   selector: 'app-tutorials-list',
@@ -16,43 +12,48 @@ import {
 })
 export class TutorialsListComponent {
   readonly entries = CONTENT_INDEX.filter((entry) => entry.type !== 'material');
-  readonly typeLabels = CONTENT_TYPE_LABELS;
-  readonly courses = ['Todos os cursos', ...new Set(this.entries.map((entry) => entry.course))];
-  readonly disciplines = ['Todas', ...new Set(this.entries.map((entry) => entry.discipline))];
-  readonly modules = ['Todos os módulos', ...new Set(this.entries.map((entry) => entry.module))];
-  readonly types: Array<'Todos' | ContentType> = ['Todos', 'tutorial', 'atividade'];
 
   searchQuery = '';
-  selectedCourse = 'Todos os cursos';
   selectedDiscipline = 'Todas';
-  selectedModule = 'Todos os módulos';
   selectedType: 'Todos' | ContentType = 'Todos';
+
+  private readonly route = inject(ActivatedRoute);
+
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => {
+      this.selectedDiscipline = params.get('disciplina') || 'Todas';
+      const type = params.get('tipo');
+      this.selectedType = type === 'tutorial' || type === 'atividade' ? type : 'Todos';
+    });
+  }
+
+  get pageTitle(): string {
+    if (this.selectedType === 'atividade') return 'Atividades';
+    if (this.selectedType === 'tutorial') return 'Tutoriais';
+    return 'Conteúdos';
+  }
+
+  get contextLabel(): string {
+    return this.selectedDiscipline === 'Todas' ? 'Todas as disciplinas' : this.selectedDiscipline;
+  }
 
   get filteredEntries(): readonly ContentEntry[] {
     const query = this.normalize(this.searchQuery.trim());
     return this.entries.filter((entry) => {
       const haystack = this.normalize(
-        [entry.title, entry.description, entry.course, entry.discipline, entry.module, entry.category, ...entry.tags].join(' '),
+        [entry.title, entry.description, entry.discipline, entry.module, entry.category, ...entry.tags].join(' '),
       );
       return (
         (!query || haystack.includes(query)) &&
-        (this.selectedCourse === 'Todos os cursos' || entry.course === this.selectedCourse) &&
         (this.selectedDiscipline === 'Todas' || entry.discipline === this.selectedDiscipline) &&
-        (this.selectedModule === 'Todos os módulos' || entry.module === this.selectedModule) &&
         (this.selectedType === 'Todos' || entry.type === this.selectedType)
       );
     });
   }
 
-  typeLabel(type: 'Todos' | ContentType): string {
-    return type === 'Todos' ? 'Todos' : CONTENT_TYPE_LABELS[type];
-  }
-
   clearFilters(): void {
     this.searchQuery = '';
-    this.selectedCourse = 'Todos os cursos';
     this.selectedDiscipline = 'Todas';
-    this.selectedModule = 'Todos os módulos';
     this.selectedType = 'Todos';
   }
 

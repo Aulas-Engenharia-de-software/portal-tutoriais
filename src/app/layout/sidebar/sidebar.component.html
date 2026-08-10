@@ -13,93 +13,35 @@
     </a>
 
     <span class="nav-label section-label">Cursos e disciplinas</span>
-    <div class="tree">
-      <button type="button" class="tree-toggle level-course" (click)="toggleSection('course')"
-              [class.open]="isOpen('course')" aria-controls="course-tree" [attr.aria-expanded]="isOpen('course')">
-        <span><i class="fas fa-graduation-cap" aria-hidden="true"></i><strong>{{ currentCourse }}</strong></span>
-        <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-      </button>
+    <div class="discipline-tree">
+      @for (discipline of disciplines; track discipline.id) {
+        <section class="discipline-item">
+          <button type="button" class="discipline-toggle" (click)="toggleDiscipline(discipline.id)"
+                  [class.open]="isOpen(discipline.id)" [attr.aria-expanded]="isOpen(discipline.id)"
+                  [attr.aria-controls]="discipline.id + '-menu'">
+            <span><i [class]="discipline.icon" aria-hidden="true"></i><strong>{{ discipline.title }}</strong></span>
+            <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+          </button>
 
-      <div id="course-tree" class="submenu-panel" [class.open]="isOpen('course')">
-        <div>
-          <div class="tree-branch">
-            <button type="button" class="tree-toggle level-discipline" (click)="toggleSection('discipline')"
-                    [class.open]="isOpen('discipline')" aria-controls="discipline-tree" [attr.aria-expanded]="isOpen('discipline')">
-              <span><i class="fas fa-cubes" aria-hidden="true"></i><strong>{{ currentDiscipline }}</strong></span>
-              <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-            </button>
-
-            <div id="discipline-tree" class="submenu-panel" [class.open]="isOpen('discipline')">
-              <div class="discipline-content">
-                <section class="content-group">
-                  <button type="button" class="group-toggle" (click)="toggleSection('tutorials')"
-                          [class.open]="isOpen('tutorials')" aria-controls="tutorial-tree" [attr.aria-expanded]="isOpen('tutorials')">
-                    <span><i class="fas fa-book-open" aria-hidden="true"></i>Tutoriais e atividades <small>{{ tutorialEntries.length }}</small></span>
-                    <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-                  </button>
-                  <div id="tutorial-tree" class="submenu-panel" [class.open]="isOpen('tutorials')">
-                    <div class="entry-list">
-                      @for (entry of tutorialEntries; track entry.slug) {
-                        <a [routerLink]="['/tutoriais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
-                          <span class="entry-dot" aria-hidden="true"></span><span>{{ entry.title }}</span>
-                        </a>
-                      }
-                      <a routerLink="/tutoriais" (click)="navigation.emit()" class="view-all">Ver biblioteca completa</a>
-                    </div>
-                  </div>
-                </section>
-
-                <section class="content-group">
-                  <button type="button" class="group-toggle" (click)="toggleSection('materials')"
-                          [class.open]="isOpen('materials')" aria-controls="material-tree" [attr.aria-expanded]="isOpen('materials')">
-                    <span><i class="fas fa-folder-tree" aria-hidden="true"></i>Materiais <small>{{ materialEntries.length }}</small></span>
-                    <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-                  </button>
-                  <div id="material-tree" class="submenu-panel" [class.open]="isOpen('materials')">
-                    <div class="material-groups">
-                      <button type="button" class="subgroup-toggle" (click)="toggleSection('slides')" [class.open]="isOpen('slides')">
-                        <span>Apresentações <small>{{ slideEntries.length }}</small></span><i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-                      </button>
-                      <div class="submenu-panel" [class.open]="isOpen('slides')">
-                        <div class="entry-list compact">
-                          @for (entry of slideEntries; track entry.slug) {
-                            <a [routerLink]="['/materiais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
-                              <span class="entry-dot slides" aria-hidden="true"></span><span>{{ entry.title }}</span>
-                            </a>
-                          }
-                        </div>
-                      </div>
-
-                      <button type="button" class="subgroup-toggle" (click)="toggleSection('references')" [class.open]="isOpen('references')">
-                        <span>Referências e exemplos <small>{{ referenceEntries.length }}</small></span><i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
-                      </button>
-                      <div class="submenu-panel" [class.open]="isOpen('references')">
-                        <div class="entry-list compact">
-                          @for (entry of referenceEntries; track entry.slug) {
-                            <a [routerLink]="['/materiais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
-                              <span class="entry-dot reference" aria-hidden="true"></span><span>{{ entry.title }}</span>
-                            </a>
-                          }
-                        </div>
-                      </div>
-                      <a routerLink="/materiais" (click)="navigation.emit()" class="view-all material-view-all">Ver todos os materiais</a>
-                    </div>
-                  </div>
-                </section>
-              </div>
+          <div class="submenu-panel" [class.open]="isOpen(discipline.id)" [id]="discipline.id + '-menu'">
+            <div class="discipline-links">
+              <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }"
+                 (click)="navigation.emit()">
+                <i class="fas fa-book-open" aria-hidden="true"></i><span>Tutoriais</span>
+              </a>
+              <a routerLink="/materiais" [queryParams]="{ disciplina: discipline.title }"
+                 (click)="navigation.emit()">
+                <i class="fas fa-folder-open" aria-hidden="true"></i><span>Materiais</span>
+              </a>
+              <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'atividade' }"
+                 (click)="navigation.emit()">
+                <i class="fas fa-pen-to-square" aria-hidden="true"></i><span>Atividades</span>
+              </a>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      }
     </div>
-
-    <span class="nav-label section-label">Acesso rápido</span>
-    <a routerLink="/tutoriais" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
-      <i class="fas fa-book-open" aria-hidden="true"></i><span>Todos os tutoriais</span>
-    </a>
-    <a routerLink="/materiais" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
-      <i class="fas fa-folder-tree" aria-hidden="true"></i><span>Todos os materiais</span>
-    </a>
   </nav>
 
   <div class="portal-note"><strong>Portal autoral</strong><span>Conteúdo criado e organizado pelo professor Lucas Martins.</span></div>

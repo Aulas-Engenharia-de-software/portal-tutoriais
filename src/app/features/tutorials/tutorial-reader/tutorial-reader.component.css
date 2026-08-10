@@ -578,3 +578,20 @@ a.active .toc-dot {
   }
 
 }
+
+/* O leitor usa um cabeçalho editorial simples; a taxonomia permanece na navegação lateral. */
+.page-back { display: inline-flex; align-items: center; gap: .4rem; margin: .2rem 0 1.2rem; color: #64748b; font-size: .72rem; font-weight: 750; text-decoration: none; }
+.page-back:hover { color: #c2410c; }
+.reader-content { min-width: 0; }
+.content-header { padding: .3rem 0 1.6rem; border-bottom: 1px solid #e2e8f0; background: transparent; }
+.content-header h1 { max-width: 54rem; font-size: clamp(2rem, 3.7vw, 3rem); }
+.content-header > p { max-width: 48rem; margin-top: .8rem; font-size: 1rem; line-height: 1.65; }
+.reading-time { display: flex; align-items: center; gap: .38rem; margin-top: .8rem; color: #94a3b8; font-size: .7rem; font-weight: 700; }
+.reading-time i { color: #f97316; }
+.external-resource { margin-top: .85rem; }
+.markdown-body { padding: 2rem 0 0; }
+
+@media (max-width: 639px) {
+  .content-header { padding: 0 0 1.35rem; }
+  .markdown-body { padding: 1.35rem 0 0; }
+}
