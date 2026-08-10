@@ -1,11 +1,11 @@
 :host { display: block; }
 .materials-shell { max-width: 1240px; margin: 0 auto; padding-bottom: 3rem; }
-.materials-hero { position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; padding: clamp(2rem,5vw,3.8rem); border-radius: 2rem; color: white; background: #172033; box-shadow: 0 22px 55px rgba(15,23,42,.16); }
+.materials-hero { position: relative; overflow: hidden; padding: clamp(1.4rem,3vw,2.2rem); border-radius: 1.2rem; color: white; background: #172033; box-shadow: 0 12px 30px rgba(15,23,42,.12); }
 .materials-hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 86% 12%,rgba(249,115,22,.3),transparent 30%),linear-gradient(120deg,transparent 62%,rgba(255,255,255,.035) 62%); }
 .hero-copy,.hero-stamp { position: relative; z-index: 1; }
 .eyebrow { color: #fdba74; font-size: .68rem; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
-.hero-copy h1 { max-width: 42rem; margin: .55rem 0 .9rem; font-size: clamp(2.35rem,5vw,4.4rem); font-weight: 880; letter-spacing: -.055em; line-height: .98; }
-.hero-copy p { max-width: 45rem; margin: 0; color: #cbd5e1; font-size: 1rem; line-height: 1.7; }
+.hero-copy h1 { max-width: 44rem; margin: .45rem 0 .6rem; font-size: clamp(1.75rem,3.3vw,2.7rem); font-weight: 850; letter-spacing: -.045em; line-height: 1.04; }
+.hero-copy p { max-width: 50rem; margin: 0; color: #cbd5e1; font-size: .9rem; line-height: 1.6; }
 .hero-stamp { display: flex; align-items: center; gap: .8rem; flex: 0 0 auto; padding: .75rem .9rem; border: 1px solid rgba(255,255,255,.14); border-radius: 1rem; background: rgba(255,255,255,.07); backdrop-filter: blur(10px); }
 .hero-stamp > span { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: .8rem; color: white; background: #f97316; font-size: .78rem; font-weight: 850; }
 .hero-stamp strong,.hero-stamp small { display: block; }.hero-stamp strong { font-size: .76rem; }.hero-stamp small { margin-top: .2rem; color: #94a3b8; font-size: .62rem; }

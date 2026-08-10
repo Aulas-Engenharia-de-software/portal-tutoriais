@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { MaterialsComponent } from './materials.component';
 
 describe('MaterialsComponent', () => {
@@ -6,7 +7,10 @@ describe('MaterialsComponent', () => {
   let fixture: ComponentFixture<MaterialsComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [MaterialsComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [MaterialsComponent],
+      providers: [provideRouter([])],
+    }).compileComponents();
     fixture = TestBed.createComponent(MaterialsComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
@@ -33,5 +37,10 @@ describe('MaterialsComponent', () => {
 
     component.selectedModule = 'Microsserviços';
     expect(component.filteredResources.every((entry) => entry.module === 'Microsserviços')).toBe(true);
+  });
+
+  it('should open external resources through their internal study page', () => {
+    const presentation = component.presentationResources[0];
+    expect(component.resourceUrl(presentation)).toBe(`/materiais/${presentation.slug}`);
   });
 });

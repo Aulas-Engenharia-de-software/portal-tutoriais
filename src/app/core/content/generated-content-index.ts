@@ -164,7 +164,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "fundamentos"
     ],
     "icon": "fas fa-display",
-    "readingMinutes": 18,
+    "readingMinutes": 16,
     "updatedAt": "2026-08-09",
     "featured": false,
     "order": 110,
@@ -190,7 +190,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "trade-offs"
     ],
     "icon": "fas fa-display",
-    "readingMinutes": 24,
+    "readingMinutes": 22,
     "updatedAt": "2026-08-09",
     "featured": false,
     "order": 111,
@@ -217,7 +217,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "modelo anêmico"
     ],
     "icon": "fas fa-display",
-    "readingMinutes": 28,
+    "readingMinutes": 24,
     "updatedAt": "2026-08-09",
     "featured": false,
     "order": 112,
@@ -269,7 +269,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "escalabilidade"
     ],
     "icon": "fas fa-display",
-    "readingMinutes": 20,
+    "readingMinutes": 21,
     "updatedAt": "2026-08-09",
     "featured": false,
     "order": 114,
@@ -297,7 +297,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "base"
     ],
     "icon": "fas fa-display",
-    "readingMinutes": 30,
+    "readingMinutes": 28,
     "updatedAt": "2026-08-09",
     "featured": false,
     "order": 115,

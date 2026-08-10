@@ -154,7 +154,7 @@ a.active .toc-dot {
 }
 
 .content-header {
-  padding: clamp(1.6rem, 4vw, 3.5rem);
+  padding: clamp(1.35rem, 3vw, 2.2rem);
   border-bottom: 1px solid #f1f5f9;
   background: radial-gradient(circle at 100% 0, #fff7ed 0, transparent 38%), white;
 }
@@ -182,7 +182,7 @@ a.active .toc-dot {
   max-width: 58rem;
   margin: 0;
   color: #0f172a;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-size: clamp(1.75rem, 3.4vw, 2.65rem);
   font-weight: 850;
   letter-spacing: -.045em;
   line-height: 1.04;
@@ -215,6 +215,10 @@ a.active .toc-dot {
 .content-meta i {
   color: #f97316;
 }
+
+.external-resource { display: inline-flex; align-items: center; gap: .45rem; margin-top: 1rem; padding: .68rem .82rem; border-radius: .62rem; color: white; background: #ea580c; font-size: .72rem; font-weight: 800; text-decoration: none; }
+.external-resource:hover { background: #c2410c; }
+.external-resource i { font-size: .65rem; }
 
 .markdown-body {
   padding: clamp(1.5rem, 4vw, 3.5rem);
@@ -384,6 +388,10 @@ a.active .toc-dot {
   border-color: #fb923c;
   transform: translateY(-2px);
 }
+
+:host ::ng-deep .markdown-body table { width: 100%; margin: 1.5rem 0; border-collapse: collapse; border: 1px solid #e2e8f0; font-size: .86rem; }
+:host ::ng-deep .markdown-body th,:host ::ng-deep .markdown-body td { padding: .75rem .8rem; border: 1px solid #e2e8f0; color: #475569; line-height: 1.5; text-align: left; vertical-align: top; }
+:host ::ng-deep .markdown-body th { color: #1e293b; background: #f8fafc; font-weight: 800; }
 
 :host ::ng-deep .markdown-body hr {
   margin: 2.5rem 0;
@@ -568,4 +576,5 @@ a.active .toc-dot {
   .lightbox {
     padding: .75rem;
   }
+
 }

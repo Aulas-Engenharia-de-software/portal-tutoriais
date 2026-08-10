@@ -28,4 +28,14 @@ describe('SidebarComponent', () => {
     component.toggleCourse();
     expect(component.isCourseOpen).toBe(false);
   });
+
+  it('should group tutorials, presentations and references in collapsible menus', () => {
+    expect(component.tutorialEntries).toHaveLength(4);
+    expect(component.slideEntries).toHaveLength(6);
+    expect(component.referenceEntries).toHaveLength(2);
+
+    expect(component.isOpen('materials')).toBe(false);
+    component.toggleSection('materials');
+    expect(component.isOpen('materials')).toBe(true);
+  });
 });

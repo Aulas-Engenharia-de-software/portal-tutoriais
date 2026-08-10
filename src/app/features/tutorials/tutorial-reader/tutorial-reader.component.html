@@ -14,7 +14,7 @@
 } @else if (documentData; as content) {
   <div class="reader-shell">
     <nav class="breadcrumb" aria-label="Navegação estrutural">
-      <a routerLink="/tutoriais">Biblioteca</a>
+      <a [routerLink]="backRoute">{{ backLabel }}</a>
       <i class="fas fa-chevron-right" aria-hidden="true"></i>
       <span>{{ content.entry.course }}</span>
       <i class="fas fa-chevron-right" aria-hidden="true"></i>
@@ -48,8 +48,8 @@
               </a>
             }
           </nav>
-          <a class="back-link" routerLink="/tutoriais"><i class="fas fa-arrow-left" aria-hidden="true"></i> Ver
-            biblioteca</a>
+          <a class="back-link" [routerLink]="backRoute"><i class="fas fa-arrow-left" aria-hidden="true"></i> Ver
+            {{ backLabel.toLowerCase() }}</a>
         </div>
       </aside>
 
@@ -67,6 +67,12 @@
             <span><i class="far fa-clock" aria-hidden="true"></i>{{ content.entry.readingMinutes }}
               min de leitura</span>
           </div>
+          @if (content.entry.externalUrl) {
+            <a class="external-resource" [href]="content.entry.externalUrl" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              Abrir material original{{ content.entry.provider ? ' · ' + content.entry.provider : '' }}
+            </a>
+          }
         </header>
 
         <article #articleContainer class="markdown-body">

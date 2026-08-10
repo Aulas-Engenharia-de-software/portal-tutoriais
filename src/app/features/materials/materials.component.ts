@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 import {
   ContentEntry,
@@ -15,7 +16,7 @@ interface ResourceTypeCard {
 
 @Component({
   selector: 'app-materials',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './materials.component.html',
   styleUrl: './materials.component.css',
 })
@@ -68,7 +69,7 @@ export class MaterialsComponent {
   }
 
   resourceUrl(entry: ContentEntry): string {
-    return entry.externalUrl ?? `/materiais/${entry.slug}`;
+    return `/materiais/${entry.slug}`;
   }
 
   selectType(type: MaterialResourceType): void {

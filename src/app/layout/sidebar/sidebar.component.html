@@ -1,63 +1,106 @@
-<div class="flex flex-col h-full p-5">
-  <a routerLink="/dashboard" (click)="navigation.emit()" class="flex items-center gap-3 mb-5 px-1 no-underline">
-    <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md shadow-orange-200">
-      <span class="text-xs font-black tracking-tight">LM</span>
-    </div>
-    <div>
-      <span class="block text-lg font-extrabold tracking-tight text-slate-900 leading-tight">Portal de Aulas</span>
-      <span class="block text-[9px] font-bold tracking-[.16em] text-orange-600 uppercase">por Lucas Martins</span>
-    </div>
+<div class="sidebar-shell">
+  <a routerLink="/dashboard" (click)="navigation.emit()" class="brand-link">
+    <span class="brand-mark">LM</span>
+    <span><strong>Portal de Aulas</strong><small>por Lucas Martins</small></span>
   </a>
 
   <app-professor-badge />
 
-  <nav class="flex-1 space-y-1 overflow-y-auto" aria-label="Menu principal">
-    <p class="px-4 text-[10px] font-bold text-slate-400 tracking-wider mb-2 uppercase">Portal</p>
-    <a routerLink="/dashboard" routerLinkActive="bg-orange-50 text-orange-700 border-orange-200" (click)="navigation.emit()"
-       class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition-all border border-transparent">
-      <i class="fas fa-house w-5 text-center" aria-hidden="true"></i><span class="text-sm font-semibold">Início</span>
+  <nav class="navigation" aria-label="Menu principal">
+    <span class="nav-label">Portal</span>
+    <a routerLink="/dashboard" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
+      <i class="fas fa-house" aria-hidden="true"></i><span>Início</span>
     </a>
 
-    <p class="px-4 text-[10px] font-bold text-slate-400 tracking-wider mt-5 mb-2 uppercase">Cursos e disciplinas</p>
-    <div>
-      <button type="button" (click)="toggleCourse()" class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all"
-              [class.bg-slate-100]="isCourseOpen" [class.text-slate-800]="isCourseOpen" [class.text-slate-600]="!isCourseOpen"
-              aria-controls="course-tree" [attr.aria-expanded]="isCourseOpen">
-        <span class="flex items-center gap-3 min-w-0"><i class="fas fa-graduation-cap w-5 text-center text-orange-500" aria-hidden="true"></i><span class="truncate">{{ currentCourse }}</span></span>
-        <i class="fas fa-chevron-down text-[9px] transition-transform" [class.rotate-180]="isCourseOpen" aria-hidden="true"></i>
+    <span class="nav-label section-label">Cursos e disciplinas</span>
+    <div class="tree">
+      <button type="button" class="tree-toggle level-course" (click)="toggleSection('course')"
+              [class.open]="isOpen('course')" aria-controls="course-tree" [attr.aria-expanded]="isOpen('course')">
+        <span><i class="fas fa-graduation-cap" aria-hidden="true"></i><strong>{{ currentCourse }}</strong></span>
+        <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
       </button>
 
-      <div id="course-tree" class="grid transition-all duration-300" [class.grid-rows-[1fr]]="isCourseOpen" [class.opacity-100]="isCourseOpen"
-           [class.grid-rows-[0fr]]="!isCourseOpen" [class.opacity-0]="!isCourseOpen">
-        <div class="overflow-hidden">
-          <div class="mt-1 ml-6 pl-4 border-l-2 border-slate-100">
-            <div class="px-3 py-2">
-              <span class="block text-[10px] font-bold text-slate-700">{{ currentDiscipline }}</span>
-              <span class="block mt-1 text-[9px] text-orange-600 font-semibold leading-tight">{{ currentModule }}</span>
+      <div id="course-tree" class="submenu-panel" [class.open]="isOpen('course')">
+        <div>
+          <div class="tree-branch">
+            <button type="button" class="tree-toggle level-discipline" (click)="toggleSection('discipline')"
+                    [class.open]="isOpen('discipline')" aria-controls="discipline-tree" [attr.aria-expanded]="isOpen('discipline')">
+              <span><i class="fas fa-cubes" aria-hidden="true"></i><strong>{{ currentDiscipline }}</strong></span>
+              <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+            </button>
+
+            <div id="discipline-tree" class="submenu-panel" [class.open]="isOpen('discipline')">
+              <div class="discipline-content">
+                <section class="content-group">
+                  <button type="button" class="group-toggle" (click)="toggleSection('tutorials')"
+                          [class.open]="isOpen('tutorials')" aria-controls="tutorial-tree" [attr.aria-expanded]="isOpen('tutorials')">
+                    <span><i class="fas fa-book-open" aria-hidden="true"></i>Tutoriais e atividades <small>{{ tutorialEntries.length }}</small></span>
+                    <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+                  </button>
+                  <div id="tutorial-tree" class="submenu-panel" [class.open]="isOpen('tutorials')">
+                    <div class="entry-list">
+                      @for (entry of tutorialEntries; track entry.slug) {
+                        <a [routerLink]="['/tutoriais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
+                          <span class="entry-dot" aria-hidden="true"></span><span>{{ entry.title }}</span>
+                        </a>
+                      }
+                      <a routerLink="/tutoriais" (click)="navigation.emit()" class="view-all">Ver biblioteca completa</a>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="content-group">
+                  <button type="button" class="group-toggle" (click)="toggleSection('materials')"
+                          [class.open]="isOpen('materials')" aria-controls="material-tree" [attr.aria-expanded]="isOpen('materials')">
+                    <span><i class="fas fa-folder-tree" aria-hidden="true"></i>Materiais <small>{{ materialEntries.length }}</small></span>
+                    <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+                  </button>
+                  <div id="material-tree" class="submenu-panel" [class.open]="isOpen('materials')">
+                    <div class="material-groups">
+                      <button type="button" class="subgroup-toggle" (click)="toggleSection('slides')" [class.open]="isOpen('slides')">
+                        <span>Apresentações <small>{{ slideEntries.length }}</small></span><i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+                      </button>
+                      <div class="submenu-panel" [class.open]="isOpen('slides')">
+                        <div class="entry-list compact">
+                          @for (entry of slideEntries; track entry.slug) {
+                            <a [routerLink]="['/materiais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
+                              <span class="entry-dot slides" aria-hidden="true"></span><span>{{ entry.title }}</span>
+                            </a>
+                          }
+                        </div>
+                      </div>
+
+                      <button type="button" class="subgroup-toggle" (click)="toggleSection('references')" [class.open]="isOpen('references')">
+                        <span>Referências e exemplos <small>{{ referenceEntries.length }}</small></span><i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+                      </button>
+                      <div class="submenu-panel" [class.open]="isOpen('references')">
+                        <div class="entry-list compact">
+                          @for (entry of referenceEntries; track entry.slug) {
+                            <a [routerLink]="['/materiais', entry.slug]" routerLinkActive="active-entry" (click)="navigation.emit()" [title]="entry.title">
+                              <span class="entry-dot reference" aria-hidden="true"></span><span>{{ entry.title }}</span>
+                            </a>
+                          }
+                        </div>
+                      </div>
+                      <a routerLink="/materiais" (click)="navigation.emit()" class="view-all material-view-all">Ver todos os materiais</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
             </div>
-            @for (entry of highlightedEntries; track entry.slug) {
-              <a [routerLink]="['/tutoriais', entry.slug]" routerLinkActive="text-orange-700 bg-orange-50/70" (click)="navigation.emit()"
-                 class="block px-3 py-1.5 text-[11px] text-slate-500 hover:text-orange-700 hover:bg-orange-50/50 rounded-lg transition-colors truncate"
-                 [title]="entry.title">{{ entry.title }}</a>
-            }
           </div>
         </div>
       </div>
     </div>
 
-    <p class="px-4 text-[10px] font-bold text-slate-400 tracking-wider mt-5 mb-2 uppercase">Acervo</p>
-    <a routerLink="/tutoriais" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-orange-50 text-orange-700"
-       (click)="navigation.emit()" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all">
-      <i class="fas fa-book-open w-5 text-center text-slate-400" aria-hidden="true"></i><span>Tutoriais e atividades</span>
+    <span class="nav-label section-label">Acesso rápido</span>
+    <a routerLink="/tutoriais" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
+      <i class="fas fa-book-open" aria-hidden="true"></i><span>Todos os tutoriais</span>
     </a>
-    <a routerLink="/materiais" routerLinkActive="bg-orange-50 text-orange-700" (click)="navigation.emit()"
-       class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all">
-      <i class="fas fa-folder-tree w-5 text-center text-slate-400" aria-hidden="true"></i><span>Materiais da disciplina</span>
+    <a routerLink="/materiais" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
+      <i class="fas fa-folder-tree" aria-hidden="true"></i><span>Todos os materiais</span>
     </a>
   </nav>
 
-  <div class="mt-4 p-3 rounded-xl bg-slate-900 text-white">
-    <p class="m-0 text-[9px] font-bold text-orange-300 uppercase tracking-[.14em]">Portal autoral</p>
-    <p class="mt-1 mb-0 text-[11px] text-slate-300 leading-relaxed">Conteúdo criado e organizado pelo professor Lucas Martins.</p>
-  </div>
+  <div class="portal-note"><strong>Portal autoral</strong><span>Conteúdo criado e organizado pelo professor Lucas Martins.</span></div>
 </div>

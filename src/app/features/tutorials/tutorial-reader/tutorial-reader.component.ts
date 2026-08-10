@@ -40,6 +40,14 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
   private removeScrollListener?: () => void;
   private previousBodyOverflow = '';
 
+  get backRoute(): string {
+    return this.documentData?.entry.type === 'material' ? '/materiais' : '/tutoriais';
+  }
+
+  get backLabel(): string {
+    return this.documentData?.entry.type === 'material' ? 'Materiais' : 'Biblioteca';
+  }
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly contentService: ContentService,
