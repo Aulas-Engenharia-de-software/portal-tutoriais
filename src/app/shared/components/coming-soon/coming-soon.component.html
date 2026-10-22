@@ -1,0 +1,30 @@
+<section class="coming-soon" [class.embedded]="embedded">
+  <img
+    class="pause-illustration"
+    src="/images/coming-soon/robot-coffee.svg"
+    alt="Um pequeno robô de olhos fechados faz uma pausa ao lado do notebook e de uma xícara de café."
+    width="320"
+    height="200"
+  />
+
+  @if (embedded) {
+    <h2>{{ title }}</h2>
+  } @else {
+    <h1>{{ title }}</h1>
+  }
+  <p class="excuse" aria-live="polite" aria-atomic="true">{{ message() }}</p>
+
+  <div class="actions">
+    <button class="another-excuse" type="button" (click)="shuffleMessage()">
+      <i class="fas fa-dice" aria-hidden="true"></i>
+      Bah, conta outra
+    </button>
+    @if (actionLink) {
+      <a class="return-link" [routerLink]="actionLink">{{ actionLabel }}</a>
+    } @else {
+      <button class="return-link" type="button" (click)="actionRequested.emit()">
+        {{ actionLabel }}
+      </button>
+    }
+  </div>
+</section>
