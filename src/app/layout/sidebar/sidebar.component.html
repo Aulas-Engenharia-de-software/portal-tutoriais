@@ -1,87 +1,72 @@
-<div class="flex flex-col h-full p-5">
+<div class="sidebar-shell">
+  <a routerLink="/dashboard" (click)="navigation.emit()" class="brand-link">
+    <span class="brand-mark">LM</span>
+    <strong>Portal de Aulas</strong>
+  </a>
 
-  <div class="flex items-center gap-3 mb-6 px-1">
-    <div
-      class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md shadow-orange-200">
-      <i class="fas fa-cube text-xl"></i>
-    </div>
-    <span class="text-xl font-extrabold tracking-tight text-slate-900">Portal de Aulas</span>
-  </div>
+  <nav class="navigation" aria-label="Menu principal">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      (click)="navigation.emit()"
+      class="nav-link"
+    >
+      <i class="fas fa-house" aria-hidden="true"></i><span>Início</span>
+    </a>
 
-  <app-professor-badge />
+    <span class="nav-label section-label">Disciplinas</span>
+    <div class="discipline-tree">
+      @for (discipline of disciplines; track discipline.id) {
+        <section class="discipline-item">
+          <button
+            type="button"
+            class="discipline-toggle"
+            (click)="toggleDiscipline(discipline.id)"
+            [class.open]="isOpen(discipline.id)"
+            [attr.aria-expanded]="isOpen(discipline.id)"
+            [attr.aria-controls]="discipline.id + '-menu'"
+          >
+            <span
+              ><i [class]="discipline.icon" aria-hidden="true"></i
+              ><strong>{{ discipline.title }}</strong></span
+            >
+            <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
+          </button>
 
-  <nav class="flex-1 space-y-1 overflow-y-auto">
-
-    <div class="space-y-1">
-      <p class="px-4 text-[11px] font-bold text-slate-400 tracking-wider mb-3 uppercase">Principal</p>
-
-      <a routerLink="/dashboard" routerLinkActive="bg-orange-50 text-orange-600 border-orange-200 shadow-sm"
-         class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all border border-transparent">
-        <i class="fas fa-home w-5 text-center text-lg"></i>
-        <span class="font-semibold">Dashboard</span>
-      </a>
-
-      <p class="px-4 text-[11px] font-bold text-slate-400 tracking-wider mb-3 uppercase mt-6">Conteúdos</p>
-
-      <div>
-        <button
-          (click)="toggleTutorialsMenu()"
-          [routerLink]="['/tutoriais']"
-          class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200"
-          [ngClass]="isTutorialsMenuOpen ? 'bg-orange-50 text-orange-700' : 'text-slate-600 hover:bg-slate-50'">
-
-          <div class="flex items-center gap-3">
-            <i class="fas fa-book w-5 text-center text-lg"
-               [ngClass]="isTutorialsMenuOpen ? 'text-orange-600' : 'text-slate-400'"></i>
-            <span>Tutoriais</span>
-          </div>
-
-          <i class="fas fa-chevron-down text-[10px] transition-transform duration-300"
-             [class.rotate-180]="isTutorialsMenuOpen"></i>
-        </button>
-
-        <div class="grid transition-all duration-300 ease-in-out" [class.grid-rows-[1fr]]="isTutorialsMenuOpen"
-             [class.opacity-100]="isTutorialsMenuOpen" [class.grid-rows-[0fr]]="!isTutorialsMenuOpen"
-             [class.opacity-0]="!isTutorialsMenuOpen">
-
-          <div class="overflow-hidden">
-            <div class="mt-1 ml-6 pl-4 border-l-2 border-slate-100 space-y-1">
-
-              <a *ngFor="let tut of tutoriaisList | slice:0:4"
-                 [routerLink]="tut.route"
-                 class="block px-3 py-2 text-sm text-slate-500 hover:text-orange-700 hover:bg-orange-50/50 rounded-lg transition-colors truncate"
-                 [title]="tut.title"> {{ tut.title }}
+          <div
+            class="submenu-panel"
+            [class.open]="isOpen(discipline.id)"
+            [id]="discipline.id + '-menu'"
+          >
+            <div class="discipline-links">
+              <a
+                routerLink="/tutoriais"
+                [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }"
+                (click)="navigation.emit()"
+              >
+                <i class="fas fa-book-open" aria-hidden="true"></i><span>Tutoriais</span>
               </a>
-
-              <a *ngIf="tutoriaisList.length > 4"
-                 routerLink="/tutoriais"
-                 class="block px-3 py-2 mt-2 text-xs font-semibold text-orange-600 hover:translate-x-1 transition-transform">
-                Ver todos ({{ tutoriaisList.length }}) &rarr;
+              <a
+                class="materials-link"
+                [routerLink]="['/materiais']"
+                [queryParams]="{ disciplina: discipline.title }"
+                (click)="navigation.emit()"
+              >
+                <i class="fas fa-folder-open" aria-hidden="true"></i><span>Materiais</span>
               </a>
-
+              <a
+                routerLink="/tutoriais"
+                [queryParams]="{ disciplina: discipline.title, tipo: 'atividade' }"
+                (click)="navigation.emit()"
+              >
+                <i class="fas fa-pen-to-square" aria-hidden="true"></i><span>Atividades</span>
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-
-      <a routerLink="/laboratorios"
-         class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
-        <i class="fas fa-flask w-5 text-center text-lg text-slate-400"></i>
-        <span>Laboratórios</span>
-      </a>
-
-      <a routerLink="/materiais"
-         class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
-        <i class="fas fa-folder-open w-5 text-center text-lg text-slate-400"></i>
-        <span>Materiais</span>
-      </a>
-
-      <a routerLink="/faq"
-         class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
-        <i class="fas fa-question-circle w-5 text-center text-lg text-slate-400"></i>
-        <span>FAQ</span>
-      </a>
+        </section>
+      }
     </div>
-
   </nav>
+
+  <app-professor-badge />
 </div>

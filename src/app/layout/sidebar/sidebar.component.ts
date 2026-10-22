@@ -1,31 +1,29 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { APP_ROUTES } from '../../core/constants/routes.constants';
+import {
+  DISCIPLINE_NAVIGATION,
+  DisciplineNavigation,
+} from '../../core/navigation/discipline-navigation';
 import { ProfessorBadgeComponent } from '../../shared/components/professor-badge/professor-badge.component';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ProfessorBadgeComponent],
+  imports: [RouterLink, RouterLinkActive, ProfessorBadgeComponent],
   templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  isTutorialsMenuOpen = false;
+  @Output() readonly navigation = new EventEmitter<void>();
 
-  nomeProfessor = 'Lucas Martins';
-  disciplina = 'Arquitetura de Software';
+  readonly disciplines = DISCIPLINE_NAVIGATION;
+  private readonly expandedDisciplines = new Set<DisciplineNavigation['id']>(['arquitetura-software']);
 
-  githubLabel = 'github.com/lucasmartins007';
+  isOpen(disciplineId: DisciplineNavigation['id']): boolean {
+    return this.expandedDisciplines.has(disciplineId);
+  }
 
-  tutoriaisList = [
-    { title: 'Event-Driven Arch na AWS', route: APP_ROUTES.TUTORIALS.LINKS.EVENT_DRIVEN_ARCH },
-    { title: 'Variáveis de Ambiente', route: APP_ROUTES.TUTORIALS.LINKS.ENV_VARS },
-    { title: 'Consumer SQS', route: APP_ROUTES.TUTORIALS.LINKS.CONSUMER_SQS },
-    { title: 'DLQ (Dead Letter Queue)', route: APP_ROUTES.TUTORIALS.LINKS.DLQ },
-  ];
-
-  toggleTutorialsMenu() {
-    this.isTutorialsMenuOpen = !this.isTutorialsMenuOpen;
+  toggleDiscipline(disciplineId: DisciplineNavigation['id']): void {
+    if (this.expandedDisciplines.has(disciplineId)) this.expandedDisciplines.delete(disciplineId);
+    else this.expandedDisciplines.add(disciplineId);
   }
 }

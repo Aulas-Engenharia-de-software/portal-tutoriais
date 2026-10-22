@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+.professor-card {
+  padding: 1.25rem 0.9rem 0.25rem;
+}
+.professor-copy small,
+.professor-copy strong {
+  display: block;
+}
+.professor-copy small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.professor-copy strong {
+  margin-top: 0.2rem;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.contact-links {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0.55rem 0 0 -0.5rem;
+}
+.contact-links a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.6rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background-color 0.16s;
+}
+.contact-links a:hover {
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+}
+.contact-links i {
+  font-size: 1rem;
+}

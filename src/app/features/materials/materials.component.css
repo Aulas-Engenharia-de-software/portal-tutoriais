@@ -1,0 +1,210 @@
+:host {
+  display: block;
+}
+.materials-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+.page-heading {
+  max-width: 720px;
+  padding: 0.35rem 0 1.5rem;
+}
+.page-heading > span {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.page-heading h1 {
+  margin: 0.5rem 0 0;
+  color: var(--text);
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.search-field {
+  position: relative;
+  display: block;
+  max-width: 36rem;
+  margin-bottom: 1.5rem;
+}
+.search-field i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+}
+.search-field input {
+  width: 100%;
+  height: 3rem;
+  padding: 0 1rem 0 2.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
+  font-size: 0.9375rem;
+}
+.search-field input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+.search-field input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.study-track {
+  margin: 0 0 2rem;
+}
+.study-track summary {
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.study-track summary:hover {
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+}
+.study-track ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.study-track a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  height: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  color: inherit;
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color 0.18s;
+}
+.study-track a:hover {
+  background: var(--surface-muted);
+}
+.track-number {
+  color: var(--primary);
+  font:
+    500 0.875rem 'Fira Code',
+    monospace;
+}
+.study-track strong {
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.study-track a > i {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+.collection-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.collection-heading h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.collection-heading span {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.material-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: inherit;
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color 0.18s;
+}
+.material-card:hover {
+  background: var(--surface-muted);
+}
+.material-icon {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.material-card h3 {
+  margin: 0.9rem 0 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 550;
+  line-height: 1.55;
+}
+.material-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+.material-card footer strong {
+  color: var(--primary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.empty-state {
+  grid-column: 1/-1;
+  padding: 3rem 1rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  text-align: center;
+}
+.empty-state > span {
+  color: var(--text-muted);
+  font-size: 1.4rem;
+}
+.empty-state h3 {
+  margin: 0.8rem 0 0;
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.empty-state button {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.6rem;
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.empty-state button:hover {
+  background: #e5d7c9;
+}
+@media (max-width: 1000px) {
+  .study-track ol,
+  .materials-grid {
+    grid-template-columns: 1fr;
+  }
+}
