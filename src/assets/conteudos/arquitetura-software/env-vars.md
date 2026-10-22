@@ -18,11 +18,11 @@ order: 3
 
 Subir suas chaves da AWS (Access Key e Secret Key) no GitHub é uma vulnerabilidade crítica. Bots escaneiam repositórios públicos em segundos para sequestrar contas. Além disso, a própria AWS pode detectar chaves expostas e bloqueá‑las imediatamente.
 
-> Atenção: nunca commit suas chaves reais. Use variáveis de ambiente durante o desenvolvimento e soluções seguras (ex.: IAM Roles, Secrets Manager) em ambientes de nuvem.
-
 ## Application.properties
 
-Em vez de colocar as chaves diretamente no arquivo, informe ao Spring Boot para buscá‑las do ambiente no momento da execução.
+1. Em vez de colocar as chaves diretamente no arquivo, informe ao Spring Boot para buscá-las do ambiente no momento da execução.
+
+> **Atenção:** apague suas chaves reais do código antes de continuar.
 
 ```properties
 # Credenciais AWS Dinâmicas
@@ -31,16 +31,10 @@ spring.cloud.aws.credentials.secret-key=${AWS_SECRET_ACCESS_KEY}
 spring.cloud.aws.region.static=us-east-1
 
 # Filas
-queue.order-events=T0XN_SEU_NOME_PEDIDOS.fifo
+queue.order-events=pedidos-efetuados-processamento.fifo
 ```
 
-Apague qualquer valor real do seu `application.properties`. O formato `${VARIAVEL}` indica ao Spring que o valor virá do ambiente da execução.
-
-Para configurar rapidamente as variáveis em um único campo (IntelliJ), use:
-
-```text
-AWS_ACCESS_KEY_ID=sua_access_key;AWS_SECRET_ACCESS_KEY=sua_secret_key
-```
+O formato `${VARIAVEL}` indica ao Spring que o valor virá do ambiente da execução.
 
 ## IntelliJ IDEA
 
@@ -62,9 +56,11 @@ AWS_ACCESS_KEY_ID=sua_access_key;AWS_SECRET_ACCESS_KEY=sua_secret_key
 
 ![Imagem 3: Adicionando variáveis de ambiente na configuração de execução do IntelliJ](/images/env-vars/intellij/add_env_var_config.png)
 
-4. Ao final, sua configuração de execução deve ficar assim. Clique em "Apply" e depois em "OK".
+4. Ao final, sua configuração de execução deve ficar conforme a imagem abaixo.
 
 ![Imagem 4: Variáveis de ambiente configuradas na execução do IntelliJ](/images/env-vars/intellij/env_vars_configured.png)
+
+5. Clique em **Apply** e depois em **OK** para salvar. Ao executar a aplicação com essa configuração, as variáveis de ambiente serão injetadas automaticamente.
 
 ## VS Code
 

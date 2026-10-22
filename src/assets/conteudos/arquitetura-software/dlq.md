@@ -1,7 +1,7 @@
 ---
 slug: "dlq"
 title: "Dead Letter Queue (DLQ) na AWS SQS: diagnóstico e recuperação"
-description: "Como criar a DLQ, configurar redrive policy, simular falhas e monitorar mensagens enfileiradas para diagnóstico."
+description: "Como criar a DLQ, configurar a Redrive Policy e reenviar mensagens após corrigir a causa da falha."
 course: "Engenharia de Software"
 discipline: "Arquitetura de Software"
 module: "Arquitetura Orientada a Eventos"
@@ -15,89 +15,57 @@ featured: true
 order: 4
 ---
 
-# Entendendo DLQ (Dead Letter Queue)
+# Configuração de Dead Letter Queue (DLQ)
 
-Uma Dead Letter Queue (DLQ) é uma fila especial para onde o SQS envia mensagens que falharam repetidas vezes no consumidor principal. Isso evita bloqueio da fila e permite diagnóstico e tratamento manual/automático das mensagens problemáticas.
+Na arquitetura orientada a eventos, nem toda mensagem pode ser processada com sucesso de primeira. Falhas no banco de dados, APIs fora do ar ou payloads mal formatados podem gerar erros contínuos.
 
-> Regra geral: se uma mensagem atingir o máximo de tentativas de processamento (maxReceiveCount), ela é movida para a DLQ vinculada pela Redrive Policy.
+> **O que é uma DLQ?** A *Dead Letter Queue* (fila de mensagens mortas) é uma fila de segurança. Quando sua aplicação falha ao processar uma mensagem repetidas vezes, o SQS a encaminha para a DLQ. Isso permite analisar o erro sem continuar tentando processar a mensagem na fila principal.
 
-## Arquitetura e Conceitos
+## Fase 1 — Criando a fila DLQ
 
-- Fila principal (ex.: `T0XN_SEU_NOME_PEDIDOS.fifo`)
-- Fila DLQ (ex.: `T0XN_SEU_NOME_PEDIDOS_DLQ.fifo`)
-- Redrive Policy: define `deadLetterTargetArn` (ARN da DLQ) e `maxReceiveCount` (tentativas antes de ir para a DLQ)
+Crie uma fila separada para receber as mensagens com falha. Ela deve ser do **mesmo tipo** da fila principal.
 
-```json
-{
-  "deadLetterTargetArn": "arn:aws:sqs:us-east-1:SEU_ACCOUNT_ID:T0XN_SEU_NOME_PEDIDOS_DLQ.fifo",
-  "maxReceiveCount": 5
-}
-```
+1. Acesse o console do **SQS** e clique em **Criar fila** (*Create queue*).
 
-## Criando a DLQ (Console AWS)
+![Tela de criação de fila SQS](/images/dlq/create_queue_dlq.png)
 
-1. Procure por SQS no console da AWS e crie uma nova fila FIFO chamada:
+2. Se a fila principal é FIFO, a DLQ **também deve ser FIFO**. Selecione o mesmo tipo.
 
-```text
-T0XN_SEU_NOME_PEDIDOS_DLQ.fifo
-```
+![Selecionando o tipo da fila como FIFO](/images/dlq/create_fifo_name_dlq.png)
 
-- Ative FIFO
-- Habilite deduplicação por conteúdo (se desejar)
-- Mantenha as demais configs padrão
+3. Use o sufixo `-DLQ` para facilitar a identificação. Se a fila principal é `pedidos-efetuados-processamento.fifo`, chame a DLQ de `pedidos-efetuados-processamento-DLQ.fifo`.
+4. Desça até o final da página e salve a fila.
+5. Na tela de resumo da nova DLQ, copie o **ARN**. Ele será usado na próxima fase.
 
-![Criando a fila DLQ no console da AWS](/images/dlq/create_queue_dlq.png)
+![Copiando o ARN da DLQ recém-criada](/images/dlq/copy_arn_dlq.png)
 
-## Vinculando a DLQ via Redrive Policy
+## Fase 2 — Configurando a Redrive Policy
 
-1. Abra sua fila principal (ex.: `T0XN_SEU_NOME_PEDIDOS.fifo`).
-2. Na aba Redrive, clique em Edit.
-3. Informe o ARN da DLQ criada e defina `maxReceiveCount` (ex.: 3 a 10, conforme tolerância).
+Configure a fila **principal** para encaminhar à DLQ as mensagens que excederem o limite de recebimentos.
 
-![Configurando Redrive Policy para a fila principal](/images/dlq/edit_main_queue.png)
+1. Volte à listagem de filas e clique na **fila principal**, que recebe os eventos do SNS.
+2. No canto superior direito, clique em **Editar** (*Edit*).
 
-## Simulando falhas para validar a DLQ
+![Editando a fila SQS principal](/images/dlq/edit_main_queue.png)
 
-1. No seu consumidor, force uma exceção (apenas para teste) ao receber mensagens.
-2. Publique uma mensagem válida na fila principal.
-3. Observe no CloudWatch Logs as tentativas de consumo.
-4. Após exceder `maxReceiveCount`, verifique a mensagem na DLQ.
+3. Role a página até a seção **Fila de mensagens mortas** (*Dead-letter queue*).
+4. Marque **Habilitado** e cole o ARN da DLQ copiado na fase anterior.
+5. No campo **Recebimentos máximos** (*Maximum receives*), digite `3`.
 
-Exemplo de log esperado:
+![Configuração da Dead-letter queue](/images/dlq/dlq_config_in_sqs.png)
 
-```text
-Handling messageId=... attempt=5 -> moving to DLQ
-```
+> **O que significa o número 3?** É o limite de recebimentos configurado para esta prática. Mensagens que continuarem falhando serão encaminhadas à DLQ conforme a política de redrive.
 
-## Boas Práticas
+6. Desça até o final da página e clique em **Salvar**.
 
-- Monitore a DLQ com alarmes do CloudWatch (métrica: `ApproximateNumberOfMessagesVisible`).
-- Trate DLQ com prioridade: cada item representa falha recorrente no fluxo de negócio.
-- Implemente um reprocessador seguro (manual ou automático) para tentar processar mensagens após correções.
-- Aplique rastreabilidade (correlationId) nas mensagens para investigação.
+## Fase 3 — DLQ Redrive: reenviando mensagens
 
-## Reprocessando mensagens da DLQ
+Imagine que o banco de dados ficou fora do ar e 50 mensagens foram parar na DLQ. Depois de corrigir o problema, use o **DLQ Redrive** para processá-las novamente.
 
-- Abordagem manual: baixe a mensagem, corrija o payload e reenvie à fila principal.
-- Abordagem programática: crie um job que lê da DLQ, aplica uma correção e publica novamente na fila principal.
+1. Acesse sua fila **DLQ**.
+2. No canto superior direito, clique em **Iniciar DLQ redrive**.
 
-Exemplo (pseudo-código):
+![Botão de iniciar redrive na DLQ](/images/dlq/start_redrive_dlq.png)
 
-```java
-for (Message m : dlqClient.receive()) {
-  try {
-    var fixed = patch(m.body());
-    mainQueueClient.send(fixed);
-    dlqClient.delete(m);
-  } catch (Exception e) {
-    // registra e decide manter na DLQ para análise posterior
-  }
-}
-```
-
-## Checklist de Verificação
-
-- DLQ criada como FIFO? (sufixo `.fifo`)
-- Redrive Policy configurada na fila principal? (`deadLetterTargetArn` + `maxReceiveCount`)
-- Logs do consumidor comprovam as tentativas e falhas?
-- Métricas/alertas configurados na DLQ?
+3. Mantenha a opção de enviar as mensagens de volta para a **fila de origem**.
+4. Confirme a operação. As mensagens voltarão à fila principal e poderão ser processadas novamente, agora que a causa da falha foi corrigida.

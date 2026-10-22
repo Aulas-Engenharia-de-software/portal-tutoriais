@@ -19,11 +19,9 @@ order: 2
 
 Agora que a infraestrutura na AWS está pronta, vamos conectar a aplicação Java/Spring ao barramento de eventos. O listener será implementado como um **adapter**, mantendo a tecnologia da fila separada da regra de negócio.
 
-> Antes de começar, confirme que a fila SQS já existe e que sua aplicação utiliza uma versão compatível do Java e do Spring Boot.
-
 ## Fase 1 — Dependências do projeto
 
-Adicione o starter do Spring Cloud AWS ao seu `pom.xml`. Ele contém as bibliotecas necessárias para utilizar o `@SqsListener`.
+1. Adicione o starter do Spring Cloud AWS ao seu `pom.xml`. Ele contém as bibliotecas necessárias para utilizar o `@SqsListener`.
 
 ```xml
 <dependency>
@@ -32,7 +30,7 @@ Adicione o starter do Spring Cloud AWS ao seu `pom.xml`. Ele contém as bibliote
 </dependency>
 ```
 
-Inclua também o gerenciamento de dependências para manter as versões do Spring Cloud e do SDK da AWS compatíveis:
+2. Inclua também o gerenciamento de dependências para manter as versões do Spring Cloud e do SDK da AWS compatíveis:
 
 ```xml
 <dependencyManagement>
@@ -58,7 +56,9 @@ Inclua também o gerenciamento de dependências para manter as versões do Sprin
 
 ## Fase 2 — Credenciais e fila
 
-Configure a região e o nome da fila no `src/main/resources/application.properties`. Mantenha as credenciais em variáveis de ambiente, nunca no repositório.
+1. Configure a região e o nome da fila no `src/main/resources/application.properties`, usando as credenciais obtidas no arquivo .csv da primeira fase do tutorial de EDA.
+
+> **Segurança:** mantenha as credenciais em variáveis de ambiente, nunca no repositório. Consulte o tutorial de Variáveis de Ambiente antes de enviar o projeto ao GitHub.
 
 ```properties
 # Credenciais AWS vindas do ambiente
@@ -67,14 +67,12 @@ spring.cloud.aws.credentials.secret-key=${AWS_SECRET_ACCESS_KEY}
 spring.cloud.aws.region.static=us-east-1
 
 # Nome da fila criada na AWS
-queue.order-events=T0XN_SEU_NOME_PEDIDOS.fifo
+queue.order-events=pedidos-efetuados-processamento.fifo
 ```
-
-> Segurança: consulte o tutorial de Variáveis de Ambiente deste portal antes de enviar o projeto ao GitHub.
 
 ## Fase 3 — Adapter de entrada
 
-Crie uma classe responsável por ouvir a fila. Receba uma DTO compatível com o JSON publicado e delegue o processamento para uma porta da aplicação.
+1. Crie uma classe responsável por ouvir a fila. Receba uma DTO compatível com o JSON publicado e delegue o processamento para uma porta da aplicação.
 
 ```java
 @Component
@@ -95,17 +93,8 @@ public class SqsPedidoAdapter {
 }
 ```
 
-### Por que usar um adapter?
+> **Dica:** confira se os nomes dos atributos da DTO correspondem ao JSON de pedido publicado no seu SNS, conforme o teste do [tutorial de EDA](/tutoriais/aws-eda). Quando forem diferentes, use `@JsonProperty` do Jackson para fazer o mapeamento explícito.
 
-O adapter conhece o SQS e converte a entrada para uma chamada que a aplicação entende. A regra de negócio continua independente da AWS, facilitando testes e uma eventual troca da tecnologia de mensageria.
+## Pronto para testar!
 
-## Fase 4 — Teste e diagnóstico
-
-1. Execute a aplicação com as variáveis de ambiente configuradas.
-2. Publique uma mensagem na fila com os mesmos campos da sua DTO.
-3. Confirme no log a mensagem `Mensagem recebida`.
-4. Verifique o efeito esperado no banco de dados ou no próximo passo do fluxo.
-
-Se a desserialização falhar, confira se os nomes dos atributos da DTO correspondem ao JSON. Quando forem diferentes, use `@JsonProperty` do Jackson para fazer o mapeamento explícito.
-
-> Pronto para testar: quando o log de sucesso aparecer, o adapter está conectado e a mensagem chegou até sua regra de negócio.
+Execute a aplicação com as variáveis de ambiente configuradas e aguarde o log `Mensagem recebida`. Verifique se o pedido foi processado e gravado no banco de dados.

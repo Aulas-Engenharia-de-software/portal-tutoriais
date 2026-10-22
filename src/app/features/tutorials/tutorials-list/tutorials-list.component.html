@@ -2,13 +2,12 @@
   <header class="page-heading">
     <span>{{ contextLabel }}</span>
     <h1>{{ pageTitle }}</h1>
-    <p>Conteúdos autorais para acompanhar as aulas e revisar os conceitos no seu ritmo.</p>
   </header>
 
   <label class="search-field">
     <span class="sr-only">Buscar conteúdo</span>
     <i class="fas fa-search" aria-hidden="true"></i>
-    <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar neste conteúdo…">
+    <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar conteúdo…" />
   </label>
 
   <section class="content-grid" aria-live="polite">
@@ -17,26 +16,38 @@
         <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
         <div class="card-body">
           <h2>{{ entry.title }}</h2>
-          <p>{{ entry.description }}</p>
           <div class="card-footer">
-            <span><i class="far fa-clock" aria-hidden="true"></i>{{ entry.readingMinutes }} min</span>
+            <span
+              ><i class="far fa-clock" aria-hidden="true"></i>{{ entry.readingMinutes }} min</span
+            >
             <strong>Abrir <i class="fas fa-arrow-right" aria-hidden="true"></i></strong>
           </div>
         </div>
       </a>
     } @empty {
-      <div class="empty-state">
-        <div><i class="fas fa-folder-open" aria-hidden="true"></i></div>
-        <h2>Conteúdo em preparação</h2>
-        <p>Esta seção já está organizada e receberá novos materiais ao longo da disciplina.</p>
-        <button type="button" (click)="clearFilters()">Ver todos os conteúdos</button>
-      </div>
+      @if (searchQuery.trim()) {
+        <div class="empty-state">
+          <div><i class="fas fa-folder-open" aria-hidden="true"></i></div>
+          <h2>Nenhum resultado</h2>
+          <button type="button" (click)="clearFilters()">Ver todos os conteúdos</button>
+        </div>
+      } @else {
+        <app-coming-soon
+          [title]="pageTitle + ' em preparação'"
+          [embedded]="true"
+          [actionLink]="null"
+          actionLabel="Ver todos os conteúdos"
+          (actionRequested)="clearFilters()"
+        />
+      }
     }
   </section>
 
   <aside class="materials-link">
-    <span><strong>Procurando slides e referências?</strong><small>O acervo complementar está na seção de materiais.</small></span>
-    <a routerLink="/materiais" [queryParams]="{ disciplina: selectedDiscipline === 'Todas' ? null : selectedDiscipline }">
+    <a
+      routerLink="/materiais"
+      [queryParams]="{ disciplina: selectedDiscipline === 'Todas' ? null : selectedDiscipline }"
+    >
       Ver materiais <i class="fas fa-arrow-right" aria-hidden="true"></i>
     </a>
   </aside>

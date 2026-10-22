@@ -1,35 +1,38 @@
 <div class="dashboard-shell">
   <header class="portal-hero">
     <div class="hero-copy">
-      <span>Portal de aulas do professor Lucas Martins</span>
-      <h1>Conteúdos para acompanhar as disciplinas.</h1>
-      <p>Tutoriais, atividades e materiais usados em aula, organizados para você encontrar o que precisa sem distrações.</p>
+      <h1>Suas aulas</h1>
 
       <nav class="portal-shortcuts" aria-label="Acesso rápido ao portal">
         <a class="portal-shortcut" routerLink="/tutoriais" [queryParams]="{ tipo: 'tutorial' }">
           <i class="fas fa-book-open" aria-hidden="true"></i>
-          <span><strong>Tutoriais</strong><small>Guias e conteúdos de aula</small></span>
-          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          <strong>Tutoriais</strong>
         </a>
         <a class="portal-shortcut materials" routerLink="/materiais">
           <i class="fas fa-folder-open" aria-hidden="true"></i>
-          <span><strong>Materiais</strong><small>Slides, referências e exemplos</small></span>
-          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          <strong>Materiais</strong>
         </a>
         <a class="portal-shortcut" routerLink="/tutoriais" [queryParams]="{ tipo: 'atividade' }">
           <i class="fas fa-pen-to-square" aria-hidden="true"></i>
-          <span><strong>Atividades</strong><small>Exercícios e práticas propostas</small></span>
-          <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          <strong>Atividades</strong>
         </a>
       </nav>
     </div>
 
     <nav class="discipline-access" aria-label="Acesso às disciplinas">
-      <span>Disciplinas do portal</span>
+      <span>Disciplinas</span>
       @for (discipline of disciplines; track discipline.title) {
-        <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }">
+        <a
+          routerLink="/tutoriais"
+          [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }"
+        >
           <i [class]="discipline.icon" aria-hidden="true"></i>
-          <span><strong>{{ discipline.title }}</strong><small>{{ discipline.active ? 'Conteúdo disponível' : 'Espaço preparado' }}</small></span>
+          <span
+            ><strong>{{ discipline.title }}</strong>
+            @if (!discipline.active) {
+              <small>Em breve</small>
+            }
+          </span>
           <i class="fas fa-chevron-right" aria-hidden="true"></i>
         </a>
       }
@@ -38,15 +41,18 @@
 
   <section class="featured-section">
     <div class="section-heading">
-      <div><h2>Comece por aqui</h2><p>Conteúdos recomendados para a trilha atual.</p></div>
-      <a routerLink="/tutoriais" [queryParams]="{ disciplina: 'Arquitetura de Software', tipo: 'tutorial' }">Ver todos</a>
+      <h2>Em destaque</h2>
+      <a
+        routerLink="/tutoriais"
+        [queryParams]="{ disciplina: 'Arquitetura de Software', tipo: 'tutorial' }"
+        >Ver todos</a
+      >
     </div>
     <div class="featured-grid">
       @for (entry of featured; track entry.slug) {
         <a class="featured-card" [routerLink]="['/tutoriais', entry.slug]">
           <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
           <h3>{{ entry.title }}</h3>
-          <p>{{ entry.description }}</p>
           <span>Começar <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
         </a>
       }

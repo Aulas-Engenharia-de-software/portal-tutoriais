@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../core/content/generated-content-index';
+import { ComingSoonComponent } from '../../shared/components/coming-soon/coming-soon.component';
 import {
   ContentEntry,
   MaterialResourceType,
@@ -16,7 +17,7 @@ interface ResourceTypeCard {
 
 @Component({
   selector: 'app-materials',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ComingSoonComponent],
   templateUrl: './materials.component.html',
   styleUrl: './materials.component.css',
 })

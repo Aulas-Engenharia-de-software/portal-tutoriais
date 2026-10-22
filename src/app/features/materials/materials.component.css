@@ -1,42 +1,210 @@
-:host { display: block; }
-.materials-shell { max-width: 1120px; margin: 0 auto; padding-bottom: 3rem; }
-.page-heading { max-width: 720px; padding: .35rem 0 1.7rem; }
-.page-heading > span { color: #ea580c; font-size: .62rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-.page-heading h1 { margin: .35rem 0 .4rem; color: #172033; font-size: clamp(2rem,3.6vw,2.85rem); font-weight: 850; letter-spacing: -.045em; line-height: 1.05; }
-.page-heading p { margin: 0; color: #64748b; font-size: .88rem; line-height: 1.6; }
-.search-field { position: relative; display: block; max-width: 36rem; margin-bottom: 1.6rem; }
-.search-field i { position: absolute; top: 50%; left: 1rem; color: #94a3b8; transform: translateY(-50%); }
-.search-field input { width: 100%; height: 3rem; padding: 0 1rem 0 2.7rem; border: 1px solid #e2e8f0; border-radius: .78rem; color: #334155; background: white; outline: none; }
-.search-field input:focus { border-color: #fb923c; box-shadow: 0 0 0 3px #ffedd5; }
-.study-track { margin: 0 0 2.3rem; }
-.study-track > header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
-.study-track h2, .collection-heading h2 { margin: 0; color: #1e293b; font-size: 1.3rem; font-weight: 850; letter-spacing: -.025em; }
-.study-track > header p { margin: 0; color: #64748b; font-size: .72rem; }
-.study-track ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .7rem; margin: 0; padding: 0; list-style: none; }
-.study-track a { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: start; gap: .75rem; height: 100%; padding: .95rem; border: 1px solid #e2e8f0; border-radius: .9rem; color: inherit; background: white; text-decoration: none; transition: .18s; }
-.study-track a:hover { border-color: #fdba74; transform: translateY(-2px); }
-.track-number { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: .58rem; color: #c2410c; background: #fff7ed; font: 800 .66rem 'Fira Code',monospace; }
-.study-track a > div { min-width: 0; }
-.study-track strong { display: block; color: #1e293b; font-size: .82rem; line-height: 1.35; }
-.study-track li p { margin: .3rem 0 0; color: #64748b; font-size: .68rem; line-height: 1.45; }
-.study-track a > i { margin-top: .3rem; color: #cbd5e1; font-size: .65rem; }
-.collection-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
-.collection-heading span { color: #94a3b8; font-size: .65rem; font-weight: 750; }
-.materials-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .9rem; }
-.material-card { display: flex; flex-direction: column; min-height: 13rem; padding: 1.2rem; border: 1px solid #e2e8f0; border-radius: 1rem; color: inherit; background: white; text-decoration: none; transition: .18s; }
-.material-card:hover { border-color: #fdba74; transform: translateY(-2px); }
-.material-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: .68rem; color: #ea580c; background: #fff7ed; }
-.material-card h3 { margin: .8rem 0 .4rem; color: #1e293b; font-size: 1rem; font-weight: 820; line-height: 1.35; }
-.material-card > p { margin: 0; color: #64748b; font-size: .76rem; line-height: 1.55; }
-.material-card footer { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: auto; padding-top: 1rem; color: #94a3b8; font-size: .64rem; }
-.material-card footer strong { color: #c2410c; white-space: nowrap; }
-.empty-state { grid-column: 1/-1; padding: 3.5rem 1rem; border: 1px dashed #cbd5e1; border-radius: 1rem; text-align: center; }
-.empty-state > span { color: #ea580c; font-size: 1.4rem; }
-.empty-state h3 { margin: .7rem 0 .35rem; color: #334155; }
-.empty-state p { max-width: 34rem; margin: 0 auto; color: #64748b; font-size: .8rem; line-height: 1.55; }
-.empty-state button { margin-top: 1rem; padding: .6rem .8rem; border: 0; border-radius: .6rem; color: white; background: #ea580c; font-size: .68rem; font-weight: 800; cursor: pointer; }
-
-@media (max-width: 760px) {
-  .study-track > header { align-items: start; flex-direction: column; }
-  .study-track ol, .materials-grid { grid-template-columns: 1fr; }
+:host {
+  display: block;
+}
+.materials-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+.page-heading {
+  max-width: 720px;
+  padding: 0.35rem 0 1.5rem;
+}
+.page-heading > span {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.page-heading h1 {
+  margin: 0.5rem 0 0;
+  color: var(--text);
+  font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.search-field {
+  position: relative;
+  display: block;
+  max-width: 36rem;
+  margin-bottom: 1.5rem;
+}
+.search-field i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+}
+.search-field input {
+  width: 100%;
+  height: 3rem;
+  padding: 0 1rem 0 2.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
+  font-size: 0.9375rem;
+}
+.search-field input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+.search-field input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.study-track {
+  margin: 0 0 2rem;
+}
+.study-track summary {
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.study-track summary:hover {
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+}
+.study-track ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.study-track a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  height: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  color: inherit;
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color 0.18s;
+}
+.study-track a:hover {
+  background: var(--surface-muted);
+}
+.track-number {
+  color: var(--primary);
+  font:
+    500 0.875rem 'Fira Code',
+    monospace;
+}
+.study-track strong {
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.study-track a > i {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+.collection-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.collection-heading h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.collection-heading span {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.material-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: inherit;
+  background: var(--surface);
+  text-decoration: none;
+  transition: background-color 0.18s;
+}
+.material-card:hover {
+  background: var(--surface-muted);
+}
+.material-icon {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.material-card h3 {
+  margin: 0.9rem 0 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 550;
+  line-height: 1.55;
+}
+.material-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+.material-card footer strong {
+  color: var(--primary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.empty-state {
+  grid-column: 1/-1;
+  padding: 3rem 1rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  text-align: center;
+}
+.empty-state > span {
+  color: var(--text-muted);
+  font-size: 1.4rem;
+}
+.empty-state h3 {
+  margin: 0.8rem 0 0;
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.empty-state button {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.6rem;
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.empty-state button:hover {
+  background: #e5d7c9;
+}
+@media (max-width: 1000px) {
+  .study-track ol,
+  .materials-grid {
+    grid-template-columns: 1fr;
+  }
 }

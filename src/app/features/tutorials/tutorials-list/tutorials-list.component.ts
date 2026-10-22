@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../../core/content/generated-content-index';
 import { ContentEntry, ContentType } from '../../../core/content/content.models';
+import { ComingSoonComponent } from '../../../shared/components/coming-soon/coming-soon.component';
 
 @Component({
   selector: 'app-tutorials-list',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ComingSoonComponent],
   templateUrl: './tutorials-list.component.html',
   styleUrl: './tutorials-list.component.css',
 })

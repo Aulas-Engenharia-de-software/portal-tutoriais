@@ -5,7 +5,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
   {
     "slug": "aws-eda",
     "title": "Arquitetura Orientada a Eventos na AWS (EDA)",
-    "description": "Guia prático para configurar IAM, SQS, Access Policy e SNS para um fluxo Event-Driven.",
+    "description": "Configure IAM e uma fila SQS, assine seu próprio SNS e teste a entrega de eventos de pedidos efetuados.",
     "course": "Engenharia de Software",
     "discipline": "Arquitetura de Software",
     "module": "Arquitetura Orientada a Eventos",
@@ -20,11 +20,35 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
       "arquitetura"
     ],
     "icon": "fab fa-aws",
-    "readingMinutes": 15,
-    "updatedAt": "2026-08-08",
+    "readingMinutes": 20,
+    "updatedAt": "2026-10-22",
     "featured": true,
     "order": 1,
     "assetPath": "/assets/conteudos/arquitetura-software/aws-eda.md"
+  },
+  {
+    "slug": "criando-sns",
+    "title": "Criando um SNS para eventos de pedidos efetuados",
+    "description": "Crie um tópico SNS FIFO na sua conta AWS para publicar eventos de pedidos e entregá-los à fila SQS do laboratório.",
+    "course": "Engenharia de Software",
+    "discipline": "Arquitetura de Software",
+    "module": "Arquitetura Orientada a Eventos",
+    "category": "Integração AWS",
+    "type": "tutorial",
+    "tags": [
+      "aws",
+      "sns",
+      "sqs",
+      "fifo",
+      "pedidos",
+      "event-driven"
+    ],
+    "icon": "fab fa-aws",
+    "readingMinutes": 8,
+    "updatedAt": "2026-10-22",
+    "featured": false,
+    "order": 1,
+    "assetPath": "/assets/conteudos/arquitetura-software/criando-sns.md"
   },
   {
     "slug": "consumer-sqs",
@@ -76,7 +100,7 @@ export const CONTENT_INDEX: readonly ContentEntry[] = [
   {
     "slug": "dlq",
     "title": "Dead Letter Queue (DLQ) na AWS SQS: diagnóstico e recuperação",
-    "description": "Como criar a DLQ, configurar redrive policy, simular falhas e monitorar mensagens enfileiradas para diagnóstico.",
+    "description": "Como criar a DLQ, configurar a Redrive Policy e reenviar mensagens após corrigir a causa da falha.",
     "course": "Engenharia de Software",
     "discipline": "Arquitetura de Software",
     "module": "Arquitetura Orientada a Eventos",

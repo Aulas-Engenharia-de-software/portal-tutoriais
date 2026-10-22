@@ -18,10 +18,12 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { CONTENT_TYPE_LABELS, ContentDocument } from '../../../core/content/content.models';
 import { ContentService } from '../../../core/content/content.service';
+import { organizeArticle } from './article-layout';
+import { ComingSoonComponent } from '../../../shared/components/coming-soon/coming-soon.component';
 
 @Component({
   selector: 'app-tutorial-reader',
-  imports: [MarkdownComponent, RouterLink],
+  imports: [MarkdownComponent, RouterLink, ComingSoonComponent],
   templateUrl: './tutorial-reader.component.html',
   styleUrl: './tutorial-reader.component.css',
 })
@@ -32,6 +34,7 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
   documentData: ContentDocument | null = null;
   isLoading = true;
   hasError = false;
+  isUnavailable = false;
   activeFragment: string | null = null;
   lightbox = { open: false, src: '', alt: '' };
 
@@ -41,11 +44,14 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
   private previousBodyOverflow = '';
 
   get backRoute(): string {
-    return this.documentData?.entry.type === 'material' ? '/materiais' : '/tutoriais';
+    const isMaterial =
+      this.documentData?.entry.type === 'material' ||
+      this.route.snapshot.pathFromRoot.some((route) => route.routeConfig?.path === 'materiais');
+    return isMaterial ? '/materiais' : '/tutoriais';
   }
 
   get backLabel(): string {
-    return this.documentData?.entry.type === 'material' ? 'Materiais' : 'Biblioteca';
+    return this.backRoute === '/materiais' ? 'Materiais' : 'Biblioteca';
   }
 
   constructor(
@@ -65,15 +71,26 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
         switchMap((slug) => {
           this.isLoading = true;
           this.hasError = false;
+          this.isUnavailable = false;
           this.documentData = null;
           this.activeFragment = null;
           this.teardownEnhancements();
+          this.cdr.markForCheck();
+
+          if (!this.contentService.findBySlug(slug)) {
+            this.isUnavailable = true;
+            this.isLoading = false;
+            this.title.setTitle('Conteúdo indisponível | Portal de Aulas');
+            return of(null);
+          }
 
           return this.contentService.load(slug).pipe(
             catchError((error: unknown) => {
-              this.hasError = true;
+              this.isUnavailable = error instanceof HttpErrorResponse && error.status === 404;
+              this.hasError = !this.isUnavailable;
               this.isLoading = false;
-              if (!(error instanceof HttpErrorResponse && error.status === 404)) {
+              this.title.setTitle('Conteúdo indisponível | Portal de Aulas');
+              if (this.hasError) {
                 console.error('Falha ao carregar conteúdo:', error);
               }
               return of(null);
@@ -83,10 +100,11 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((documentData) => {
-        if (!documentData) return;
-        this.documentData = documentData;
-        this.isLoading = false;
-        this.title.setTitle(`${documentData.entry.title} | Portal de Aulas`);
+        if (documentData) {
+          this.documentData = documentData;
+          this.isLoading = false;
+          this.title.setTitle(`${documentData.entry.title} | Portal de Aulas`);
+        }
         this.cdr.detectChanges();
       });
 
@@ -104,6 +122,8 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
   onMarkdownReady(): void {
     setTimeout(() => {
       this.assignHeadingIds();
+      const markdown = this.articleContainer?.nativeElement.querySelector<HTMLElement>('markdown');
+      if (markdown) organizeArticle(markdown);
       this.wireEnhancements();
       this.setupScrollListener();
       this.updateActiveSection();
@@ -216,7 +236,7 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
     const headings = Array.from(
       this.articleContainer.nativeElement.querySelectorAll<HTMLElement>('h2, h3'),
     );
-    let current = headings[0]?.id ?? null;
+    let current = 'introducao';
     for (const heading of headings) {
       if (heading.getBoundingClientRect().top <= 150) current = heading.id;
       else break;
@@ -229,8 +249,13 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
 
   private scrollToFragment(fragment: string | null): void {
     if (!fragment) return;
+    const reduceMotion = this.dom.defaultView?.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
     setTimeout(() =>
-      this.dom.getElementById(fragment)?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+      this.dom
+        .getElementById(fragment)
+        ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }),
     );
   }
 

@@ -1,15 +1,42 @@
-:host { display: block; }
-.professor-card { margin-bottom: .85rem; padding: .8rem; border: 1px solid #fed7aa; border-radius: .85rem; background: linear-gradient(145deg, #fffaf5, #fff); box-shadow: 0 7px 20px rgba(15,23,42,.04); }
-.professor-identity { display: flex; align-items: center; gap: .65rem; }
-.professor-avatar { display: grid; place-items: center; width: 2.45rem; height: 2.45rem; flex: 0 0 auto; border-radius: .75rem; color: white; background: #172033; font-size: .68rem; font-weight: 900; }
-.professor-copy { min-width: 0; }
-.professor-copy small, .professor-copy strong, .professor-copy > span { display: block; }
-.professor-copy small { color: #ea580c; font-size: .49rem; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
-.professor-copy strong { margin-top: .12rem; color: #172033; font-size: .82rem; font-weight: 850; white-space: nowrap; }
-.professor-copy > span { margin-top: .08rem; color: #94a3b8; font-size: .55rem; font-weight: 650; }
-.contact-heading { display: flex; align-items: center; gap: .35rem; margin-top: .68rem; padding-top: .62rem; border-top: 1px solid #ffedd5; color: #64748b; font-size: .54rem; font-weight: 800; text-transform: uppercase; }
-.contact-heading i { color: #f97316; }
-.contact-links { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .3rem; margin-top: .45rem; }
-.contact-links a { display: flex; align-items: center; justify-content: center; gap: .28rem; min-width: 0; padding: .42rem .2rem; border: 1px solid #e2e8f0; border-radius: .48rem; color: #475569; background: #fff; font-size: .5rem; font-weight: 750; text-decoration: none; transition: .16s; }
-.contact-links a:hover { border-color: #fb923c; color: #c2410c; background: #fff7ed; transform: translateY(-1px); }
-.contact-links i { font-size: .7rem; }
+:host {
+  display: block;
+}
+.professor-card {
+  padding: 1.25rem 0.9rem 0.25rem;
+}
+.professor-copy small,
+.professor-copy strong {
+  display: block;
+}
+.professor-copy small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.professor-copy strong {
+  margin-top: 0.2rem;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.contact-links {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0.55rem 0 0 -0.5rem;
+}
+.contact-links a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.6rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background-color 0.16s;
+}
+.contact-links a:hover {
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+}
+.contact-links i {
+  font-size: 1rem;
+}

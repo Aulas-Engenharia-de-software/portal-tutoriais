@@ -1,40 +1,64 @@
 <div class="sidebar-shell">
   <a routerLink="/dashboard" (click)="navigation.emit()" class="brand-link">
     <span class="brand-mark">LM</span>
-    <span><strong>Portal de Aulas</strong><small>por Lucas Martins</small></span>
+    <strong>Portal de Aulas</strong>
   </a>
 
-  <app-professor-badge />
-
   <nav class="navigation" aria-label="Menu principal">
-    <span class="nav-label">Portal</span>
-    <a routerLink="/dashboard" routerLinkActive="active" (click)="navigation.emit()" class="nav-link">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      (click)="navigation.emit()"
+      class="nav-link"
+    >
       <i class="fas fa-house" aria-hidden="true"></i><span>Início</span>
     </a>
 
-    <span class="nav-label section-label">Cursos e disciplinas</span>
+    <span class="nav-label section-label">Disciplinas</span>
     <div class="discipline-tree">
       @for (discipline of disciplines; track discipline.id) {
         <section class="discipline-item">
-          <button type="button" class="discipline-toggle" (click)="toggleDiscipline(discipline.id)"
-                  [class.open]="isOpen(discipline.id)" [attr.aria-expanded]="isOpen(discipline.id)"
-                  [attr.aria-controls]="discipline.id + '-menu'">
-            <span><i [class]="discipline.icon" aria-hidden="true"></i><strong>{{ discipline.title }}</strong></span>
+          <button
+            type="button"
+            class="discipline-toggle"
+            (click)="toggleDiscipline(discipline.id)"
+            [class.open]="isOpen(discipline.id)"
+            [attr.aria-expanded]="isOpen(discipline.id)"
+            [attr.aria-controls]="discipline.id + '-menu'"
+          >
+            <span
+              ><i [class]="discipline.icon" aria-hidden="true"></i
+              ><strong>{{ discipline.title }}</strong></span
+            >
             <i class="fas fa-chevron-down chevron" aria-hidden="true"></i>
           </button>
 
-          <div class="submenu-panel" [class.open]="isOpen(discipline.id)" [id]="discipline.id + '-menu'">
+          <div
+            class="submenu-panel"
+            [class.open]="isOpen(discipline.id)"
+            [id]="discipline.id + '-menu'"
+          >
             <div class="discipline-links">
-              <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }"
-                 (click)="navigation.emit()">
+              <a
+                routerLink="/tutoriais"
+                [queryParams]="{ disciplina: discipline.title, tipo: 'tutorial' }"
+                (click)="navigation.emit()"
+              >
                 <i class="fas fa-book-open" aria-hidden="true"></i><span>Tutoriais</span>
               </a>
-              <a class="materials-link" [routerLink]="['/materiais']" [queryParams]="{ disciplina: discipline.title }"
-                 (click)="navigation.emit()">
+              <a
+                class="materials-link"
+                [routerLink]="['/materiais']"
+                [queryParams]="{ disciplina: discipline.title }"
+                (click)="navigation.emit()"
+              >
                 <i class="fas fa-folder-open" aria-hidden="true"></i><span>Materiais</span>
               </a>
-              <a routerLink="/tutoriais" [queryParams]="{ disciplina: discipline.title, tipo: 'atividade' }"
-                 (click)="navigation.emit()">
+              <a
+                routerLink="/tutoriais"
+                [queryParams]="{ disciplina: discipline.title, tipo: 'atividade' }"
+                (click)="navigation.emit()"
+              >
                 <i class="fas fa-pen-to-square" aria-hidden="true"></i><span>Atividades</span>
               </a>
             </div>
@@ -44,5 +68,5 @@
     </div>
   </nav>
 
-  <div class="portal-note"><strong>Portal autoral</strong><span>Conteúdo criado e organizado pelo professor Lucas Martins.</span></div>
+  <app-professor-badge />
 </div>

@@ -1,15 +1,18 @@
-<header class="h-16 flex items-center justify-between px-4 sm:px-8 bg-white border-b border-slate-200 shrink-0">
+<header
+  class="h-16 flex items-center justify-between px-4 sm:px-8 shrink-0 text-[var(--text-muted)]"
+>
   <div class="flex items-center gap-3 min-w-0">
-    <button type="button" (click)="menuToggle.emit()" class="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg"
-            aria-label="Abrir menu principal">
+    <button
+      type="button"
+      (click)="menuToggle.emit()"
+      class="md:hidden p-2 hover:bg-[var(--surface-muted)] rounded-lg"
+      aria-label="Abrir menu principal"
+    >
       <i class="fas fa-bars text-xl" aria-hidden="true"></i>
     </button>
-    <div class="min-w-0">
-      <span class="block text-[10px] font-bold text-orange-600 uppercase tracking-widest">Portal autoral de ensino</span>
-      <h2 class="text-sm font-semibold text-slate-700 truncate">Disciplinas do Prof. Lucas Martins</h2>
-    </div>
+    <span class="text-sm truncate">Área de estudo</span>
   </div>
-  <span class="text-xs font-medium bg-slate-100 px-2.5 py-1.5 rounded-lg text-slate-600 whitespace-nowrap">
+  <span class="text-sm whitespace-nowrap" aria-label="Semestre atual">
     {{ currentYear }}.{{ currentSemester }}
   </span>
 </header>

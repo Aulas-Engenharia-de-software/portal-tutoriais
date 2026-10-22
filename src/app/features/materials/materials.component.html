@@ -2,38 +2,37 @@
   <header class="page-heading">
     <span>{{ contextLabel }}</span>
     <h1>Materiais</h1>
-    <p>Slides, leituras, referências e repositórios selecionados para apoiar o estudo das disciplinas.</p>
   </header>
 
   <label class="search-field">
     <span class="sr-only">Buscar material</span>
     <i class="fas fa-search" aria-hidden="true"></i>
-    <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar neste acervo…">
+    <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar material…" />
   </label>
 
   @if (visiblePresentationResources.length) {
-    <section class="study-track" aria-labelledby="study-track-title">
-      <header>
-        <h2 id="study-track-title">Apresentações da disciplina</h2>
-        <p>Uma sequência sugerida para acompanhar a evolução dos conceitos.</p>
-      </header>
+    <details class="study-track">
+      <summary>Sequência de aulas</summary>
       <ol>
         @for (entry of visiblePresentationResources; track entry.slug; let index = $index) {
           <li>
             <a [routerLink]="resourceUrl(entry)">
               <span class="track-number">{{ index + 1 < 10 ? '0' + (index + 1) : index + 1 }}</span>
-              <div><strong>{{ entry.title }}</strong><p>{{ entry.description }}</p></div>
+              <strong>{{ entry.title }}</strong>
               <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </a>
           </li>
         }
       </ol>
-    </section>
+    </details>
   }
 
   <section class="collection-heading">
-    <h2>Acervo disponível</h2>
-    <span>{{ filteredResources.length }} {{ filteredResources.length === 1 ? 'material' : 'materiais' }}</span>
+    <h2>Acervo</h2>
+    <span
+      >{{ filteredResources.length }}
+      {{ filteredResources.length === 1 ? 'material' : 'materiais' }}</span
+    >
   </section>
 
   <section class="materials-grid" aria-live="polite">
@@ -41,19 +40,27 @@
       <a class="material-card" [routerLink]="resourceUrl(entry)">
         <div class="material-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
         <h3>{{ entry.title }}</h3>
-        <p>{{ entry.description }}</p>
         <footer>
           <span>{{ entry.provider || entry.category }}</span>
           <strong>Estudar <i class="fas fa-arrow-right" aria-hidden="true"></i></strong>
         </footer>
       </a>
     } @empty {
-      <div class="empty-state">
-        <span><i class="fas fa-folder-open" aria-hidden="true"></i></span>
-        <h3>Materiais em preparação</h3>
-        <p>Esta seção já está pronta para receber slides, PDFs, livros e repositórios da disciplina.</p>
-        <button type="button" (click)="clearFilters()">Ver todo o acervo</button>
-      </div>
+      @if (searchQuery.trim()) {
+        <div class="empty-state">
+          <span><i class="fas fa-folder-open" aria-hidden="true"></i></span>
+          <h3>Nenhum resultado</h3>
+          <button type="button" (click)="clearFilters()">Ver todo o acervo</button>
+        </div>
+      } @else {
+        <app-coming-soon
+          title="Materiais em preparação"
+          [embedded]="true"
+          [actionLink]="null"
+          actionLabel="Ver todo o acervo"
+          (actionRequested)="clearFilters()"
+        />
+      }
     }
   </section>
 </div>

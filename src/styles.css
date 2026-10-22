@@ -3,15 +3,50 @@
 @tailwind utilities;
 
 :root {
-  --primary: #f97316;
-  --primary-dark: #ea580c;
+  --page-bg: #f3f2ee;
+  --surface: #faf9f6;
+  --surface-muted: #ebeae5;
+  --text: #343b3b;
+  --text-muted: #646b68;
+  --line: #d9dcd5;
+  --primary: #945638;
+  --primary-dark: #75432c;
+  --accent-soft: #eee4da;
 }
 
-html, body {
+html,
+body {
   font-family: 'Inter', sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
   scroll-behavior: smooth;
   overflow-x: hidden;
   width: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+:where(a, button, input, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+::selection {
+  color: var(--text);
+  background: #e2d6c8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .code-block {
@@ -38,11 +73,9 @@ html, body {
 }
 
 .step-card {
-  background: white;
-  border: 1px solid #e2e8f0;
+  background: var(--surface);
   border-radius: 1rem;
   padding: 1.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 768px) {
@@ -121,7 +154,6 @@ html, body {
 }
 
 .active-menu-item {
-  background-color: #fff7ed;
+  background-color: var(--accent-soft);
   color: var(--primary);
-  border-right: 4px solid var(--primary);
 }

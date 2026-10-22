@@ -25,7 +25,14 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/materials/materials.routes').then((routes) => routes.MATERIALS_ROUTES),
       },
-      { path: APP_ROUTES.ERROR, redirectTo: APP_ROUTES.TUTORIALS.BASE },
+      {
+        path: APP_ROUTES.ERROR,
+        title: 'Página em preparação | Portal de Aulas',
+        loadComponent: () =>
+          import('./shared/components/coming-soon/coming-soon.component').then(
+            (component) => component.ComingSoonComponent,
+          ),
+      },
     ],
   },
 ];

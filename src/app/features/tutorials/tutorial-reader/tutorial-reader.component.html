@@ -1,27 +1,46 @@
 @if (isLoading) {
   <div class="reader-state" role="status">
     <span class="loading-mark" aria-hidden="true"></span>
-    <strong>Preparando o conteúdo</strong>
-    <span>Carregando texto, imagens e sumário…</span>
+    <strong>Carregando…</strong>
   </div>
+} @else if (isUnavailable) {
+  <app-coming-soon
+    title="Esse conteúdo ainda não está por aqui"
+    [actionLink]="backRoute"
+    [actionLabel]="'Voltar para ' + backLabel.toLowerCase()"
+  />
 } @else if (hasError) {
   <div class="reader-state error-state">
     <div class="state-icon"><i class="fas fa-file-circle-xmark" aria-hidden="true"></i></div>
-    <h1>Conteúdo não encontrado</h1>
-    <p>O endereço pode ter mudado ou o arquivo Markdown ainda não foi publicado.</p>
+    <h1>Não foi possível carregar o conteúdo</h1>
     <a [routerLink]="backRoute">Voltar para {{ backLabel.toLowerCase() }}</a>
   </div>
 } @else if (documentData; as content) {
   <div class="reader-shell">
-    <a class="page-back" [routerLink]="backRoute"><i class="fas fa-arrow-left" aria-hidden="true"></i>{{ backLabel }}</a>
+    <a class="page-back" [routerLink]="backRoute"
+      ><i class="fas fa-arrow-left" aria-hidden="true"></i>{{ backLabel }}</a
+    >
 
     <div class="mobile-toc">
       <details>
-        <summary><i class="fas fa-list-ul" aria-hidden="true"></i> Nesta aula</summary>
+        <summary><i class="fas fa-list-ul" aria-hidden="true"></i> Sumário</summary>
         <nav aria-label="Sumário desta aula">
+          <a
+            [routerLink]="[]"
+            fragment="introducao"
+            [class.active]="activeFragment === 'introducao'"
+            [attr.aria-current]="activeFragment === 'introducao' ? 'location' : null"
+            >Introdução</a
+          >
           @for (item of content.tableOfContents; track item.id) {
-            <a [routerLink]="[]" [fragment]="item.id" [class.active]="activeFragment === item.id"
-               [class.nested]="item.level === 3">{{ item.title }}</a>
+            <a
+              [routerLink]="[]"
+              [fragment]="item.id"
+              [class.active]="activeFragment === item.id"
+              [attr.aria-current]="activeFragment === item.id ? 'location' : null"
+              [class.nested]="item.level === 3"
+              >{{ item.title }}</a
+            >
           }
         </nav>
       </details>
@@ -30,44 +49,77 @@
     <div class="reader-grid">
       <aside class="desktop-toc">
         <div class="toc-card">
-          <span class="toc-eyebrow">Nesta aula</span>
+          <span class="toc-eyebrow"><i class="fas fa-list-ul" aria-hidden="true"></i> Sumário</span>
           <nav aria-label="Sumário desta aula">
+            <a
+              [routerLink]="[]"
+              fragment="introducao"
+              [class.active]="activeFragment === 'introducao'"
+              [attr.aria-current]="activeFragment === 'introducao' ? 'location' : null"
+              >Introdução</a
+            >
             @for (item of content.tableOfContents; track item.id) {
-              <a [routerLink]="[]" [fragment]="item.id" [class.active]="activeFragment === item.id"
-                 [class.nested]="item.level === 3">
-                <span class="toc-dot" aria-hidden="true"></span>{{ item.title }}
+              <a
+                [routerLink]="[]"
+                [fragment]="item.id"
+                [class.active]="activeFragment === item.id"
+                [attr.aria-current]="activeFragment === item.id ? 'location' : null"
+                [class.nested]="item.level === 3"
+              >
+                {{ item.title }}
               </a>
             }
           </nav>
         </div>
       </aside>
 
-      <main class="reader-content">
-        <header class="content-header">
-          <h1>{{ content.entry.title }}</h1>
+      <article class="reader-content" aria-labelledby="tutorial-title">
+        <header class="content-header" id="introducao">
+          <span class="content-kind">{{ typeLabels[content.entry.type] }}</span>
+          <h1 id="tutorial-title">{{ content.entry.title }}</h1>
           <p>{{ content.entry.description }}</p>
-          <span class="reading-time"><i class="far fa-clock" aria-hidden="true"></i>{{ content.entry.readingMinutes }} min de leitura</span>
+          <span class="reading-time"
+            ><i class="far fa-clock" aria-hidden="true"></i>{{ content.entry.readingMinutes }} min
+            de leitura</span
+          >
           @if (content.entry.externalUrl) {
-            <a class="external-resource" [href]="content.entry.externalUrl" target="_blank" rel="noopener noreferrer">
+            <a
+              class="external-resource"
+              [href]="content.entry.externalUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-              Abrir material original{{ content.entry.provider ? ' · ' + content.entry.provider : '' }}
+              Abrir material original{{
+                content.entry.provider ? ' · ' + content.entry.provider : ''
+              }}
             </a>
           }
         </header>
 
-        <article #articleContainer class="markdown-body">
+        <div #articleContainer class="markdown-body">
           <markdown [data]="content.markdown" (ready)="onMarkdownReady()" />
-        </article>
-      </main>
+        </div>
+      </article>
     </div>
   </div>
 }
 
 @if (lightbox.open) {
-  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada da imagem" (click)="closeLightbox()">
-    <button type="button" (click)="closeLightbox(); $event.stopPropagation()" aria-label="Fechar imagem">
+  <div
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Visualização ampliada da imagem"
+    (click)="closeLightbox()"
+  >
+    <button
+      type="button"
+      (click)="closeLightbox(); $event.stopPropagation()"
+      aria-label="Fechar imagem"
+    >
       <i class="fas fa-times" aria-hidden="true"></i>
     </button>
-    <img [src]="lightbox.src" [alt]="lightbox.alt" (click)="$event.stopPropagation()">
+    <img [src]="lightbox.src" [alt]="lightbox.alt" (click)="$event.stopPropagation()" />
   </div>
 }
