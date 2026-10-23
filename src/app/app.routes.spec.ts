@@ -57,9 +57,9 @@ describe('Unavailable content routes', () => {
 
   it('distinguishes missing content files from temporary loading failures', async () => {
     const contentService = TestBed.inject(ContentService);
-    await harness.navigateByUrl('/tutoriais/aws-eda');
+    await harness.navigateByUrl('/tutoriais/criando-iam');
     http
-      .expectOne(contentService.findBySlug('aws-eda')!.assetPath)
+      .expectOne(contentService.findBySlug('criando-iam')!.assetPath)
       .flush('', { status: 404, statusText: 'Not Found' });
     harness.detectChanges();
     expect(harness.routeNativeElement?.querySelector('app-coming-soon')).toBeTruthy();
@@ -74,5 +74,22 @@ describe('Unavailable content routes', () => {
     expect(harness.routeNativeElement?.textContent).toContain(
       'Não foi possível carregar o conteúdo',
     );
+  });
+
+  it('redirects retired tutorials to their canonical steps without duplicate catalog entries', async () => {
+    const contentService = TestBed.inject(ContentService);
+    for (const [oldPath, slug] of [
+      ['/tutoriais/aws-eda', 'criando-iam'],
+      ['/tutoriais/env-vars', 'consumer-sqs'],
+      ['/materiais/aws-eda', 'criando-iam'],
+      ['/materiais/env-vars', 'consumer-sqs'],
+    ]) {
+      await harness.navigateByUrl(oldPath);
+      expect(TestBed.inject(Router).url).toBe(`/tutoriais/${slug}`);
+      http.expectOne(contentService.findBySlug(slug)!.assetPath).flush('# Etapa');
+      harness.detectChanges();
+    }
+    expect(contentService.findBySlug('aws-eda')).toBeUndefined();
+    expect(contentService.findBySlug('env-vars')).toBeUndefined();
   });
 });

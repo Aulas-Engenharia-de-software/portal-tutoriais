@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../core/content/generated-content-index';
+import { getContentSequences } from '../../core/content/content-sequences';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { CONTENT_INDEX } from '../../core/content/generated-content-index';
 })
 export class DashboardsComponent {
   readonly learningContent = CONTENT_INDEX.filter((entry) => entry.type !== 'material');
+  readonly sequences = getContentSequences(this.learningContent);
   readonly featured = this.learningContent.filter((entry) => entry.featured).slice(0, 3);
 
   readonly disciplines = [

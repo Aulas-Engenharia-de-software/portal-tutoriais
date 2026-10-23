@@ -19,6 +19,7 @@ Comandos principais:
 
 ```bash
 npm run content:index  # atualiza o catálogo a partir dos arquivos .md
+npm run content:check  # valida catálogo, imagens, JSON e links entre etapas
 npm run build          # gera o catálogo e o build de produção
 npm test -- --watch=false
 ```
@@ -74,6 +75,32 @@ Campos aceitos:
 - imagens devem ficar em `public/images` e ser referenciadas como `![Descrição](/images/caminho.png)`;
 - blocos cercados por três crases recebem o visual de código e o botão de cópia automaticamente.
 
+## Organizar trabalhos e sequências de aprendizagem
+
+O **Trabalho Prático — Arquitetura Orientada a Eventos** está em `src/assets/conteudos/arquitetura-software/trabalho-pratico-eda`, com cinco etapas:
+
+1. `01-iam.md` — usuário IAM e permissões (`/tutoriais/criando-iam`).
+2. `02-sns.md` — tópico SNS (`/tutoriais/criando-sns`).
+3. `03-sqs.md` — fila SQS (`/tutoriais/criando-sqs`).
+4. `04-assinatura.md` — policy da fila, assinatura e mensagem bruta (`/tutoriais/assinando-sqs-sns`).
+5. `05-consumer.md` — variáveis de ambiente, consumer e validação SNS → SQS → consumer (`/tutoriais/consumer-sqs`).
+
+O tutorial de DLQ continua como conteúdo complementar, fora das cinco etapas obrigatórias. As imagens continuam em seus caminhos originais em `public/images`. As cinco telas que faltavam foram geradas como exemplos ilustrativos do console AWS e estão documentadas em `public/images/aws-eventos/sns/IMAGENS-EXEMPLO.md`.
+
+Para adicionar outro trabalho ou atividade sequencial, crie seus Markdown na pasta correspondente e acrescente estes campos ao frontmatter de cada etapa:
+
+```yaml
+sequence: "identificador-do-trabalho"
+sequenceTitle: "Nome da seção do trabalho"
+step: 1
+```
+
+Use o mesmo `sequence` (um slug único no portal), `sequenceTitle`, `course` e `discipline` em todas as etapas. Numere `step` de 1 até o total de etapas, sem lacunas nem duplicações. `type` pode ser `tutorial` ou `atividade`; `order` continua controlando a ordem geral do catálogo e das seções, enquanto `step` determina a ordem dentro da sequência. Os campos são opcionais para conteúdos independentes.
+
+O catálogo agrupa os conteúdos por sequência, o menu da disciplina cria o acesso direto a cada trabalho e o leitor mostra a etapa atual e os links anterior/próximo a partir desses metadados. O menu e os atalhos da página inicial exibem os trabalhos pelo nome, sem uma aba genérica de Tutoriais; novos trabalhos aparecem junto aos existentes automaticamente. Não é necessário criar um componente ou uma rota por trabalho. Uma seção pode ser acessada por `/tutoriais?sequencia=identificador-do-trabalho`.
+
+Cada etapa deve conter objetivo, pré-requisitos, instruções, verificação de conclusão e link Markdown para o próximo tutorial. O gerador valida os metadados; `npm run content:check` também verifica os links canônicos entre tutoriais, as imagens usadas e a sintaxe dos blocos JSON. Imagens pendentes ficam comentadas até que o arquivo esteja disponível.
+
 ## Adicionar materiais da disciplina
 
 Materiais também são arquivos Markdown, mas utilizam `type: "material"` e informam o formato com `resourceType`.
@@ -113,13 +140,14 @@ src/app/features/tutorials/
 src/app/features/materials/          acervo de slides, sites, PDFs, livros e repositórios
 ```
 
-Tutoriais seguem o formato `/tutoriais/:slug`. O acervo complementar está em `/materiais`; os endereços antigos dos quatro tutoriais em `/materiais/:slug` continuam funcionando por redirecionamento.
+Tutoriais seguem o formato `/tutoriais/:slug`. O acervo complementar está em `/materiais`. Os endereços antigos `/tutoriais/aws-eda` e `/tutoriais/env-vars` redirecionam, respectivamente, para `criando-iam` e `consumer-sqs`; não existem cópias antigas no catálogo. Os endereços legados em `/materiais/aws-eda`, `/materiais/env-vars`, `/materiais/consumer-sqs` e `/materiais/dlq` também continuam funcionando por redirecionamento.
 
 ## Validação
 
 ```bash
+npm run content:check
 npm run build
 npm test -- --watch=false
 ```
 
-O gerador interrompe o processo se encontrar frontmatter obrigatório ausente ou `slug` duplicado. Isso evita publicar links ambíguos ou conteúdos invisíveis na biblioteca.
+O gerador interrompe o processo se encontrar frontmatter obrigatório ausente, `slug` duplicado ou sequência inconsistente. Isso evita publicar links ambíguos, etapas fora de ordem ou conteúdos invisíveis na biblioteca.

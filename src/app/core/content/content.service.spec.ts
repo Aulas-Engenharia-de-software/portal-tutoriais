@@ -18,13 +18,13 @@ describe('ContentService', () => {
   afterEach(() => http.verify());
 
   it('should parse markdown and create unique ids for nested headings', () => {
-    const entry = service.findBySlug('aws-eda');
+    const entry = service.findBySlug('criando-iam');
     expect(entry).toBeTruthy();
 
     let result: ReturnType<typeof service.load> extends import('rxjs').Observable<infer T>
       ? T
       : never;
-    service.load('aws-eda').subscribe((document) => (result = document));
+    service.load('criando-iam').subscribe((document) => (result = document));
     http
       .expectOne(entry!.assetPath)
       .flush(`---\ntitle: ignorado\n---\n# Título\n## Visão Geral\n### Detalhes\n## Visão Geral`);

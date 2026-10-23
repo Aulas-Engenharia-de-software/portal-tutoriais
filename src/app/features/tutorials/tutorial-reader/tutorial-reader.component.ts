@@ -18,6 +18,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { CONTENT_TYPE_LABELS, ContentDocument } from '../../../core/content/content.models';
 import { ContentService } from '../../../core/content/content.service';
+import { getSequenceNavigation } from '../../../core/content/content-sequences';
 import { organizeArticle } from './article-layout';
 import { ComingSoonComponent } from '../../../shared/components/coming-soon/coming-soon.component';
 
@@ -52,6 +53,10 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
 
   get backLabel(): string {
     return this.backRoute === '/materiais' ? 'Materiais' : 'Biblioteca';
+  }
+
+  get sequenceNavigation() {
+    return getSequenceNavigation(this.contentService.entries, this.documentData?.entry);
   }
 
   constructor(
@@ -128,6 +133,7 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
       this.setupScrollListener();
       this.updateActiveSection();
       this.scrollToFragment(this.route.snapshot.fragment);
+      if (!this.route.snapshot.fragment && this.scrollContainer) this.scrollContainer.scrollTop = 0;
     });
   }
 
@@ -214,7 +220,7 @@ export class TutorialReaderComponent implements OnInit, OnDestroy {
     });
 
     article.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((anchor) => {
-      if (/^https?:\/\//.test(anchor.href)) {
+      if (/^https?:\/\//.test(anchor.href) && anchor.origin !== this.dom.location.origin) {
         anchor.target = '_blank';
         anchor.rel = 'noopener noreferrer';
       }

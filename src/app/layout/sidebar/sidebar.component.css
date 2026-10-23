@@ -146,3 +146,12 @@
   width: 0.9rem;
   text-align: center;
 }
+.discipline-links .sequence-link {
+  align-items: flex-start;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.sequence-link i {
+  padding-top: 0.2rem;
+  flex-shrink: 0;
+}
