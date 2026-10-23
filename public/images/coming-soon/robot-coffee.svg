@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200" fill="none">
+  <ellipse cx="160" cy="177" rx="132" ry="11" fill="#e7e8e1"/>
+  <path d="M63 151C33 128 43 64 87 39C123 18 169 46 204 33C254 15 294 68 280 114C267 157 216 169 165 163C114 158 89 169 63 151Z" fill="#eee9e0"/>
+  <g stroke="#68746c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M121 133L112 166M177 133L184 166" />
+    <path d="M106 170H120M177 170H191" />
+    <rect x="112" y="104" width="74" height="54" rx="19" fill="#acb8a9"/>
+    <path d="M125 119C136 126 160 126 173 119" stroke="#8a9b86"/>
+    <path d="M148 51V38" />
+    <circle cx="148" cy="34" r="6" fill="#c69b75"/>
+    <rect x="102" y="53" width="93" height="62" rx="23" fill="#c4cdbd"/>
+    <path d="M102 75H97C90 75 90 94 97 94H102M195 75H200C207 75 207 94 200 94H195" fill="#acb8a9"/>
+    <path d="M119 81Q126 88 133 81M164 81Q171 88 178 81" stroke="#4f6056"/>
+    <path d="M140 96Q149 103 158 96" stroke="#4f6056"/>
+    <path d="M114 122Q96 126 92 146M184 121Q201 129 215 124" />
+  </g>
+  <g stroke="#a57858" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M234 113H241C253 113 253 131 240 131H235" />
+    <path d="M213 109H237V132Q225 140 213 132Z" fill="#d8b38c"/>
+    <path d="M219 100C212 91 227 88 221 79M231 100C224 91 239 88 233 79" stroke="#c3b3a1"/>
+  </g>
+  <g stroke="#8e9991" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M61 132H129L139 171H71Z" fill="#e2e6dc"/>
+    <path d="M68 172H155L150 177H73Z" fill="#c4cdbd"/>
+  </g>
+  <path d="M91 147L86 152L93 157M109 146L114 151L107 156" stroke="#8b9b89" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M254 147H272L267 173H259Z" fill="#c69b75"/>
+  <path d="M263 148V125M263 141Q247 139 251 127Q263 128 263 141M263 134Q279 133 277 120Q264 120 263 134" fill="#acb8a9" stroke="#8a9b86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M60 65L63 58L66 65L73 68L66 71L63 78L60 71L53 68Z" fill="#c69b75" opacity=".65"/>
+  <circle cx="236" cy="51" r="3" fill="#acb8a9"/>
+</svg>
