@@ -1,6 +1,41 @@
 :host {
   display: block;
 }
+.sequence-context {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.sequence-context a {
+  color: var(--primary);
+  text-decoration: none;
+}
+.sequence-context span {
+  color: var(--text-muted);
+}
+.sequence-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.sequence-navigation a {
+  flex: 1 1 14rem;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  color: var(--primary-dark);
+  background: var(--accent-soft);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+.sequence-navigation a:hover {
+  text-decoration: underline;
+}
 .reader-shell {
   max-width: 1440px;
   margin: 0 auto;

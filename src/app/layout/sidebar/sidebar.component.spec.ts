@@ -34,11 +34,26 @@ describe('SidebarComponent', () => {
     expect(component.isOpen('arquitetura-software')).toBe(true);
   });
 
-  it('should provide tutorials, materials and activities for every discipline', () => {
+  it('should keep materials and activities without a separate tutorials tab', () => {
     expect(fixture.nativeElement.querySelectorAll('.discipline-item')).toHaveLength(3);
-    expect(fixture.nativeElement.querySelectorAll('.discipline-links a')).toHaveLength(9);
-    const materialLinks = fixture.nativeElement.querySelectorAll('.discipline-links .materials-link');
+    expect(
+      fixture.nativeElement.querySelectorAll('.discipline-links a:not(.sequence-link)'),
+    ).toHaveLength(6);
+    expect(fixture.nativeElement.textContent).not.toContain('Tutoriais');
+    const materialLinks = fixture.nativeElement.querySelectorAll(
+      '.discipline-links .materials-link',
+    );
     expect(materialLinks).toHaveLength(3);
-    expect([...materialLinks].every((link: Element) => link.getAttribute('href')?.startsWith('/materiais'))).toBe(true);
+    expect(
+      [...materialLinks].every((link: Element) =>
+        link.getAttribute('href')?.startsWith('/materiais'),
+      ),
+    ).toBe(true);
+  });
+
+  it('links to sequences supplied by the content metadata', () => {
+    const link = fixture.nativeElement.querySelector('.sequence-link');
+    expect(link.textContent).toContain('Trabalho Prático — Arquitetura Orientada a Eventos');
+    expect(link.getAttribute('href')).toContain('sequencia=trabalho-pratico-eda');
   });
 });

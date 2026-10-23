@@ -76,6 +76,16 @@
       <article class="reader-content" aria-labelledby="tutorial-title">
         <header class="content-header" id="introducao">
           <span class="content-kind">{{ typeLabels[content.entry.type] }}</span>
+          @if (sequenceNavigation; as sequence) {
+            <div class="sequence-context">
+              <a
+                routerLink="/tutoriais"
+                [queryParams]="{ sequencia: sequence.id, disciplina: sequence.discipline }"
+                >{{ sequence.title }}</a
+              >
+              <span>Etapa {{ sequence.current }} de {{ sequence.entries.length }}</span>
+            </div>
+          }
           <h1 id="tutorial-title">{{ content.entry.title }}</h1>
           <p>{{ content.entry.description }}</p>
           <span class="reading-time"
@@ -100,6 +110,27 @@
         <div #articleContainer class="markdown-body">
           <markdown [data]="content.markdown" (ready)="onMarkdownReady()" />
         </div>
+        @if (sequenceNavigation; as sequence) {
+          <nav class="sequence-navigation" aria-label="Navegação entre etapas">
+            @if (sequence.previous) {
+              <a [routerLink]="['/tutoriais', sequence.previous.slug]"
+                >← Anterior: {{ sequence.previous.title }}</a
+              >
+            }
+            @if (sequence.next) {
+              <a class="next-step" [routerLink]="['/tutoriais', sequence.next.slug]"
+                >Próxima: {{ sequence.next.title }} →</a
+              >
+            } @else {
+              <a
+                class="next-step"
+                routerLink="/tutoriais"
+                [queryParams]="{ sequencia: sequence.id, disciplina: sequence.discipline }"
+                >Ver todas as etapas</a
+              >
+            }
+          </nav>
+        }
       </article>
     </div>
   </div>

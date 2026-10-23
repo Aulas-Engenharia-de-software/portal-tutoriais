@@ -4,10 +4,16 @@
       <h1>Suas aulas</h1>
 
       <nav class="portal-shortcuts" aria-label="Acesso rápido ao portal">
-        <a class="portal-shortcut" routerLink="/tutoriais" [queryParams]="{ tipo: 'tutorial' }">
-          <i class="fas fa-book-open" aria-hidden="true"></i>
-          <strong>Tutoriais</strong>
-        </a>
+        @for (sequence of sequences; track sequence.id) {
+          <a
+            class="portal-shortcut"
+            routerLink="/tutoriais"
+            [queryParams]="{ disciplina: sequence.discipline, sequencia: sequence.id }"
+          >
+            <i class="fas fa-list-ol" aria-hidden="true"></i>
+            <strong>{{ sequence.title }}</strong>
+          </a>
+        }
         <a class="portal-shortcut materials" routerLink="/materiais">
           <i class="fas fa-folder-open" aria-hidden="true"></i>
           <strong>Materiais</strong>

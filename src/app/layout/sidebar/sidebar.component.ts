@@ -5,6 +5,8 @@ import {
   DisciplineNavigation,
 } from '../../core/navigation/discipline-navigation';
 import { ProfessorBadgeComponent } from '../../shared/components/professor-badge/professor-badge.component';
+import { CONTENT_INDEX } from '../../core/content/generated-content-index';
+import { getContentSequences } from '../../core/content/content-sequences';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,6 +18,7 @@ export class SidebarComponent {
   @Output() readonly navigation = new EventEmitter<void>();
 
   readonly disciplines = DISCIPLINE_NAVIGATION;
+  readonly sequences = getContentSequences(CONTENT_INDEX);
   private readonly expandedDisciplines = new Set<DisciplineNavigation['id']>(['arquitetura-software']);
 
   isOpen(disciplineId: DisciplineNavigation['id']): boolean {

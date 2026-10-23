@@ -10,20 +10,34 @@
     <input [(ngModel)]="searchQuery" type="search" placeholder="Buscar conteúdo…" />
   </label>
 
-  <section class="content-grid" aria-live="polite">
-    @for (entry of filteredEntries; track entry.slug) {
-      <a class="content-card" [routerLink]="['/tutoriais', entry.slug]">
-        <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
-        <div class="card-body">
-          <h2>{{ entry.title }}</h2>
-          <div class="card-footer">
-            <span
-              ><i class="far fa-clock" aria-hidden="true"></i>{{ entry.readingMinutes }} min</span
-            >
-            <strong>Abrir <i class="fas fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
+  <div aria-live="polite">
+    @for (section of sections; track section.id) {
+      <section class="content-section" [attr.aria-labelledby]="section.id + '-title'">
+        <h2 [id]="section.id + '-title'">{{ section.title }}</h2>
+        @if (section.ordered) {
+          <p class="sequence-hint">Siga a numeração das etapas para concluir o trabalho.</p>
+        }
+        <div class="content-grid">
+          @for (entry of section.entries; track entry.slug) {
+            <a class="content-card" [routerLink]="['/tutoriais', entry.slug]">
+              <div class="card-icon"><i [class]="entry.icon" aria-hidden="true"></i></div>
+              <div class="card-body">
+                @if (entry.step) {
+                  <span class="step-label">Etapa {{ entry.step }}</span>
+                }
+                <h3>{{ entry.title }}</h3>
+                <div class="card-footer">
+                  <span
+                    ><i class="far fa-clock" aria-hidden="true"></i
+                    >{{ entry.readingMinutes }} min</span
+                  >
+                  <strong>Abrir <i class="fas fa-arrow-right" aria-hidden="true"></i></strong>
+                </div>
+              </div>
+            </a>
+          }
         </div>
-      </a>
+      </section>
     } @empty {
       @if (searchQuery.trim()) {
         <div class="empty-state">
@@ -41,7 +55,7 @@
         />
       }
     }
-  </section>
+  </div>
 
   <aside class="materials-link">
     <a

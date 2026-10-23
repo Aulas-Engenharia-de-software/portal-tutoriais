@@ -20,6 +20,9 @@ export interface ContentEntry {
   resourceType?: MaterialResourceType;
   externalUrl?: string;
   provider?: string;
+  sequence?: string;
+  sequenceTitle?: string;
+  step?: number;
 }
 
 export interface TableOfContentsItem {

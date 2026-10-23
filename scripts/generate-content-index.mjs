@@ -40,6 +40,13 @@ function parseFrontmatter(source, filePath) {
   if (metadata.type === 'material' && !allowedResourceTypes.has(metadata.resourceType)) {
     throw new Error(`${filePath}: materiais exigem um resourceType válido.`);
   }
+  if (['sequence', 'sequenceTitle', 'step'].some((field) => metadata[field] !== undefined)) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(metadata.sequence || '') ||
+        typeof metadata.sequenceTitle !== 'string' || !metadata.sequenceTitle.trim() ||
+        !Number.isInteger(metadata.step) || metadata.step < 1 || metadata.type === 'material') {
+      throw new Error(`${filePath}: sequência exige sequence (slug), sequenceTitle e step inteiro positivo em tutorial ou atividade.`);
+    }
+  }
   return metadata;
 }
 
@@ -75,6 +82,11 @@ const content = await Promise.all(files.map(async (filePath) => {
     ...(metadata.resourceType ? { resourceType: metadata.resourceType } : {}),
     ...(metadata.externalUrl ? { externalUrl: metadata.externalUrl } : {}),
     ...(metadata.provider ? { provider: metadata.provider } : {}),
+    ...(metadata.sequence ? {
+      sequence: metadata.sequence,
+      sequenceTitle: metadata.sequenceTitle,
+      step: metadata.step,
+    } : {}),
   };
 }));
 
@@ -84,6 +96,24 @@ for (const entry of content) {
   slugs.add(entry.slug);
 }
 content.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, 'pt-BR'));
+
+const sequences = new Map();
+for (const entry of content.filter((item) => item.sequence)) {
+  const entries = sequences.get(entry.sequence) || [];
+  entries.push(entry);
+  sequences.set(entry.sequence, entries);
+}
+for (const [id, entries] of sequences) {
+  const first = entries[0];
+  const ordered = [...entries].sort((a, b) => a.step - b.step);
+  if (ordered.some((entry, index) => entry.step !== index + 1)) {
+    throw new Error(`Sequência ${id}: etapas devem ser únicas e consecutivas, começando em 1.`);
+  }
+  if (entries.some((entry) => entry.sequenceTitle !== first.sequenceTitle ||
+      entry.discipline !== first.discipline || entry.course !== first.course)) {
+    throw new Error(`Sequência ${id}: título, curso e disciplina devem ser iguais em todas as etapas.`);
+  }
+}
 
 const output = `// Arquivo gerado por scripts/generate-content-index.mjs. Não edite manualmente.\n` +
   `import type { ContentEntry } from './content.models';\n\n` +

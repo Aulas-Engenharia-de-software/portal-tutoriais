@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CONTENT_INDEX } from '../../../core/content/generated-content-index';
 import { ContentEntry, ContentType } from '../../../core/content/content.models';
+import { getContentSequences } from '../../../core/content/content-sequences';
 import { ComingSoonComponent } from '../../../shared/components/coming-soon/coming-soon.component';
 
 @Component({
@@ -16,6 +17,7 @@ export class TutorialsListComponent {
 
   searchQuery = '';
   selectedDiscipline = 'Todas';
+  selectedSequence = '';
   selectedType: 'Todos' | ContentType = 'Todos';
 
   private readonly route = inject(ActivatedRoute);
@@ -23,6 +25,7 @@ export class TutorialsListComponent {
   constructor() {
     this.route.queryParamMap.subscribe((params) => {
       this.selectedDiscipline = params.get('disciplina') || 'Todas';
+      this.selectedSequence = params.get('sequencia') || '';
       const type = params.get('tipo');
       this.selectedType = type === 'tutorial' || type === 'atividade' ? type : 'Todos';
     });
@@ -42,19 +45,48 @@ export class TutorialsListComponent {
     const query = this.normalize(this.searchQuery.trim());
     return this.entries.filter((entry) => {
       const haystack = this.normalize(
-        [entry.title, entry.description, entry.discipline, entry.module, entry.category, ...entry.tags].join(' '),
+        [
+          entry.title,
+          entry.description,
+          entry.discipline,
+          entry.module,
+          entry.category,
+          entry.sequenceTitle || '',
+          ...entry.tags,
+        ].join(' '),
       );
       return (
         (!query || haystack.includes(query)) &&
         (this.selectedDiscipline === 'Todas' || entry.discipline === this.selectedDiscipline) &&
+        (!this.selectedSequence || entry.sequence === this.selectedSequence) &&
         (this.selectedType === 'Todos' || entry.type === this.selectedType)
       );
     });
   }
 
+  get sections() {
+    const entries = this.filteredEntries;
+    const sections = getContentSequences(entries).map((sequence) => ({
+      id: sequence.id,
+      title: sequence.title,
+      ordered: true,
+      entries: sequence.entries,
+    }));
+    const others = entries.filter((entry) => !entry.sequence);
+    if (others.length)
+      sections.push({
+        id: 'other-content',
+        title: 'Conteúdos complementares',
+        ordered: false,
+        entries: others,
+      });
+    return sections;
+  }
+
   clearFilters(): void {
     this.searchQuery = '';
     this.selectedDiscipline = 'Todas';
+    this.selectedSequence = '';
     this.selectedType = 'Todos';
   }
 
